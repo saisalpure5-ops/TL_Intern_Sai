@@ -2,559 +2,672 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Sai Salpure | Internship Portfolio</title>
 
+    <link rel="icon" href="SAI PHOTO.jpg">
+
     <style>
+
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            scroll-behavior:smooth;
         }
 
-        :root {
-            --bg-color: #020817;
-            --card-color: rgba(15, 23, 42, 0.75);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --primary: #4da3ff;
-            --primary-light: #7bc1ff;
-            --text: #ffffff;
-            --soft-text: #cbd5e1;
+        :root{
+            --bg:#020817;
+            --card:rgba(15,23,42,0.72);
+            --border:rgba(255,255,255,0.08);
+            --primary:#4da3ff;
+            --primary-light:#7bc1ff;
+            --text:#ffffff;
+            --soft:#cbd5e1;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
+        body{
+            font-family:'Poppins',sans-serif;
             background:
-                radial-gradient(circle at top left, rgba(77, 163, 255, 0.18), transparent 25%),
-                radial-gradient(circle at bottom right, rgba(77, 163, 255, 0.12), transparent 25%),
-                var(--bg-color);
-            color: var(--text);
-            overflow-x: hidden;
+            radial-gradient(circle at top left, rgba(77,163,255,0.18), transparent 25%),
+            radial-gradient(circle at bottom right, rgba(77,163,255,0.15), transparent 25%),
+            var(--bg);
+            color:var(--text);
+            overflow-x:hidden;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            width: 100%;
-            height: 100%;
+        body::before{
+            content:'';
+            position:fixed;
+            width:100%;
+            height:100%;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            z-index: -1;
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size:60px 60px;
+            z-index:-1;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
+        a{
+            text-decoration:none;
+            color:inherit;
         }
 
-        section {
-            padding: 110px 9%;
+        section{
+            padding:110px 9%;
         }
 
         /* NAVBAR */
 
-        .navbar {
-            width: 100%;
-            position: fixed;
-            top: 0;
-            z-index: 1000;
-            padding: 22px 9%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(2, 8, 23, 0.75);
-            backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        .navbar{
+            width:100%;
+            position:fixed;
+            top:0;
+            z-index:1000;
+            padding:22px 9%;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            background:rgba(2,8,23,0.78);
+            backdrop-filter:blur(18px);
+            border-bottom:1px solid rgba(255,255,255,0.06);
         }
 
-        .logo {
-            font-size: 1.7rem;
-            font-weight: 700;
-            letter-spacing: 1px;
+        .logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-size:1.8rem;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.logo img{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid rgba(255,255,255,0.12);
+    box-shadow:0 4px 15px rgba(77,163,255,0.25);
+}
+
+        .logo span{
+            color:var(--primary);
         }
 
-        .logo span {
-            color: var(--primary);
+        .nav-links{
+            display:flex;
+            gap:35px;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 34px;
+        .nav-links a{
+            color:#dbeafe;
+            position:relative;
+            transition:0.3s;
+            font-size:0.96rem;
         }
 
-        .nav-links a {
-            color: #dbeafe;
-            font-size: 0.95rem;
-            transition: 0.3s;
-            position: relative;
+        .nav-links a:hover{
+            color:var(--primary);
         }
 
-        .nav-links a:hover {
-            color: var(--primary);
+        .nav-links a::after{
+            content:'';
+            position:absolute;
+            width:0%;
+            height:2px;
+            left:0;
+            bottom:-8px;
+            background:var(--primary);
+            transition:0.4s;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -8px;
-            width: 0%;
-            height: 2px;
-            background: var(--primary);
-            transition: 0.4s;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
+        .nav-links a:hover::after{
+            width:100%;
         }
 
         /* HERO */
 
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 80px;
-            padding-top: 150px;
-            flex-wrap: wrap;
+        .hero{
+            min-height:100vh;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:90px;
+            padding-top:160px;
+            flex-wrap:wrap;
         }
 
-        .hero-content {
-            flex: 1;
-            animation: fadeUp 1s ease;
+        .hero-content{
+            flex:1;
+            animation:fadeUp 1s ease;
         }
 
-        .tag {
-            display: inline-block;
-            padding: 12px 20px;
-            border-radius: 50px;
-            background: rgba(77, 163, 255, 0.12);
-            border: 1px solid rgba(77, 163, 255, 0.25);
-            color: var(--primary-light);
-            margin-bottom: 28px;
-            font-size: 0.9rem;
+        .tag{
+            display:inline-block;
+            padding:12px 22px;
+            border-radius:50px;
+            background:rgba(77,163,255,0.12);
+            border:1px solid rgba(77,163,255,0.25);
+            color:var(--primary-light);
+            margin-bottom:30px;
+            font-size:0.92rem;
         }
 
-        .hero-content h1 {
-            font-size: 4.8rem;
-            line-height: 1.1;
-            margin-bottom: 25px;
-            font-weight: 800;
+        .hero-content h1{
+            font-size:5rem;
+            line-height:1.05;
+            margin-bottom:28px;
+            font-weight:800;
         }
 
-        .hero-content h1 span {
-            background: linear-gradient(to right, #ffffff, #7bc1ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .hero-content h1 span{
+            background:linear-gradient(to right,#ffffff,#55b2ff);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
         }
 
-        .hero-content p {
-            color: var(--soft-text);
-            line-height: 2;
-            max-width: 760px;
-            margin-bottom: 42px;
-            font-size: 1.05rem;
+        .hero-content p{
+            color:var(--soft);
+            line-height:2;
+            max-width:760px;
+            margin-bottom:42px;
+            font-size:1.05rem;
         }
 
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+        .hero-buttons{
+            display:flex;
+            gap:20px;
+            flex-wrap:wrap;
         }
 
-        .btn {
-            padding: 15px 34px;
-            border-radius: 14px;
-            font-weight: 600;
-            transition: 0.4s;
-            display: inline-block;
+        .btn{
+            padding:15px 34px;
+            border-radius:14px;
+            font-weight:600;
+            transition:0.4s;
+            display:inline-block;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #1976ff, #59b3ff);
-            box-shadow: 0 10px 30px rgba(77, 163, 255, 0.3);
+        .btn-primary{
+            background:linear-gradient(135deg,#1976ff,#59b3ff);
+            box-shadow:0 12px 30px rgba(77,163,255,0.32);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-5px);
+        .btn-primary:hover{
+            transform:translateY(-5px);
         }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .btn-secondary{
+            border:1px solid rgba(255,255,255,0.08);
+            background:rgba(255,255,255,0.05);
         }
 
-        .btn-secondary:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
+        .btn-secondary:hover{
+            transform:translateY(-5px);
+            background:rgba(255,255,255,0.08);
         }
 
-        /* PROFILE CARD */
+        /* PROFILE SECTION */
 
-        .hero-image {
-            position: relative;
+        .hero-image{
+            position:relative;
+            display:flex;
+            justify-content:center;
+            align-items:center;
         }
 
-        .glow {
-            position: absolute;
-            width: 420px;
-            height: 420px;
-            background: rgba(77, 163, 255, 0.2);
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -1;
+        .glow{
+            position:absolute;
+            width:520px;
+            height:520px;
+            background:rgba(77,163,255,0.18);
+            border-radius:50%;
+            filter:blur(120px);
+            z-index:-1;
         }
 
-        .profile-card {
-            width: 380px;
-            background: rgba(15, 23, 42, 0.75);
-            border-radius: 34px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            animation: floating 5s ease-in-out infinite;
+        .profile-card{
+            width:430px;
+            height:560px;
+            background:rgba(15,23,42,0.72);
+            border:1px solid rgba(255,255,255,0.08);
+            backdrop-filter:blur(25px);
+            border-radius:42px;
+            padding:40px 30px;
+            text-align:center;
+            position:relative;
+            overflow:hidden;
+            box-shadow:
+            0 25px 60px rgba(0,0,0,0.45),
+            inset 0 1px 1px rgba(255,255,255,0.08);
+            animation:floating 5s ease-in-out infinite;
         }
 
-        .profile-image {
-            width: 100%;
-            height: 420px;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 2px solid rgba(77, 163, 255, 0.2);
+        .profile-card::before{
+            content:'';
+            position:absolute;
+            inset:0;
+            background:linear-gradient(
+            135deg,
+            rgba(255,255,255,0.08),
+            transparent 40%
+            );
         }
 
-        .profile-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 24px;
+        /* PERFECT CIRCLE IMAGE */
+
+        .profile-image{
+            width:280px;
+            height:280px;
+            margin:auto;
+            border-radius:50%;
+            padding:8px;
+            background:linear-gradient(
+            135deg,
+            #4da3ff,
+            #7bc1ff,
+            #1e3a8a
+            );
+            box-shadow:
+            0 0 40px rgba(77,163,255,0.45),
+            0 0 90px rgba(77,163,255,0.25);
+            animation:glowRotate 6s linear infinite;
         }
 
-        .profile-info {
-            margin-top: 24px;
+        .profile-image img{
+            width:100%;
+            height:100%;
+            border-radius:50%;
+            object-fit:cover;
+            object-position:center top;
+            border:5px solid #081120;
         }
 
-        .profile-info h3 {
-            font-size: 1.7rem;
-            margin-bottom: 8px;
+        .profile-info{
+            margin-top:32px;
         }
 
-        .profile-info p {
-            color: var(--soft-text);
-            line-height: 1.8;
-            font-size: 0.95rem;
+        .profile-info h3{
+            font-size:2.2rem;
+            margin-bottom:12px;
+            font-weight:700;
+        }
+
+        .profile-info p{
+            color:var(--soft);
+            line-height:1.9;
+            font-size:0.96rem;
+        }
+
+        .profile-tags{
+            display:flex;
+            justify-content:center;
+            gap:12px;
+            margin-top:25px;
+            flex-wrap:wrap;
+        }
+
+        .profile-tags span{
+            padding:10px 16px;
+            border-radius:50px;
+            background:rgba(255,255,255,0.05);
+            border:1px solid rgba(255,255,255,0.08);
+            font-size:0.85rem;
+            color:#dbeafe;
         }
 
         /* SECTION TITLES */
 
-        .section-title {
-            font-size: 3rem;
-            margin-bottom: 18px;
-            position: relative;
-            display: inline-block;
+        .section-title{
+            font-size:3rem;
+            margin-bottom:18px;
+            position:relative;
+            display:inline-block;
         }
 
-        .section-title::after {
-            content: '';
-            width: 70%;
-            height: 5px;
-            background: linear-gradient(to right, #4da3ff, transparent);
-            position: absolute;
-            left: 0;
-            bottom: -10px;
-            border-radius: 20px;
+        .section-title::after{
+            content:'';
+            width:70%;
+            height:5px;
+            background:linear-gradient(to right,#4da3ff,transparent);
+            position:absolute;
+            left:0;
+            bottom:-10px;
+            border-radius:20px;
         }
 
-        .section-desc {
-            color: var(--soft-text);
-            line-height: 2;
-            max-width: 900px;
-            margin-bottom: 55px;
+        .section-desc{
+            color:var(--soft);
+            line-height:2;
+            max-width:900px;
+            margin-bottom:55px;
         }
 
         /* CARDS */
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 28px;
+        .grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+            gap:28px;
         }
 
-        .card {
-            background: var(--card-color);
-            border-radius: 28px;
-            padding: 34px;
-            border: 1px solid var(--border-color);
-            transition: 0.45s;
-            backdrop-filter: blur(15px);
+        .card{
+            background:var(--card);
+            border-radius:30px;
+            padding:34px;
+            border:1px solid var(--border);
+            transition:0.45s;
+            backdrop-filter:blur(15px);
         }
 
-        .card:hover {
-            transform: translateY(-12px);
-            border-color: rgba(77, 163, 255, 0.35);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+        .card:hover{
+            transform:translateY(-12px);
+            border-color:rgba(77,163,255,0.35);
+            box-shadow:0 25px 50px rgba(0,0,0,0.35);
         }
 
-        .card h3 {
-            color: var(--primary-light);
-            margin-bottom: 18px;
+        .card h3{
+            color:var(--primary-light);
+            margin-bottom:18px;
+            font-size:1.3rem;
         }
 
-        .card p {
-            color: var(--soft-text);
-            line-height: 2;
+        .card p{
+            color:var(--soft);
+            line-height:2;
         }
 
         /* SKILLS */
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 22px;
+        .skills-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:22px;
         }
 
-        .skill {
-            padding: 20px;
-            text-align: center;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: 0.4s;
-            font-weight: 600;
+        .skill{
+            padding:20px;
+            text-align:center;
+            border-radius:18px;
+            background:rgba(255,255,255,0.04);
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.4s;
+            font-weight:600;
         }
 
-        .skill:hover {
-            transform: translateY(-7px);
-            background: rgba(77, 163, 255, 0.15);
-            border-color: rgba(77, 163, 255, 0.25);
+        .skill:hover{
+            transform:translateY(-7px);
+            background:rgba(77,163,255,0.15);
+            border-color:rgba(77,163,255,0.25);
         }
 
         /* PROJECT */
 
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
+        .project-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+            gap:28px;
         }
 
-        .project-card {
-            background: rgba(15, 23, 42, 0.75);
-            padding: 35px;
-            border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: 0.4s;
+        .project-card{
+            background:rgba(15,23,42,0.75);
+            padding:35px;
+            border-radius:30px;
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.4s;
         }
 
-        .project-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(77, 163, 255, 0.3);
+        .project-card:hover{
+            transform:translateY(-10px);
+            border-color:rgba(77,163,255,0.3);
         }
 
-        .project-card h3 {
-            color: var(--primary-light);
-            margin-bottom: 18px;
+        .project-card h3{
+            color:var(--primary-light);
+            margin-bottom:18px;
         }
 
         .project-card p,
-        .project-card li {
-            color: var(--soft-text);
-            line-height: 2;
+        .project-card li{
+            color:var(--soft);
+            line-height:2;
         }
 
-        .project-card ul {
-            padding-left: 20px;
+        .project-card ul{
+            padding-left:20px;
         }
 
         /* WEEK CARDS */
 
-        .week-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 28px;
+        .week-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:28px;
         }
 
-        .week-card {
-            background: linear-gradient(145deg,
-                    rgba(13, 23, 42, 0.95),
-                    rgba(8, 17, 30, 0.95));
-            padding: 38px 30px;
-            border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: 0.45s;
+        .week-card{
+            background:linear-gradient(
+            145deg,
+            rgba(13,23,42,0.95),
+            rgba(8,17,30,0.95)
+            );
+            padding:38px 30px;
+            border-radius:30px;
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.45s;
         }
 
-        .week-card:hover {
-            transform: translateY(-12px);
-            border-color: rgba(77, 163, 255, 0.3);
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.35);
+        .week-card:hover{
+            transform:translateY(-12px);
+            border-color:rgba(77,163,255,0.3);
+            box-shadow:0 25px 45px rgba(0,0,0,0.35);
         }
 
-        .week-card h3 {
-            color: var(--primary-light);
-            margin-bottom: 16px;
-            font-size: 1.8rem;
+        .week-card h3{
+            color:var(--primary-light);
+            margin-bottom:16px;
+            font-size:1.8rem;
         }
 
-        .week-card p {
-            color: var(--soft-text);
-            line-height: 1.9;
-            margin-bottom: 26px;
+        .week-card p{
+            color:var(--soft);
+            line-height:1.9;
+            margin-bottom:26px;
         }
 
-        .week-btn {
-            display: inline-block;
-            padding: 13px 24px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #1976ff, #59b3ff);
-            font-weight: 600;
-            transition: 0.35s;
+        .week-btn{
+            display:inline-block;
+            padding:13px 24px;
+            border-radius:14px;
+            background:linear-gradient(135deg,#1976ff,#59b3ff);
+            font-weight:600;
+            transition:0.35s;
         }
 
-        .week-btn:hover {
-            transform: translateY(-4px);
+        .week-btn:hover{
+            transform:translateY(-4px);
         }
 
         /* CONTACT */
 
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 28px;
+        .contact-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:28px;
         }
 
-        .contact-card {
-            background: rgba(15, 23, 42, 0.75);
-            padding: 35px;
-            border-radius: 26px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: 0.4s;
+        .contact-card{
+            background:rgba(15,23,42,0.75);
+            padding:35px;
+            border-radius:28px;
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.4s;
         }
 
-        .contact-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(77, 163, 255, 0.25);
+        .contact-card:hover{
+            transform:translateY(-10px);
+            border-color:rgba(77,163,255,0.25);
         }
 
-        .contact-card h3 {
-            color: var(--primary-light);
-            margin-bottom: 18px;
+        .contact-card h3{
+            color:var(--primary-light);
+            margin-bottom:18px;
         }
 
-        .contact-card p {
-            color: var(--soft-text);
-            line-height: 2;
+        .contact-card p{
+            color:var(--soft);
+            line-height:2;
+        }
+
+        /* CLICKABLE LINKS */
+
+        .contact-card a{
+            color:#dbeafe;
+            transition:0.3s;
+            word-break:break-word;
+        }
+
+        .contact-card a:hover{
+            color:#4da3ff;
+            text-shadow:0 0 12px rgba(77,163,255,0.6);
         }
 
         /* FOOTER */
 
-        footer {
-            padding: 35px 9%;
-            text-align: center;
-            color: var(--soft-text);
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(2, 8, 23, 0.9);
+        footer{
+            padding:35px 9%;
+            text-align:center;
+            color:var(--soft);
+            border-top:1px solid rgba(255,255,255,0.06);
+            background:rgba(2,8,23,0.9);
         }
 
-        /* ANIMATIONS */
+        /* ANIMATION */
 
-        @keyframes floating {
-            0% {
-                transform: translateY(0px);
+        @keyframes glowRotate{
+
+            0%{
+                box-shadow:
+                0 0 35px rgba(77,163,255,0.35),
+                0 0 70px rgba(77,163,255,0.15);
             }
 
-            50% {
-                transform: translateY(-18px);
+            50%{
+                box-shadow:
+                0 0 55px rgba(77,163,255,0.55),
+                0 0 100px rgba(77,163,255,0.25);
             }
 
-            100% {
-                transform: translateY(0px);
+            100%{
+                box-shadow:
+                0 0 35px rgba(77,163,255,0.35),
+                0 0 70px rgba(77,163,255,0.15);
             }
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
+        @keyframes floating{
+            0%{
+                transform:translateY(0px);
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            50%{
+                transform:translateY(-18px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+        }
+
+        @keyframes fadeUp{
+            from{
+                opacity:0;
+                transform:translateY(40px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0);
             }
         }
 
         /* RESPONSIVE */
 
-        @media(max-width:1100px) {
+        @media(max-width:1100px){
 
-            .hero {
-                flex-direction: column-reverse;
-                text-align: center;
+            .hero{
+                flex-direction:column-reverse;
+                text-align:center;
             }
 
-            .hero-buttons {
-                justify-content: center;
+            .hero-buttons{
+                justify-content:center;
             }
 
-            .hero-content h1 {
-                font-size: 3.8rem;
-            }
-        }
-
-        @media(max-width:850px) {
-
-            .nav-links {
-                display: none;
-            }
-
-            .hero-content h1 {
-                font-size: 3rem;
-            }
-
-            .profile-card {
-                width: 340px;
-            }
-
-            .section-title {
-                font-size: 2.4rem;
+            .hero-content h1{
+                font-size:3.8rem;
             }
         }
 
-        @media(max-width:550px) {
+        @media(max-width:850px){
 
-            section {
-                padding: 90px 7%;
+            .nav-links{
+                display:none;
             }
 
-            .navbar {
-                padding: 20px 7%;
+            .hero-content h1{
+                font-size:3rem;
             }
 
-            .hero-content h1 {
-                font-size: 2.3rem;
+            .profile-card{
+                width:340px;
+                height:auto;
             }
 
-            .profile-card {
-                width: 100%;
+            .profile-image{
+                width:230px;
+                height:230px;
             }
 
-            .profile-image {
-                height: 340px;
-            }
-
-            .section-title {
-                font-size: 2rem;
+            .section-title{
+                font-size:2.4rem;
             }
         }
+
+        @media(max-width:550px){
+
+            section{
+                padding:90px 7%;
+            }
+
+            .navbar{
+                padding:20px 7%;
+            }
+
+            .hero-content h1{
+                font-size:2.3rem;
+            }
+
+            .profile-card{
+                width:100%;
+            }
+
+            .profile-image{
+                width:200px;
+                height:200px;
+            }
+
+            .section-title{
+                font-size:2rem;
+            }
+        }
+
     </style>
 
 </head>
@@ -565,9 +678,10 @@
 
     <nav class="navbar">
 
-        <div class="logo">
-            Sai<span>Salpure</span>
-        </div>
+<div class="logo">
+    <img src="logo.png.jpeg" alt="Tinkerers Lab Logo">
+    Sai<span>Salpure</span>
+</div>
 
         <div class="nav-links">
             <a href="#about">About</a>
@@ -618,6 +732,8 @@
 
         </div>
 
+        <!-- PROFILE -->
+
         <div class="hero-image">
 
             <div class="glow"></div>
@@ -625,8 +741,6 @@
             <div class="profile-card">
 
                 <div class="profile-image">
-
-                    <!-- YOUR PHOTO -->
 
                     <img src="SAI PHOTO.jpg" alt="Sai Salpure">
 
@@ -639,8 +753,18 @@
                     <p>
                         B.Tech Artificial Intelligence and Data Science student
                         passionate about Robotics, IoT, Embedded Systems,
-                        AI/ML, and smart product development.
+                        AI/ML, intelligent automation, and engineering
+                        product development.
                     </p>
+
+                    <div class="profile-tags">
+
+                        <span>AI/ML</span>
+                        <span>Robotics</span>
+                        <span>IoT</span>
+                        <span>ESP32</span>
+
+                    </div>
 
                 </div>
 
@@ -657,50 +781,44 @@
         <h2 class="section-title">About Me</h2>
 
         <p class="section-desc">
-            I am a passionate engineering student focused on creating
-            intelligent systems by combining embedded hardware, AI,
-            robotics, and modern fabrication technologies. My internship
-            experience strengthened my practical engineering skills in
-            electronics integration, IoT systems, rapid prototyping,
-            robotics workflows, and technical documentation.
+            I am a passionate engineering student focused on building
+            intelligent systems through embedded hardware, robotics,
+            AI integration, and modern fabrication technologies.
+            My internship experience strengthened my practical skills
+            in electronics integration, IoT systems, rapid prototyping,
+            robotics workflows, and engineering documentation.
         </p>
 
         <div class="grid">
 
             <div class="card">
-
                 <h3>Engineering Innovation</h3>
 
                 <p>
-                    Dedicated to building smart autonomous systems and
-                    innovative engineering products using modern
-                    technologies and intelligent automation.
+                    Dedicated to creating smart autonomous systems and
+                    innovative engineering products using intelligent
+                    automation and modern technologies.
                 </p>
-
             </div>
 
             <div class="card">
-
                 <h3>Research & Development</h3>
 
                 <p>
                     Passionate about solving real-world engineering
-                    problems through interdisciplinary product
-                    development and embedded intelligence.
+                    problems through interdisciplinary development,
+                    embedded intelligence, and robotics systems.
                 </p>
-
             </div>
 
             <div class="card">
-
                 <h3>Professional Documentation</h3>
 
                 <p>
                     Focused on maintaining detailed technical
-                    documentation, project records, fabrication
-                    workflows, and engineering development processes.
+                    documentation, fabrication records, project
+                    workflows, and development processes.
                 </p>
-
             </div>
 
         </div>
@@ -742,16 +860,15 @@
         <h2 class="section-title">Internship Overview</h2>
 
         <p class="section-desc">
-            The Tinkerers’ Lab Summer Internship 2026 provided extensive
-            practical exposure to engineering workflows involving
-            robotics, embedded systems, fabrication technologies,
-            intelligent automation, and product development.
+            The Tinkerers’ Lab Summer Internship 2026 provided practical
+            exposure to robotics, embedded systems, fabrication
+            technologies, intelligent automation, and product
+            development workflows.
         </p>
 
         <div class="grid">
 
             <div class="card">
-
                 <h3>Core Domains</h3>
 
                 <p>
@@ -759,31 +876,26 @@
                     AI/ML, Product Development, Electronics,
                     3D Printing, and Laser Cutting.
                 </p>
-
             </div>
 
             <div class="card">
-
                 <h3>Hands-on Learning</h3>
 
                 <p>
                     Worked on real-world engineering activities involving
-                    sensors, electronics integration, robotics systems,
+                    sensors, robotics systems, electronics integration,
                     fabrication workflows, and embedded programming.
                 </p>
-
             </div>
 
             <div class="card">
-
                 <h3>Professional Growth</h3>
 
                 <p>
                     Improved technical communication, engineering
-                    documentation, innovation thinking, teamwork,
+                    documentation, teamwork, innovation thinking,
                     and practical problem-solving skills.
                 </p>
-
             </div>
 
         </div>
@@ -804,7 +916,6 @@
         <div class="project-grid">
 
             <div class="project-card">
-
                 <h3>Smart Autonomous Delivery Robot</h3>
 
                 <p>
@@ -812,11 +923,9 @@
                     delivery operations using IoT connectivity,
                     embedded systems, sensors, and autonomous navigation.
                 </p>
-
             </div>
 
             <div class="project-card">
-
                 <h3>Features</h3>
 
                 <ul>
@@ -827,11 +936,9 @@
                     <li>IoT Monitoring</li>
                     <li>Real-time Communication</li>
                 </ul>
-
             </div>
 
             <div class="project-card">
-
                 <h3>Technologies Used</h3>
 
                 <ul>
@@ -843,11 +950,9 @@
                     <li>Electronics Integration</li>
                     <li>3D Printing</li>
                 </ul>
-
             </div>
 
             <div class="project-card">
-
                 <h3>Future Scope</h3>
 
                 <ul>
@@ -857,7 +962,6 @@
                     <li>Industrial Automation Usage</li>
                     <li>Advanced Sensor Fusion</li>
                 </ul>
-
             </div>
 
         </div>
@@ -879,7 +983,6 @@
         <div class="week-grid">
 
             <div class="week-card">
-
                 <h3>Week 1</h3>
 
                 <p>
@@ -890,11 +993,9 @@
                 <a href="Week 1/index.html" class="week-btn">
                     Open Documentation
                 </a>
-
             </div>
 
             <div class="week-card">
-
                 <h3>Week 2</h3>
 
                 <p>
@@ -905,11 +1006,9 @@
                 <a href="Week 2/index.html" class="week-btn">
                     Open Documentation
                 </a>
-
             </div>
 
             <div class="week-card">
-
                 <h3>Week 3</h3>
 
                 <p>
@@ -920,11 +1019,9 @@
                 <a href="Week 3/index.html" class="week-btn">
                     Open Documentation
                 </a>
-
             </div>
 
             <div class="week-card">
-
                 <h3>Week 4</h3>
 
                 <p>
@@ -935,7 +1032,6 @@
                 <a href="Week 4/index.html" class="week-btn">
                     Open Documentation
                 </a>
-
             </div>
 
         </div>
@@ -955,32 +1051,51 @@
 
         <div class="contact-grid">
 
+            <!-- GITHUB -->
+
             <div class="contact-card">
 
                 <h3>GitHub</h3>
 
                 <p>
-                    Add your GitHub repository or profile link here.
+                    <a href="https://github.com/saisalpure5-ops" target="_blank">
+
+                        github.com/saisalpure5-ops
+
+                    </a>
                 </p>
 
             </div>
+
+            <!-- LINKEDIN -->
 
             <div class="contact-card">
 
                 <h3>LinkedIn</h3>
 
                 <p>
-                    Add your LinkedIn professional profile here.
+                    <a href="https://www.linkedin.com/in/sai-salpure-a56015363"
+                        target="_blank">
+
+                        linkedin.com/in/sai-salpure-a56015363
+
+                    </a>
                 </p>
 
             </div>
+
+            <!-- EMAIL -->
 
             <div class="contact-card">
 
                 <h3>Email</h3>
 
                 <p>
-                    Add your professional email address here.
+                    <a href="mailto:sai.salpure_25uds@sanjivani.edu.in">
+
+                        sai.salpure_25uds@sanjivani.edu.in
+
+                    </a>
                 </p>
 
             </div>
