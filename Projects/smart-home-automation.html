@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Automation — Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+
+        /* ── RESET & BASE ── */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+
+        :root {
+            --bg:     #020817;
+            --card:   rgba(15,23,42,0.72);
+            --border: rgba(255,255,255,0.08);
+            --primary:#4da3ff;
+            --primary-light:#7bc1ff;
+            --text:   #ffffff;
+            --soft:   #cbd5e1;
+            --code-bg:#0d1b2e;
+        }
+
+        body {
+            font-family:'Poppins',sans-serif;
+            background:
+                radial-gradient(circle at top left,  rgba(77,163,255,0.18), transparent 25%),
+                radial-gradient(circle at bottom right, rgba(77,163,255,0.15), transparent 25%),
+                var(--bg);
+            color:var(--text);
+            overflow-x:hidden;
+        }
+
+        body::before {
+            content:'';
+            position:fixed;
+            width:100%; height:100%;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg,rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size:60px 60px;
+            z-index:-1;
+        }
+
+        a { text-decoration:none; color:inherit; }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            width:100%;
+            position:fixed; top:0;
+            z-index:1000;
+            padding:18px 9%;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            background:rgba(2,8,23,0.85);
+            backdrop-filter:blur(18px);
+            border-bottom:1px solid rgba(255,255,255,0.06);
+        }
+
+        .nav-logo {
+            font-size:1.3rem;
+            font-weight:700;
+            letter-spacing:1px;
+        }
+        .nav-logo span { color:var(--primary); }
+
+        .nav-back {
+            display:flex;
+            align-items:center;
+            gap:8px;
+            padding:10px 22px;
+            border-radius:12px;
+            background:rgba(77,163,255,0.1);
+            border:1px solid rgba(77,163,255,0.25);
+            color:var(--primary-light);
+            font-size:0.88rem;
+            font-weight:600;
+            transition:0.3s;
+        }
+        .nav-back:hover { background:rgba(77,163,255,0.2); transform:translateX(-3px); }
+        .nav-back svg { width:16px; height:16px; }
+
+        /* ── HERO ── */
+        .doc-hero {
+            padding:140px 9% 80px;
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+            border-bottom:1px solid rgba(255,255,255,0.06);
+        }
+
+        .doc-eyebrow {
+            display:inline-flex;
+            align-items:center;
+            gap:10px;
+            padding:10px 20px;
+            border-radius:50px;
+            background:rgba(77,163,255,0.1);
+            border:1px solid rgba(77,163,255,0.22);
+            color:var(--primary-light);
+            font-size:0.85rem;
+            font-weight:500;
+            width:fit-content;
+        }
+
+        .doc-eyebrow-dot {
+            width:7px; height:7px;
+            border-radius:50%;
+            background:var(--primary);
+            animation:pulse 2s infinite;
+        }
+
+        .doc-hero h1 {
+            font-size:3.6rem;
+            font-weight:800;
+            line-height:1.1;
+            max-width:820px;
+        }
+
+        .doc-hero h1 span {
+            background:linear-gradient(to right,#ffffff,#55b2ff);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+
+        .doc-hero-desc {
+            color:var(--soft);
+            line-height:1.9;
+            max-width:780px;
+            font-size:1.02rem;
+        }
+
+        .doc-meta-row {
+            display:flex;
+            flex-wrap:wrap;
+            gap:16px;
+            margin-top:8px;
+        }
+
+        .doc-meta-chip {
+            display:flex;
+            align-items:center;
+            gap:7px;
+            padding:8px 16px;
+            border-radius:50px;
+            background:rgba(255,255,255,0.05);
+            border:1px solid rgba(255,255,255,0.08);
+            font-size:0.82rem;
+            color:var(--soft);
+        }
+        .doc-meta-chip svg { width:14px; height:14px; opacity:0.7; }
+
+        /* ── STATS ROW ── */
+        .stats-row {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+            gap:18px;
+            padding:50px 9%;
+            border-bottom:1px solid rgba(255,255,255,0.06);
+        }
+
+        .stat-card {
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:20px;
+            padding:24px 22px;
+            text-align:center;
+            backdrop-filter:blur(14px);
+            transition:0.4s;
+        }
+        .stat-card:hover { border-color:rgba(77,163,255,0.3); transform:translateY(-4px); }
+
+        .stat-num {
+            font-size:2rem;
+            font-weight:800;
+            color:var(--primary-light);
+            display:block;
+        }
+        .stat-label {
+            font-size:0.8rem;
+            color:var(--soft);
+            margin-top:5px;
+        }
+
+        /* ── MAIN LAYOUT ── */
+        .doc-layout {
+            display:grid;
+            grid-template-columns:260px 1fr;
+            gap:0;
+            max-width:1400px;
+            margin:0 auto;
+            padding:0 9%;
+        }
+
+        /* ── STICKY TOC ── */
+        .doc-toc {
+            position:sticky;
+            top:90px;
+            height:calc(100vh - 100px);
+            overflow-y:auto;
+            padding:40px 0 40px 0;
+            scrollbar-width:none;
+        }
+        .doc-toc::-webkit-scrollbar { display:none; }
+
+        .toc-title {
+            font-size:0.72rem;
+            font-weight:700;
+            letter-spacing:2px;
+            text-transform:uppercase;
+            color:var(--primary);
+            margin-bottom:18px;
+            padding-left:16px;
+        }
+
+        .toc-list { list-style:none; }
+
+        .toc-list li a {
+            display:block;
+            padding:9px 16px;
+            border-left:2px solid transparent;
+            font-size:0.84rem;
+            color:var(--soft);
+            transition:0.25s;
+            line-height:1.4;
+        }
+        .toc-list li a:hover,
+        .toc-list li a.active {
+            color:var(--primary-light);
+            border-left-color:var(--primary);
+            background:rgba(77,163,255,0.07);
+        }
+
+        .toc-sub a {
+            padding-left:28px !important;
+            font-size:0.79rem !important;
+        }
+
+        /* ── DOC CONTENT ── */
+        .doc-content {
+            padding:40px 0 80px 50px;
+            border-left:1px solid rgba(255,255,255,0.06);
+        }
+
+        /* ── CHAPTER HEADER ── */
+        .chapter {
+            margin-bottom:70px;
+            scroll-margin-top:100px;
+        }
+
+        .chapter-header {
+            display:flex;
+            align-items:center;
+            gap:20px;
+            margin-bottom:32px;
+            padding-bottom:22px;
+            border-bottom:1px solid rgba(255,255,255,0.07);
+        }
+
+        .chapter-num {
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            min-width:64px;
+            height:64px;
+            border-radius:16px;
+            background:linear-gradient(135deg,rgba(77,163,255,0.18),rgba(77,163,255,0.06));
+            border:1px solid rgba(77,163,255,0.25);
+        }
+        .ch-word { font-size:0.6rem; font-weight:700; color:var(--primary); letter-spacing:1.5px; text-transform:uppercase; }
+        .ch-digit { font-size:1.5rem; font-weight:800; color:var(--primary-light); line-height:1; }
+
+        .chapter-title-block h2 {
+            font-size:1.7rem;
+            font-weight:700;
+            color:#e2eeff;
+            margin-bottom:4px;
+        }
+        .chapter-title-block p {
+            font-size:0.84rem;
+            color:var(--soft);
+        }
+
+        /* ── SECTION TITLE ── */
+        .sec-title {
+            font-size:1.15rem;
+            font-weight:700;
+            color:var(--primary-light);
+            margin:32px 0 14px;
+            padding-left:14px;
+            border-left:3px solid var(--primary);
+            scroll-margin-top:100px;
+        }
+
+        .sub-title {
+            font-size:1rem;
+            font-weight:600;
+            color:#b0c4de;
+            margin:22px 0 10px;
+        }
+
+        /* ── BODY TEXT ── */
+        .doc-content p {
+            color:var(--soft);
+            line-height:1.95;
+            margin-bottom:16px;
+            font-size:0.95rem;
+        }
+
+        /* ── CARDS ── */
+        .info-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:20px;
+            margin:22px 0;
+        }
+
+        .info-card {
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:20px;
+            padding:26px;
+            backdrop-filter:blur(14px);
+            transition:0.4s;
+        }
+        .info-card:hover { border-color:rgba(77,163,255,0.3); transform:translateY(-5px); }
+
+        .info-card-icon {
+            font-size:1.6rem;
+            margin-bottom:12px;
+            display:block;
+        }
+        .info-card h4 {
+            color:var(--primary-light);
+            font-size:0.97rem;
+            font-weight:700;
+            margin-bottom:10px;
+        }
+        .info-card p {
+            font-size:0.87rem;
+            color:var(--soft);
+            line-height:1.8;
+            margin:0;
+        }
+
+        /* ── BULLET LIST ── */
+        .doc-list {
+            list-style:none;
+            padding:0;
+            margin:14px 0 20px;
+        }
+        .doc-list li {
+            color:var(--soft);
+            font-size:0.92rem;
+            padding:8px 0 8px 24px;
+            position:relative;
+            border-bottom:1px solid rgba(255,255,255,0.04);
+            line-height:1.7;
+        }
+        .doc-list li:last-child { border-bottom:none; }
+        .doc-list li::before {
+            content:"▹";
+            position:absolute;
+            left:0;
+            color:var(--primary);
+        }
+
+        /* ── TABLE ── */
+        .doc-table-wrap {
+            overflow-x:auto;
+            border-radius:16px;
+            border:1px solid var(--border);
+            margin:20px 0;
+        }
+        .doc-table {
+            width:100%;
+            border-collapse:collapse;
+            font-size:0.88rem;
+        }
+        .doc-table th {
+            background:rgba(77,163,255,0.12);
+            color:var(--primary-light);
+            font-weight:600;
+            padding:13px 18px;
+            text-align:left;
+            border-bottom:1px solid var(--border);
+        }
+        .doc-table td {
+            padding:11px 18px;
+            color:var(--soft);
+            border-bottom:1px solid rgba(255,255,255,0.04);
+        }
+        .doc-table tr:last-child td { border-bottom:none; }
+        .doc-table tr:hover td { background:rgba(77,163,255,0.05); }
+
+        .table-caption {
+            text-align:center;
+            font-size:0.82rem;
+            color:#5a7fa8;
+            margin-top:10px;
+            font-style:italic;
+        }
+
+        /* ── CODE BLOCK ── */
+        .code-block {
+            background:var(--code-bg);
+            border:1px solid rgba(77,163,255,0.15);
+            border-radius:16px;
+            margin:20px 0;
+            overflow:hidden;
+        }
+        .code-header {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:12px 18px;
+            background:rgba(77,163,255,0.08);
+            border-bottom:1px solid rgba(77,163,255,0.12);
+        }
+        .code-lang {
+            font-size:0.78rem;
+            color:var(--primary);
+            font-weight:700;
+            letter-spacing:1px;
+            text-transform:uppercase;
+        }
+        .code-dots { display:flex; gap:6px; }
+        .code-dot { width:10px; height:10px; border-radius:50%; }
+        .cd-r { background:#ff5f57; }
+        .cd-y { background:#febc2e; }
+        .cd-g { background:#28c840; }
+
+        .code-body {
+            padding:22px 22px;
+            overflow-x:auto;
+        }
+        .code-body pre {
+            font-family:'Courier New',monospace;
+            font-size:0.83rem;
+            color:#a8d8ff;
+            line-height:1.75;
+            white-space:pre;
+        }
+
+        /* ── CALLOUT ── */
+        .callout {
+            display:flex;
+            gap:16px;
+            align-items:flex-start;
+            padding:20px 22px;
+            border-radius:16px;
+            margin:22px 0;
+            border:1px solid;
+        }
+        .callout.info { background:rgba(77,163,255,0.08); border-color:rgba(77,163,255,0.2); }
+        .callout.success { background:rgba(39,197,109,0.08); border-color:rgba(39,197,109,0.2); }
+        .callout.warning { background:rgba(251,191,36,0.08); border-color:rgba(251,191,36,0.2); }
+
+        .callout-icon { font-size:1.3rem; flex-shrink:0; margin-top:2px; }
+        .callout-body strong { display:block; margin-bottom:6px; color:var(--text); font-size:0.93rem; }
+        .callout-body p { margin:0; font-size:0.88rem; color:var(--soft); line-height:1.75; }
+
+        /* ── SPEC ROW ── */
+        .spec-row {
+            display:flex;
+            flex-wrap:wrap;
+            gap:12px;
+            margin:14px 0 20px;
+        }
+        .spec-chip {
+            padding:9px 16px;
+            border-radius:50px;
+            background:rgba(77,163,255,0.08);
+            border:1px solid rgba(77,163,255,0.18);
+            font-size:0.82rem;
+            color:var(--primary-light);
+            font-weight:500;
+        }
+
+        /* ── CHAPTER SEPARATOR ── */
+        .chapter-sep {
+            height:1px;
+            background:linear-gradient(to right,rgba(77,163,255,0.25),transparent);
+            margin:60px 0;
+        }
+
+        /* ── PIN TABLE highlight ── */
+        .pin-gpio { color:var(--primary-light); font-weight:600; }
+
+        /* ── IMAGE BLOCK ── */
+        .img-block {
+            margin:24px 0;
+        }
+        .img-frame {
+            border-radius:16px;
+            overflow:hidden;
+            border:1px solid rgba(77,163,255,0.18);
+            background:rgba(10,20,40,0.7);
+        }
+        .img-chrome {
+            display:flex;
+            align-items:center;
+            gap:8px;
+            padding:10px 16px;
+            background:rgba(15,28,55,0.9);
+            border-bottom:1px solid rgba(255,255,255,0.06);
+        }
+        .img-chrome .cd { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+        .img-chrome .cd-r { background:#ff5f57; }
+        .img-chrome .cd-y { background:#febc2e; }
+        .img-chrome .cd-g { background:#28c840; }
+        .chrome-label {
+            font-size:0.75rem;
+            color:#5a7fa8;
+            margin-left:4px;
+            font-family:'Courier New',monospace;
+        }
+        .img-frame img {
+            width:100%;
+            display:block;
+            max-height:500px;
+            object-fit:contain;
+            background:#060d1a;
+            padding:10px;
+        }
+        /* Placeholder shown when image missing */
+        .img-placeholder {
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            gap:12px;
+            min-height:220px;
+            background:rgba(10,20,40,0.6);
+            border:1.5px dashed rgba(77,163,255,0.22);
+            border-radius:14px;
+            color:#3a5f8a;
+            font-size:0.85rem;
+            padding:30px;
+            text-align:center;
+        }
+        .img-placeholder .ph-icon { font-size:2.4rem; opacity:0.6; }
+        .img-placeholder .ph-name {
+            color:var(--primary);
+            font-weight:600;
+            font-size:0.9rem;
+            font-family:'Courier New',monospace;
+            background:rgba(77,163,255,0.08);
+            padding:4px 12px;
+            border-radius:6px;
+        }
+        .img-caption {
+            margin-top:10px;
+            font-size:0.8rem;
+            color:#4a6a8a;
+            text-align:center;
+            font-style:italic;
+        }
+        .img-caption .cap-fig {
+            color:var(--primary);
+            font-weight:600;
+            font-style:normal;
+            margin-right:6px;
+        }
+
+        /* ── PHASE TIMELINE (Activity Plan) ── */
+        .timeline { position:relative; padding-left:30px; margin:22px 0; }
+        .timeline::before {
+            content:'';
+            position:absolute;
+            left:8px; top:0; bottom:0;
+            width:2px;
+            background:linear-gradient(to bottom,var(--primary),transparent);
+        }
+        .tl-item {
+            position:relative;
+            padding:14px 0 14px 24px;
+            border-bottom:1px solid rgba(255,255,255,0.04);
+        }
+        .tl-item:last-child { border-bottom:none; }
+        .tl-item::before {
+            content:'';
+            position:absolute;
+            left:-26px; top:50%;
+            transform:translateY(-50%);
+            width:10px; height:10px;
+            border-radius:50%;
+            background:var(--primary);
+            border:2px solid var(--bg);
+        }
+        .tl-date {
+            font-size:0.78rem;
+            color:var(--primary);
+            font-weight:700;
+            margin-bottom:4px;
+        }
+        .tl-text {
+            font-size:0.9rem;
+            color:var(--soft);
+        }
+
+        /* ── COST TABLE total row ── */
+        .total-row td { color:#ffffff !important; font-weight:700; border-top:1px solid rgba(77,163,255,0.3) !important; }
+
+        /* ── VIDEO SECTION ── */
+        .video-section {
+            padding:80px 9%;
+            border-top:1px solid rgba(255,255,255,0.06);
+        }
+
+        .video-section-title {
+            font-size:2rem;
+            font-weight:800;
+            margin-bottom:12px;
+        }
+        .video-section-title span {
+            background:linear-gradient(to right,#ffffff,#55b2ff);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+        .video-section-desc {
+            color:var(--soft);
+            margin-bottom:36px;
+            font-size:0.95rem;
+            line-height:1.8;
+        }
+
+        .video-frame-wrap {
+            max-width:860px;
+            border-radius:24px;
+            overflow:hidden;
+            border:1px solid rgba(77,163,255,0.2);
+            box-shadow:0 25px 60px rgba(0,0,0,0.5);
+            background:#000;
+        }
+        .video-frame-wrap video {
+            width:100%;
+            display:block;
+        }
+        .video-caption {
+            padding:16px 22px;
+            background:rgba(15,23,42,0.9);
+            display:flex;
+            align-items:center;
+            gap:10px;
+            font-size:0.85rem;
+            color:var(--soft);
+            border-top:1px solid rgba(255,255,255,0.06);
+        }
+        .video-caption-dot {
+            width:8px; height:8px;
+            border-radius:50%;
+            background:#22c55e;
+            animation:pulse 2s infinite;
+        }
+
+        /* ── FOOTER ── */
+        .doc-footer {
+            padding:35px 9%;
+            text-align:center;
+            color:var(--soft);
+            border-top:1px solid rgba(255,255,255,0.06);
+            background:rgba(2,8,23,0.9);
+            font-size:0.88rem;
+        }
+        .doc-footer a { color:var(--primary); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes pulse {
+            0%,100% { opacity:1; }
+            50%      { opacity:0.4; }
+        }
+
+        .reveal {
+            opacity:0;
+            transform:translateY(28px);
+            transition:opacity 0.55s ease, transform 0.55s ease;
+        }
+        .reveal.visible {
+            opacity:1;
+            transform:none;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:1000px) {
+            .doc-layout { grid-template-columns:1fr; padding:0 6%; }
+            .doc-toc { display:none; }
+            .doc-content { padding:30px 0 60px; border-left:none; }
+        }
+        @media(max-width:700px) {
+            .doc-hero { padding:120px 6% 60px; }
+            .doc-hero h1 { font-size:2.4rem; }
+            .stats-row { padding:40px 6%; }
+            .video-section { padding:60px 6%; }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-logo">Sai<span>Salpure</span></div>
+    <a href="index.html" class="nav-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back to Portfolio
+    </a>
+</nav>
+
+<!-- HERO -->
+<section class="doc-hero">
+    <div class="doc-eyebrow reveal">
+        <span class="doc-eyebrow-dot"></span>
+        Final Project &nbsp;·&nbsp; Tinkerers' Lab Summer Internship 2026
+    </div>
+    <h1 class="reveal">Smart Home <span>Automation</span><br>System</h1>
+    <p class="doc-hero-desc reveal">
+        A complete technical documentation of an IoT-based smart home system developed using the ESP32
+        microcontroller. The system enables remote control and manual operation of household lights with
+        ON/OFF and multi-level dimming functionality, integrated with ESP RainMaker cloud and Google Assistant.
+    </p>
+    <div class="doc-meta-row reveal">
+        <span class="doc-meta-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Internship 2026
+        </span>
+        <span class="doc-meta-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+            ESP32 &amp; IoT
+        </span>
+        <span class="doc-meta-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            25 Pages Report
+        </span>
+        <span class="doc-meta-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Total Cost ₹750
+        </span>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row">
+    <div class="stat-card reveal"><span class="stat-num">2</span><span class="stat-label">Controlled Devices</span></div>
+    <div class="stat-card reveal"><span class="stat-num">5</span><span class="stat-label">Brightness Levels</span></div>
+    <div class="stat-card reveal"><span class="stat-num">3</span><span class="stat-label">Relay Channels</span></div>
+    <div class="stat-card reveal"><span class="stat-num">₹750</span><span class="stat-label">Total Build Cost</span></div>
+    <div class="stat-card reveal"><span class="stat-num">ESP32</span><span class="stat-label">Main Controller</span></div>
+    <div class="stat-card reveal"><span class="stat-num">IoT</span><span class="stat-label">RainMaker Cloud</span></div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="doc-layout">
+
+    <!-- SIDEBAR TOC -->
+    <aside class="doc-toc">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-list">
+            <li><a href="#ch1">Chapter 1 — Introduction</a></li>
+            <li class="toc-sub"><a href="#overview">Overview</a></li>
+            <li class="toc-sub"><a href="#problem">Problem Statement</a></li>
+            <li class="toc-sub"><a href="#scope">Scope</a></li>
+            <li><a href="#ch2">Chapter 2 — Specifications</a></li>
+            <li class="toc-sub"><a href="#hardware-spec">Hardware</a></li>
+            <li class="toc-sub"><a href="#software-spec">Software</a></li>
+            <li><a href="#ch3">Chapter 3 — Design</a></li>
+            <li class="toc-sub"><a href="#block-diagram">Block Diagram</a></li>
+            <li class="toc-sub"><a href="#circuit">Circuit &amp; Pins</a></li>
+            <li class="toc-sub"><a href="#flowchart">Flow Chart</a></li>
+            <li class="toc-sub"><a href="#sourcecode">Source Code</a></li>
+            <li><a href="#ch4">Chapter 4 — Results</a></li>
+            <li class="toc-sub"><a href="#impl">Implementation</a></li>
+            <li class="toc-sub"><a href="#mobile-app">Mobile App</a></li>
+            <li class="toc-sub"><a href="#google">Google Integration</a></li>
+            <li><a href="#ch5">Chapter 5 — Discussion</a></li>
+            <li class="toc-sub"><a href="#conclusion">Conclusion</a></li>
+            <li class="toc-sub"><a href="#advantages">Advantages</a></li>
+            <li class="toc-sub"><a href="#future">Future Scope</a></li>
+            <li><a href="#ch6">Chapter 6 — Activity Plan</a></li>
+            <li><a href="#ch7">Chapter 7 — Costing</a></li>
+            <li><a href="#ch8">Chapter 8 — References</a></li>
+            <li><a href="#video">Project Video</a></li>
+        </ul>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="doc-content">
+
+        <!-- ════════════ CHAPTER 1 ════════════ -->
+        <div class="chapter" id="ch1">
+            <div class="chapter-header reveal">
+                <div class="chapter-num">
+                    <span class="ch-word">CH</span>
+                    <span class="ch-digit">01</span>
+                </div>
+                <div class="chapter-title-block">
+                    <h2>Introduction</h2>
+                    <p>Overview, problem statement, end users &amp; scope</p>
+                </div>
+            </div>
+
+            <h3 class="sec-title" id="overview">1.1 Overview</h3>
+            <p>
+                Smart home automation is one of the most impactful applications of the Internet of Things (IoT).
+                It allows users to control electrical devices such as lights, fans, and appliances using a
+                smartphone or internet connection. With the rise of technology and the growing demand for
+                convenience, traditional electrical systems are rapidly being replaced by intelligent automated systems.
+            </p>
+            <p>
+                In this project, a smart home system was developed using the <strong style="color:#7bc1ff;">ESP32 microcontroller</strong>.
+                The system controls two devices — a Yellow Light with dimming control and a Red Light with
+                ON/OFF control — using Wi-Fi connectivity and the ESP RainMaker mobile application. Manual
+                switch control is also supported, ensuring operation even without internet access.
+            </p>
+
+            <div class="info-grid">
+                <div class="info-card reveal">
+                    <span class="info-card-icon">🔴</span>
+                    <h4>Red Light</h4>
+                    <p>Simple ON/OFF control via relay. Operates through both manual switch and mobile app simultaneously.</p>
+                </div>
+                <div class="info-card reveal">
+                    <span class="info-card-icon">💡</span>
+                    <h4>Yellow Light (Dimmer)</h4>
+                    <p>Multi-level brightness control using capacitor-relay method. Provides 5 distinct brightness levels.</p>
+                </div>
+                <div class="info-card reveal">
+                    <span class="info-card-icon">📱</span>
+                    <h4>ESP RainMaker</h4>
+                    <p>Cloud connectivity via ESP RainMaker app. Real-time status updates, OTA firmware updates, and scheduling.</p>
+                </div>
+            </div>
+
+            <h3 class="sec-title" id="problem">1.2 Problem Statement</h3>
+            <p>Traditional electrical systems have several limitations that this project addresses:</p>
+
+            <div class="info-grid">
+                <div class="info-card reveal">
+                    <span class="info-card-icon">⚠️</span>
+                    <h4>Traditional Problems</h4>
+                    <ul class="doc-list">
+                        <li>No remote access capability</li>
+                        <li>Manual operation always required</li>
+                        <li>Energy wastage due to improper usage</li>
+                        <li>No brightness control for lights</li>
+                    </ul>
+                </div>
+                <div class="info-card reveal">
+                    <span class="info-card-icon">✅</span>
+                    <h4>This System Solves</h4>
+                    <ul class="doc-list">
+                        <li>Remote control via mobile app</li>
+                        <li>Dimming functionality implemented</li>
+                        <li>Manual &amp; app control synchronized</li>
+                        <li>Real-time status feedback</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="sec-title" id="scope">1.3 Scope &amp; End Users</h3>
+            <p>
+                The project focuses on designing a smart home automation system using ESP32 to control
+                lighting devices through both manual switches and a mobile application. The system can be
+                extended to control more appliances, add voice control, and implement advanced automation
+                features like scheduling and sensor-based control.
+            </p>
+
+            <div class="spec-row reveal">
+                <span class="spec-chip">🏠 Residential Homes</span>
+                <span class="spec-chip">🏢 Office Spaces</span>
+                <span class="spec-chip">🏨 Hotels &amp; Malls</span>
+                <span class="spec-chip">🏫 Smart Workspaces</span>
+                <span class="spec-chip">⚡ Energy Saving</span>
+            </div>
+        </div>
+
+        <div class="chapter-sep"></div>
+
+        <!-- ════════════ CHAPTER 2 ════════════ -->
+        <div class="chapter" id="ch2">
+            <div class="chapter-header reveal">
+                <div class="chapter-num">
+                    <span class="ch-word">CH</span>
+                    <span class="ch-digit">02</span>
+                </div>
+                <div class="chapter-title-block">
+                    <h2>Project Definition &amp; Specifications</h2>
+                    <p>Hardware components, software tools &amp; I/O specifications</p>
+                </div>
+            </div>
+
+            <h3 class="sec-title" id="hardware-spec">2.1 Hardware Specifications</h3>
+
+            <h4 class="sub-title">i) ESP32 Development Board</h4>
+            <p>
+                The ESP32 is the main controller used in this project. It processes input signals from switches
+                and the mobile app, and controls output devices accordingly. Widely used in IoT applications
+                due to its built-in WiFi and Bluetooth capabilities.
+            </p>
+            <ul class="doc-list reveal">
+                <li>Built-in WiFi and Bluetooth for wireless communication</li>
+                <li>Dual-core processor for fast performance</li>
+                <li>Low power consumption</li>
+                <li>Multiple GPIO pins for interfacing</li>
+                <li>High processing capability</li>
+            </ul>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 2.1 — ESP32 Development Board</span>
+                    </div>
+                    <img src="Projects/SMA IMAGES/fig2_1_esp32.jpg" alt="ESP32 Development Board"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig2_1_esp32.jpg</span>
+                        <span>Screenshot of ESP32 board from your report — Page 3</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 2.1</span> ESP32 Development Board</p>
+            </div>
+
+            <h4 class="sub-title">ii) Relay Module</h4>
+            <p>
+                Relay modules act as electrically operated switches to control AC loads. The project uses
+                a 4-channel relay module where HIGH input turns the relay OFF and LOW input turns it ON.
+            </p>
+            <ul class="doc-list reveal">
+                <li>Supports high voltage (230V AC)</li>
+                <li>Provides electrical isolation between control and load</li>
+                <li>Easy to interface with ESP32 via GPIO</li>
+                <li>Reliable switching — HIGH → Relay OFF, LOW → Relay ON</li>
+            </ul>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 2.2 — Relay Module</span>
+                    </div>
+                    <img src="fig2_2_relay.jpg" alt="Relay Module"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig2_2_relay.jpg</span>
+                        <span>Screenshot of Relay Module from your report — Page 4</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 2.2</span> 4-Channel Relay Module</p>
+            </div>
+
+            <h4 class="sub-title">iii) Capacitor-Based Dimmer Circuit</h4>
+            <p>
+                The dimming function is implemented using capacitors and relays. Different capacitors provide
+                different levels of current to the load, which changes brightness level.
+            </p>
+
+            <div class="doc-table-wrap reveal">
+                <table class="doc-table">
+                    <thead>
+                        <tr><th>Capacitor Value</th><th>Brightness Level</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1.1 µF</td><td>Low</td></tr>
+                        <tr><td>2.2 µF</td><td>Medium</td></tr>
+                        <tr><td>3.3 µF</td><td>High</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-caption">Table 2.1 — Capacitor Values vs Brightness Levels</p>
+
+            <h4 class="sub-title">iv) Switches &amp; Power Supply</h4>
+            <ul class="doc-list reveal">
+                <li>Switches connected using INPUT_PULLUP — direct user control without internet</li>
+                <li>Power Supply: Input 230V AC → Output 5V DC for ESP32 and relays</li>
+            </ul>
+
+            <div class="info-grid">
+                <div class="img-block reveal">
+                    <div class="img-frame">
+                        <div class="img-chrome">
+                            <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                            <span class="chrome-label">Fig 2.3 — Switch</span>
+                        </div>
+                        <img src="fig2_3_switch.jpg" alt="Push Button Switch"
+                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                        <div class="img-placeholder" style="display:none;">
+                            <span class="ph-icon">📷</span>
+                            <span class="ph-name">fig2_3_switch.jpg</span>
+                            <span>Switch image from report — Page 5</span>
+                        </div>
+                    </div>
+                    <p class="img-caption"><span class="cap-fig">Fig 2.3</span> Push Button Switch</p>
+                </div>
+            </div>
+
+            <h3 class="sec-title" id="software-spec">2.2 Software Specifications</h3>
+
+            <div class="info-grid">
+                <div class="info-card reveal">
+                    <span class="info-card-icon">💻</span>
+                    <h4>Arduino IDE</h4>
+                    <p>Used for writing and uploading firmware to ESP32. Supports C/C++ programming with a serial monitor for debugging.</p>
+                </div>
+                <div class="info-card reveal">
+                    <span class="info-card-icon">☁️</span>
+                    <h4>ESP RainMaker App</h4>
+                    <p>Cloud-based control platform. Provides mobile app control, device monitoring, OTA updates, and scheduling features.</p>
+                </div>
+            </div>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 2.4 — Arduino IDE Interface</span>
+                    </div>
+                    <img src="fig2_4_arduino_ide.jpg" alt="Arduino IDE Interface"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig2_4_arduino_ide.jpg</span>
+                        <span>Arduino IDE screenshot from your report — Page 6</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 2.4</span> Arduino IDE Interface</p>
+            </div>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 2.5 — ESP RainMaker Working</span>
+                    </div>
+                    <img src="fig2_5_rainmaker.jpg" alt="ESP RainMaker Working Diagram"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig2_5_rainmaker.jpg</span>
+                        <span>ESP RainMaker architecture diagram from your report — Page 6</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 2.5</span> ESP RainMaker Working Architecture</p>
+            </div>
+
+            <div class="doc-table-wrap reveal">
+                <table class="doc-table">
+                    <thead>
+                        <tr><th>Library</th><th>Purpose</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>RMaker</td><td>Cloud connectivity via ESP RainMaker</td></tr>
+                        <tr><td>WiFi</td><td>Internet connection management</td></tr>
+                        <tr><td>WiFiProv</td><td>WiFi provisioning over BLE</td></tr>
+                        <tr><td>AceButton</td><td>Manual switch handling &amp; debounce</td></tr>
+                        <tr><td>EEPROM</td><td>Persistent data storage on ESP32</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-caption">Table 2.2 — Libraries Used in the Project</p>
+
+            <div class="callout info reveal">
+                <span class="callout-icon">💡</span>
+                <div class="callout-body">
+                    <strong>Input &amp; Output Summary</strong>
+                    <p>Inputs: Manual switch (local, no internet needed) + Mobile App (remote, requires WiFi). Outputs: Red Light ON/OFF via single relay + Yellow Light with 5 brightness levels via 3 relays and capacitor circuit.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="chapter-sep"></div>
+
+        <!-- ════════════ CHAPTER 3 ════════════ -->
+        <div class="chapter" id="ch3">
+            <div class="chapter-header reveal">
+                <div class="chapter-num">
+                    <span class="ch-word">CH</span>
+                    <span class="ch-digit">03</span>
+                </div>
+                <div class="chapter-title-block">
+                    <h2>Hardware &amp; Software Design</h2>
+                    <p>Block diagram, circuit, pin connections, flowchart &amp; source code</p>
+                </div>
+            </div>
+
+            <h3 class="sec-title" id="block-diagram">3.1 Block Diagram</h3>
+            <p>
+                The system architecture connects the mobile application through WiFi to the ESP32 controller,
+                which drives relay modules to control AC loads. Manual switches feed input directly to ESP32,
+                ensuring offline operation capability.
+            </p>
+
+            <div class="callout info reveal">
+                <span class="callout-icon">🔷</span>
+                <div class="callout-body">
+                    <strong>System Data Flow</strong>
+                    <p>Mobile App → WiFi → ESP32 → Relay Module → AC Loads (Red Light / Yellow Light Dimmer). Manual Switches → ESP32 (same relay control path). All status updates flow back to the app in real time.</p>
+                </div>
+            </div>
+
+            <ul class="doc-list reveal">
+                <li>Mobile application sends ON/OFF and brightness commands through WiFi</li>
+                <li>ESP32 receives these commands and processes them in real time</li>
+                <li>Manual switches also provide direct input to ESP32</li>
+                <li>ESP32 controls the relay module based on received input</li>
+                <li>Relays switch the AC supply to the connected lights</li>
+                <li>The dimmer circuit uses capacitors to control brightness levels</li>
+                <li>Red light operates as ON/OFF; yellow light operates as a dimmer</li>
+            </ul>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 3.1 — System Block Diagram</span>
+                    </div>
+                    <img src="fig3_1_block_diagram.jpg" alt="System Block Diagram"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig3_1_block_diagram.jpg</span>
+                        <span>Full system block diagram from your report — Page 8</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 3.1</span> Complete System Block Diagram</p>
+            </div>
+
+            <h3 class="sec-title" id="circuit">3.2 Circuit Diagram &amp; Pin Connections</h3>
+            <p>
+                The circuit connects Switch 1 and Switch 2 inputs to the ESP32 GPIO pins. The 4-channel relay
+                module is driven by ESP32 outputs. The dimmer circuit uses two RC branches (capacitor + resistor)
+                to achieve different brightness levels for the yellow light.
+            </p>
+
+            <div class="doc-table-wrap reveal">
+                <table class="doc-table">
+                    <thead>
+                        <tr><th>Component</th><th>Pin</th><th>ESP32 Connection</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Red Light Relay</td><td>IN</td><td class="pin-gpio">GPIO 23</td></tr>
+                        <tr><td>Dimmer Relay 1</td><td>IN</td><td class="pin-gpio">GPIO 5</td></tr>
+                        <tr><td>Dimmer Relay 2</td><td>IN</td><td class="pin-gpio">GPIO 18</td></tr>
+                        <tr><td>Dimmer Relay 3</td><td>IN</td><td class="pin-gpio">GPIO 19</td></tr>
+                        <tr><td>Red Switch</td><td>Input</td><td class="pin-gpio">GPIO 13</td></tr>
+                        <tr><td>Dimmer Switch</td><td>Input</td><td class="pin-gpio">GPIO 27</td></tr>
+                        <tr><td>WiFi LED</td><td>Output</td><td class="pin-gpio">GPIO 2</td></tr>
+                        <tr><td>GND</td><td>—</td><td>Common Ground</td></tr>
+                        <tr><td>VCC</td><td>—</td><td>5V Supply</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-caption">Table 3.1 — ESP32 Pin Description</p>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 3.2 — Circuit Diagram</span>
+                    </div>
+                    <img src="fig3_2_circuit.jpg" alt="Circuit Diagram"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig3_2_circuit.jpg</span>
+                        <span>Full circuit diagram from your report — Page 9</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 3.2</span> Complete Circuit Diagram</p>
+            </div>
+
+            <h3 class="sec-title" id="flowchart">3.3 Software Flow Chart</h3>
+            <p>
+                The firmware flow starts with ESP32 initialization, GPIO configuration, and WiFi connection
+                via ESP RainMaker. After connecting, it loads last saved device states from EEPROM, applies
+                them to relays, and enters an idle loop. Any input — from switch or app — triggers relay
+                updates and state saves.
+            </p>
+            <ul class="doc-list reveal">
+                <li>START → Initialize ESP32 → Set GPIO modes for relays, switches, LED</li>
+                <li>Connect to WiFi via ESP RainMaker BLE provisioning</li>
+                <li>If WiFi fails → Blink LED and retry</li>
+                <li>Register Red Light and Yellow Light devices on RainMaker</li>
+                <li>Load last saved states from EEPROM → Apply to relays</li>
+                <li>Enter idle loop → Wait for input</li>
+                <li>Input from manual switch → Read switch state → Update device state</li>
+                <li>Input from mobile app → Receive command → Update device state</li>
+                <li>Control relays → Save current state → Send updated state to app</li>
+                <li>Loop continues until Stop / Power Off → END</li>
+            </ul>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 3.3 — Software Flow Chart</span>
+                    </div>
+                    <img src="fig3_3_flowchart.jpg" alt="Software Flow Chart"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig3_3_flowchart.jpg</span>
+                        <span>Software flowchart from your report — Page 10</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 3.3</span> Complete Software Flow Chart</p>
+            </div>
+
+            <h3 class="sec-title" id="sourcecode">3.4 Source Code</h3>
+            <p>
+                The complete ESP32 firmware is written in C++ using Arduino IDE with the ESP RainMaker SDK.
+                Key functions include <code style="color:#7bc1ff;background:rgba(77,163,255,0.1);padding:2px 8px;border-radius:6px;">dimmerControl(level)</code>,
+                <code style="color:#7bc1ff;background:rgba(77,163,255,0.1);padding:2px 8px;border-radius:6px;">setRelay(pin, state)</code>,
+                button event handlers, and the RainMaker write callback.
+            </p>
+
+            <div class="code-block reveal">
+                <div class="code-header">
+                    <span class="code-lang">C++ — ESP32 Firmware</span>
+                    <div class="code-dots">
+                        <span class="code-dot cd-r"></span>
+                        <span class="code-dot cd-y"></span>
+                        <span class="code-dot cd-g"></span>
+                    </div>
+                </div>
+                <div class="code-body">
+<pre>#include &lt;EEPROM.h&gt;
+#include "RMaker.h"
+#include "WiFi.h"
+#include "WiFiProv.h"
+#include &lt;AceButton.h&gt;
+using namespace ace_button;
+
+#define ENABLE_EEPROM  true
+#define EEPROM_SIZE    10
+
+const char *service_name = "Redmi Note 12 Pro 5G";
+const char *pop          = "om112233";
+char deviceName_1[]      = "Red Light";
+char deviceName_4[]      = "Yellow Light";
+
+// GPIO Pins
+static uint8_t RelayPin1    = 23;
+static uint8_t DimmerRelay1 = 5;
+static uint8_t DimmerRelay2 = 18;
+static uint8_t DimmerRelay3 = 19;
+static uint8_t SwitchPin1   = 13;
+static uint8_t SwitchPin4   = 27;
+static uint8_t wifiLed      = 2;
+
+// States
+bool toggleState_1 = LOW;
+bool toggleState_4 = LOW;
+int  currLevel     = 0;
+int  prevLevel     = -1;
+
+// Dimmer Control
+void dimmerControl(int level) {
+    if (level == prevLevel) return;
+    prevLevel = level;
+    digitalWrite(DimmerRelay1, HIGH);
+    digitalWrite(DimmerRelay2, HIGH);
+    digitalWrite(DimmerRelay3, HIGH);
+    delay(100);
+    switch (level) {
+        case 0: break;
+        case 1: digitalWrite(DimmerRelay1, LOW); break;
+        case 2: digitalWrite(DimmerRelay2, LOW); break;
+        case 3:
+            digitalWrite(DimmerRelay1, LOW);
+            delay(50);
+            digitalWrite(DimmerRelay2, LOW); break;
+        case 4: digitalWrite(DimmerRelay3, LOW); break;
+    }
+}
+
+// Relay Control
+void setRelay(uint8_t pin, bool state) {
+    digitalWrite(pin, !state);
+}
+
+// App Callback
+void write_callback(Device *device, Param *param,
+                    const param_val_t val, void *, write_ctx_t *) {
+    const char *device_name = device->getDeviceName();
+    const char *param_name  = param->getParamName();
+
+    if (strcmp(device_name, deviceName_1) == 0) {
+        if (strcmp(param_name, "Power") == 0) {
+            toggleState_1 = val.val.b;
+            setRelay(RelayPin1, toggleState_1);
+            param->updateAndReport(val);
+        }
+    }
+    if (strcmp(device_name, deviceName_4) == 0) {
+        if (strcmp(param_name, "Power") == 0) {
+            toggleState_4 = val.val.b;
+            if (toggleState_4) dimmerControl(currLevel == 0 ? 4 : currLevel);
+            else               dimmerControl(0);
+            param->updateAndReport(val);
+        }
+        if (strcmp(param_name, ESP_RMAKER_DEF_BRIGHTNESS_NAME) == 0) {
+            currLevel = val.val.i;
+            if (toggleState_4) dimmerControl(currLevel);
+            param->updateAndReport(val);
+        }
+    }
+}
+
+// Loop
+void loop() {
+    button1.check();
+    button4.check();
+    digitalWrite(wifiLed, WiFi.status() == WL_CONNECTED);
+}</pre>
+                </div>
+            </div>
+
+            <div class="callout success reveal">
+                <span class="callout-icon">✅</span>
+                <div class="callout-body">
+                    <strong>Code Note</strong>
+                    <p>The full source code includes setup(), WiFiProv BLE provisioning, button handlers, and RainMaker node registration. The above shows the core control logic. Upload via Arduino IDE with ESP32 board package installed.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="chapter-sep"></div>
+
+        <!-- ════════════ CHAPTER 4 ════════════ -->
+        <div class="chapter" id="ch4">
+            <div class="chapter-header reveal">
+                <div class="chapter-num">
+                    <span class="ch-word">CH</span>
+                    <span class="ch-digit">04</span>
+                </div>
+                <div class="chapter-title-block">
+                    <h2>Experimental Results</h2>
+                    <p>Hardware setup, software implementation &amp; working results</p>
+                </div>
+            </div>
+
+            <h3 class="sec-title" id="impl">4.1 Implementation Overview</h3>
+            <p>
+                The implementation was carried out using ESP32, relay modules, switches, and the ESP RainMaker
+                mobile application. The hardware was assembled by connecting the ESP32 with relay modules and
+                switches. The dimmer circuit was built using three relays connected with capacitors to achieve
+                different brightness levels.
+            </p>
+
+            <div class="info-grid">
+                <div class="info-card reveal">
+                    <span class="info-card-icon">🔧</span>
+                    <h4>Hardware Assembly</h4>
+                    <ul class="doc-list">
+                        <li>ESP32 microcontroller</li>
+                        <li>4-channel relay module</li>
+                        <li>Capacitor-based dimmer circuit</li>
+                        <li>Manual push button switches</li>
+                        <li>5V regulated power supply</li>
+                    </ul>
+                </div>
+                <div class="info-card reveal">
+                    <span class="info-card-icon">⚙️</span>
+                    <h4>Software Setup</h4>
+                    <ul class="doc-list">
+                        <li>ESP32 programmed via Arduino IDE</li>
+                        <li>ESP RainMaker SDK integrated</li>
+                        <li>Dimmer logic implemented</li>
+                        <li>Switch &amp; app synchronization handled</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="callout warning reveal">
+                <span class="callout-icon">📸</span>
+                <div class="callout-body">
+                    <strong>Hardware Photos</strong>
+                    <p>Save your camera photos in the same folder as this HTML file using the exact filenames shown in each placeholder below. They will appear automatically.</p>
+                </div>
+            </div>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 4.1 — Hardware Setup of Smart Home System</span>
+                    </div>
+                    <img src="fig4_1_hardware.jpg" alt="Hardware Setup"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig4_1_hardware.jpg</span>
+                        <span>Hardware setup photo from your report — Page 16 (red &amp; yellow bulbs on the wooden box)</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 4.1</span> Hardware Setup of Smart Home System</p>
+            </div>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 4.2 — Arduino Code Implementation</span>
+                    </div>
+                    <img src="fig4_2_arduino_code.jpg" alt="Arduino Code Implementation"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig4_2_arduino_code.jpg</span>
+                        <span>Arduino IDE code screenshot from your report — Page 17</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 4.2</span> Arduino Code Implementation in IDE</p>
+            </div>
+
+            <h3 class="sec-title" id="mobile-app">4.2 Mobile App Implementation</h3>
+            <p>
+                The system is controlled using the ESP RainMaker mobile application. The red light appears
+                as a simple power switch, while the yellow light appears with a slider for brightness
+                control (levels 0–4).
+            </p>
+            <ul class="doc-list reveal">
+                <li>Power ON/OFF control for both devices</li>
+                <li>Brightness slider (0–4 levels) for yellow light dimmer</li>
+                <li>Real-time device status updates</li>
+                <li>Device appears in ESP RainMaker as "Smart Home Automation"</li>
+            </ul>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 4.3 — ESP RainMaker Mobile App Interface</span>
+                    </div>
+                    <img src="fig4_3_mobile_app.jpg" alt="ESP RainMaker App Interface"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig4_3_mobile_app.jpg</span>
+                        <span>ESP RainMaker app screenshots (Devices + Red Light + Yellow Light sliders) — Page 18</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 4.3</span> Mobile App Interface — ESP RainMaker</p>
+            </div>
+
+            <h3 class="sec-title" id="google">4.3 Google Home &amp; Assistant Integration</h3>
+            <p>
+                The system was successfully integrated with Google Home, allowing control through voice
+                commands. Devices appear in the Google Home app and can be controlled like standard
+                smart devices.
+            </p>
+
+            <div class="info-grid">
+                <div class="info-card reveal">
+                    <span class="info-card-icon">🏠</span>
+                    <h4>Google Home</h4>
+                    <ul class="doc-list">
+                        <li>Devices appear in Google Home app</li>
+                        <li>Turn lights ON/OFF</li>
+                        <li>Control brightness remotely</li>
+                    </ul>
+                </div>
+                <div class="info-card reveal">
+                    <span class="info-card-icon">🎙️</span>
+                    <h4>Google Assistant Voice Commands</h4>
+                    <ul class="doc-list">
+                        <li>"Turn ON red light"</li>
+                        <li>"Turn OFF yellow light"</li>
+                        <li>"Set yellow light to 50%"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 4.4 — Google Home Interface</span>
+                    </div>
+                    <img src="fig4_4_google_home.jpg" alt="Google Home Interface"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig4_4_google_home.jpg</span>
+                        <span>Google Home app screenshot showing Red Light &amp; Yellow Light devices — Page 18</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 4.4</span> Google Home App Interface</p>
+            </div>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Fig 4.5 — Google Assistant Control</span>
+                    </div>
+                    <img src="fig4_5_google_assistant.jpg" alt="Google Assistant Control"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">fig4_5_google_assistant.jpg</span>
+                        <span>Google Assistant voice control screenshot — Page 19 ("Set yellow light to 50%")</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Fig 4.5</span> Google Assistant Voice Control</p>
+            </div>
+
+            <h3 class="sec-title">4.4 Working Results</h3>
+
+            <div class="doc-table-wrap reveal">
+                <table class="doc-table">
+                    <thead>
+                        <tr><th>Test</th><th>Result</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Red Light — App ON/OFF</td><td>Instant response, no delay</td><td style="color:#22c55e;font-weight:600;">✓ Pass</td></tr>
+                        <tr><td>Red Light — Manual Switch</td><td>Works without internet</td><td style="color:#22c55e;font-weight:600;">✓ Pass</td></tr>
+                        <tr><td>Yellow Light — Brightness Levels</td><td>5 levels, no flickering</td><td style="color:#22c55e;font-weight:600;">✓ Pass</td></tr>
+                        <tr><td>Yellow Light — Switch ON</td><td>Turns ON at full brightness</td><td style="color:#22c55e;font-weight:600;">✓ Pass</td></tr>
+                        <tr><td>App + Switch Sync</td><td>No conflict, stable operation</td><td style="color:#22c55e;font-weight:600;">✓ Pass</td></tr>
+                        <tr><td>Google Assistant Control</td><td>Voice commands work correctly</td><td style="color:#22c55e;font-weight:600;">✓ Pass</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-caption">Table 4.1 — System Testing Results</p>
+
+            <h3 class="sec-title">4.5 Project Camera Photos</h3>
+            <p>Additional photos of the physical hardware captured during build and testing.</p>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Camera Photo 1 — Project Overview</span>
+                    </div>
+                    <img src="camera_photo1.jpg" alt="Project Camera Photo 1"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">camera_photo1.jpg</span>
+                        <span>Your camera photo of the complete project — rename your file to this name</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Photo 1</span> Complete Project Assembly</p>
+            </div>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Camera Photo 2 — Circuit Close-up</span>
+                    </div>
+                    <img src="camera_photo2.jpg" alt="Project Camera Photo 2"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">camera_photo2.jpg</span>
+                        <span>Your camera photo of the circuit / wiring close-up — rename your file to this name</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Photo 2</span> Circuit &amp; Wiring Close-up</p>
+            </div>
+
+            <div class="img-block reveal">
+                <div class="img-frame">
+                    <div class="img-chrome">
+                        <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+                        <span class="chrome-label">Camera Photo 3 — System in Operation</span>
+                    </div>
+                    <img src="camera_photo3.jpg" alt="Project Camera Photo 3"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="img-placeholder" style="display:none;">
+                        <span class="ph-icon">📷</span>
+                        <span class="ph-name">camera_photo3.jpg</span>
+                        <span>Your camera photo showing lights ON during demo — rename your file to this name</span>
+                    </div>
+                </div>
+                <p class="img-caption"><span class="cap-fig">Photo 3</span> System in Operation — Lights ON</p>
+            </div>
+
+        </div><!-- /chapter 4 -->
+
+        <div class="chapter-sep"></div>
+
+        <!-- ════════════ CHAPTER 5 ════════════ -->
+        <div class="chapter" id="ch5">
+            <div class="chapter-header reveal">
+                <div class="chapter-num">
+                    <span class="ch-word">CH</span>
+                    <span class="ch-digit">05</span>
+                </div>
+                <div class="chapter-title-block">
+                    <h2>Discussion</h2>
+                    <p>Conclusion, advantages, limitations &amp; future scope</p>
+                </div>
+            </div>
+
+            <h3 class="sec-title" id="conclusion">5.1 Conclusion</h3>
+            <p>
+                The Smart Home Automation project successfully demonstrates an efficient and user-friendly system
+                for controlling household electrical appliances using both manual switches and a mobile application.
+                By integrating the ESP32 microcontroller with IoT technology, the system enables real-time
+                control of devices with added dimming functionality.
+            </p>
+            <p>
+                The project effectively combines automation with manual control, ensuring users can operate
+                devices even without internet connectivity. Proper synchronization between physical switches
+                and the mobile application eliminates operational conflicts and ensures smooth performance.
+                Integration with ESP RainMaker and voice control via Google Assistant further enhances
+                user convenience.
+            </p>
+
+            <div class="callout success reveal">
+                <span class="callout-icon">🏆</span>
+                <div class="callout-body">
+                    <strong>Key Achievement</strong>
+                    <p>Successfully implemented a cost-effective (₹750) smart home system with reliable dual-control (manual + app), multi-level dimming, and voice control integration — fully functional without any conflicts between control methods.</p>
+                </div>
+            </div>
+
+            <h3 class="sec-title" id="advantages">5.2 Advantages &amp; Limitations</h3>
+            <div class="info-grid">
+                <div class="info-card reveal">
+                    <span class="info-card-icon">✅</span>
+                    <h4>Advantages</h4>
+                    <ul class="doc-list">
+                        <li>Reduces manual effort via remote control</li>
+                        <li>Supports both manual and app control simultaneously</li>
+                        <li>Low-cost implementation (₹750 total)</li>
+                        <li>Energy-efficient via controlled device usage</li>
+                        <li>Real-time response with minimal delay</li>
+                        <li>Easy to install and expand</li>
+                    </ul>
+                </div>
+                <div class="info-card reveal">
+                    <span class="info-card-icon">⚠️</span>
+                    <h4>Limitations</h4>
+                    <ul class="doc-list">
+                        <li>Requires stable WiFi for app/cloud control</li>
+                        <li>Relay-based dimmer provides step-based brightness</li>
+                        <li>Relay switching produces audible clicking sound</li>
+                        <li>Limited devices due to hardware constraints</li>
+                        <li>Performance depends on network availability</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="sec-title" id="future">5.3 Applications &amp; Future Scope</h3>
+            <div class="spec-row reveal">
+                <span class="spec-chip">🏠 Smart Homes</span>
+                <span class="spec-chip">🏢 Office Automation</span>
+                <span class="spec-chip">🏨 Hotels &amp; Hostels</span>
+                <span class="spec-chip">☕ Cafes &amp; Shops</span>
+                <span class="spec-chip">⚡ Energy Systems</span>
+            </div>
+            <ul class="doc-list reveal">
+                <li>TRIAC-based dimmer for smooth (non-step) brightness control</li>
+                <li>Advanced Alexa and Google Assistant integration</li>
+                <li>Dedicated mobile application with enhanced UI/UX</li>
+                <li>Motion and temperature sensors for full automation</li>
+                <li>Solar power system integration for energy efficiency</li>
+                <li>Expansion to control fans, AC, and other appliances</li>
+            </ul>
+        </div>
+
+        <div class="chapter-sep"></div>
+
+        <!-- ════════════ CHAPTER 6 ════════════ -->
+        <div class="chapter" id="ch6">
+            <div class="chapter-header reveal">
+                <div class="chapter-num">
+                    <span class="ch-word">CH</span>
+                    <span class="ch-digit">06</span>
+                </div>
+                <div class="chapter-title-block">
+                    <h2>Activity Plan</h2>
+                    <p>Project timeline from concept to final review</p>
+                </div>
+            </div>
+
+            <div class="timeline reveal">
+                <div class="tl-item"><div class="tl-date">03 Feb 2026</div><div class="tl-text">Formation of project group and understanding the project concept</div></div>
+                <div class="tl-item"><div class="tl-date">10 Feb 2026</div><div class="tl-text">Submission of at least two project ideas</div></div>
+                <div class="tl-item"><div class="tl-date">17 Feb 2026</div><div class="tl-text">Finalization of project title and objectives</div></div>
+                <div class="tl-item"><div class="tl-date">24 Feb 2026</div><div class="tl-text">Finalization of system definition, specifications, and block diagram</div></div>
+                <div class="tl-item"><div class="tl-date">10 Mar 2026</div><div class="tl-text">Preparation of circuit diagram</div></div>
+                <div class="tl-item"><div class="tl-date">17 Mar 2026</div><div class="tl-text">Initial project review</div></div>
+                <div class="tl-item"><div class="tl-date">24 Mar 2026</div><div class="tl-text">Hardware assembly, software porting, and system testing</div></div>
+                <div class="tl-item"><div class="tl-date">31 Mar 2026</div><div class="tl-text">Mid-project review</div></div>
+                <div class="tl-item"><div class="tl-date">06 Apr 2026</div><div class="tl-text">Enclosure design, fabrication, and demonstration setup</div></div>
+                <div class="tl-item"><div class="tl-date">13 Apr 2026</div><div class="tl-text">Preparation, checking, and correction of project report</div></div>
+                <div class="tl-item"><div class="tl-date">21 Apr 2026</div><div class="tl-text">Demo and group presentation</div></div>
+                <div class="tl-item"><div class="tl-date">27 Apr 2026</div><div class="tl-text">Final project review</div></div>
+            </div>
+        </div>
+
+        <div class="chapter-sep"></div>
+
+        <!-- ════════════ CHAPTER 7 ════════════ -->
+        <div class="chapter" id="ch7">
+            <div class="chapter-header reveal">
+                <div class="chapter-num">
+                    <span class="ch-word">CH</span>
+                    <span class="ch-digit">07</span>
+                </div>
+                <div class="chapter-title-block">
+                    <h2>Project Costing</h2>
+                    <p>Complete bill of materials with component costs</p>
+                </div>
+            </div>
+
+            <div class="doc-table-wrap reveal">
+                <table class="doc-table">
+                    <thead>
+                        <tr><th>Sr No</th><th>Component</th><th>Unit Price (₹)</th><th>Qty</th><th>Amount (₹)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>ESP32 Development Board</td><td>300</td><td>1</td><td>300</td></tr>
+                        <tr><td>2</td><td>4-Channel Relay Module</td><td>140</td><td>1</td><td>140</td></tr>
+                        <tr><td>3</td><td>Capacitor 1 µF (AC)</td><td>10</td><td>1</td><td>10</td></tr>
+                        <tr><td>4</td><td>Capacitor 2.2 µF (AC)</td><td>10</td><td>1</td><td>10</td></tr>
+                        <tr><td>5</td><td>Capacitor 3.3 µF (AC)</td><td>10</td><td>1</td><td>10</td></tr>
+                        <tr><td>6</td><td>Push Button Switch</td><td>10</td><td>2</td><td>20</td></tr>
+                        <tr><td>7</td><td>Jumper Wires</td><td>2</td><td>30</td><td>60</td></tr>
+                        <tr><td>8</td><td>PCB Board</td><td>30</td><td>1</td><td>30</td></tr>
+                        <tr><td>9</td><td>5V Power Supply Adapter</td><td>120</td><td>1</td><td>120</td></tr>
+                        <tr><td>10</td><td>Light Bulbs</td><td>20</td><td>2</td><td>40</td></tr>
+                        <tr><td>11</td><td>Resistor (220 Ω)</td><td>5</td><td>2</td><td>10</td></tr>
+                        <tr class="total-row"><td colspan="4">Total Cost</td><td>₹ 750</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-caption">Table 7.1 — Project Bill of Materials</p>
+        </div>
+
+        <div class="chapter-sep"></div>
+
+        <!-- ════════════ CHAPTER 8 ════════════ -->
+        <div class="chapter" id="ch8">
+            <div class="chapter-header reveal">
+                <div class="chapter-num">
+                    <span class="ch-word">CH</span>
+                    <span class="ch-digit">08</span>
+                </div>
+                <div class="chapter-title-block">
+                    <h2>References</h2>
+                    <p>Books, research papers, datasheets &amp; online resources</p>
+                </div>
+            </div>
+
+            <ul class="doc-list reveal">
+                <li>Espressif Systems — ESP32 Series Datasheet, 2023</li>
+                <li>Espressif Systems — ESP RainMaker User Guide, 2023</li>
+                <li>Arduino — Arduino IDE Documentation. arduino.cc</li>
+                <li>A. Bahga and V. Madisetti — Internet of Things: A Hands-On Approach, Universities Press, 2015</li>
+                <li>S. Monk — Programming Arduino: Getting Started with Sketches, McGraw-Hill, 2016</li>
+                <li>K. Ashton — "That Internet of Things Thing," RFID Journal, 2009</li>
+                <li>M. Schwartz — Internet of Things with ESP32, Packt Publishing, 2020</li>
+                <li>Google — Google Assistant Developer Documentation</li>
+                <li>Google — Google Home App Guide</li>
+                <li>B. Bray — "IoT and Smart Home Automation Systems," IEEE Consumer Electronics Magazine, 2019</li>
+                <li>Random Nerd Tutorials — ESP32 IoT Projects. randomnerdtutorials.com</li>
+                <li>Circuit Digest — Smart Home Automation using ESP32</li>
+                <li>A. Al-Fuqaha et al. — "Internet of Things: A Survey," IEEE Communications Surveys, 2015</li>
+                <li>J. Burkholder — "Home Automation Using IoT," IEEE Conference, 2018</li>
+                <li>A. Kumar et al. — "Smart Home Automation Using IoT," IJERT, 2019</li>
+            </ul>
+        </div>
+
+    </main>
+</div>
+
+<!-- VIDEO SECTION -->
+<section class="video-section" id="video">
+    <h2 class="video-section-title reveal">Project <span>Demo Video</span></h2>
+    <p class="video-section-desc reveal">
+        Watch the Smart Home Automation system in action — demonstrating ON/OFF control of the red light,
+        multi-level dimming of the yellow light, manual switch operation, and real-time mobile app
+        synchronization via ESP RainMaker.
+    </p>
+
+    <div class="video-frame-wrap reveal">
+        <!--
+            INSTRUCTIONS:
+            1. Save your project video in the same folder as this HTML file
+            2. Change "project_demo.mp4" below to your actual video filename
+            3. Supported formats: .mp4 (recommended), .webm, .ogg
+        -->
+        <video controls poster="">
+            <source src="project_demo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="video-caption">
+            <span class="video-caption-dot"></span>
+            Smart Home Automation — Live Demo &nbsp;·&nbsp; Tinkerers' Lab Summer Internship 2026 &nbsp;·&nbsp; Sai Salpure
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="doc-footer">
+    <p>Smart Home Automation Documentation &nbsp;·&nbsp; Tinkerers' Lab Summer Internship 2026</p>
+    <p style="margin-top:8px;">Developed by <a href="index.html">Sai Salpure</a> &nbsp;·&nbsp; B.Tech Artificial Intelligence &amp; Data Science</p>
+</footer>
+
+<script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(el => {
+            if (el.isIntersecting) {
+                el.target.classList.add('visible');
+                observer.unobserve(el.target);
+            }
+        });
+    }, { threshold: 0.08 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Active TOC highlight
+    const sections = document.querySelectorAll('[id]');
+    const tocLinks = document.querySelectorAll('.toc-list a');
+
+    const tocObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                tocLinks.forEach(link => link.classList.remove('active'));
+                const active = document.querySelector(`.toc-list a[href="#${entry.target.id}"]`);
+                if (active) active.classList.add('active');
+            }
+        });
+    }, { rootMargin:'-20% 0px -70% 0px' });
+    sections.forEach(s => tocObserver.observe(s));
+</script>
+
+</body>
+</html>

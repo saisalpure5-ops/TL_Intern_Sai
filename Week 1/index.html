@@ -1,0 +1,2386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Week 1 — Sanjivani Summer Internship 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════ */
+:root{
+  /* Blues */
+  --bg:        #050c1a;
+  --bg2:       #071020;
+  --surface:   #0a1628;
+  --surface2:  #0d1c32;
+  --surface3:  #10213a;
+  --border:    rgba(100,160,255,.1);
+  --border2:   rgba(100,160,255,.18);
+  --border3:   rgba(100,160,255,.28);
+
+  /* Accents */
+  --blue:      #3b82f6;
+  --blue2:     #60a5fa;
+  --blue3:     #93c5fd;
+  --cyan:      #22d3ee;
+  --glow:      rgba(59,130,246,.15);
+  --glow2:     rgba(59,130,246,.06);
+
+  /* Text */
+  --text:      #e2ecff;
+  --text2:     #a8c0e8;
+  --muted:     #5a7aaa;
+  --muted2:    #3d5880;
+
+  /* Status */
+  --green:     #34d399;
+  --gold:      #fbbf24;
+  --rose:      #f87171;
+
+  /* Fonts */
+  --ff-head:   'Syne', sans-serif;
+  --ff-body:   'Inter', sans-serif;
+  --ff-mono:   'JetBrains Mono', monospace;
+
+  /* Misc */
+  --radius:    10px;
+  --radius-lg: 16px;
+}
+
+/* ═══════════════════════════════════════
+   RESET
+═══════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--ff-body);
+  font-size:16px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+/* ═══════════════════════════════════════
+   HERO / HEADER
+═══════════════════════════════════════ */
+.hero{
+  position:relative;
+  padding:90px 32px 80px;
+  text-align:center;
+  overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+
+/* Grid */
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+
+/* Top glow */
+.hero::before{
+  content:'';
+  position:absolute;top:-120px;left:50%;transform:translateX(-50%);
+  width:700px;height:500px;
+  background:radial-gradient(ellipse,rgba(59,130,246,.18) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.hero-inner{position:relative;z-index:1;max-width:740px;margin:0 auto}
+
+/* Badge */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(59,130,246,.1);
+  border:1px solid rgba(59,130,246,.25);
+  border-radius:100px;
+  padding:7px 20px;
+  font-size:11.5px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;
+  color:var(--blue3);
+  margin-bottom:32px;
+  animation:fadeDown .7s cubic-bezier(.16,1,.3,1) both;
+}
+.live-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 8px var(--green);
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* Headline */
+.hero h1{
+  font-family:var(--ff-head);
+  font-size:clamp(2.2rem,5.5vw,3.8rem);
+  font-weight:800;
+  color:#fff;
+  line-height:1.1;
+  letter-spacing:-.025em;
+  margin-bottom:16px;
+  animation:fadeDown .7s .1s cubic-bezier(.16,1,.3,1) both;
+}
+.hero h1 span{
+  background:linear-gradient(90deg,var(--blue2),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.hero-sub{
+  font-size:16px;color:var(--text2);
+  font-weight:400;margin-bottom:48px;
+  animation:fadeDown .7s .18s cubic-bezier(.16,1,.3,1) both;
+}
+
+/* Meta strip */
+.hero-meta{
+  display:inline-flex;flex-wrap:wrap;justify-content:center;gap:0;
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  overflow:hidden;
+  animation:fadeDown .7s .28s cubic-bezier(.16,1,.3,1) both;
+}
+.hm-cell{
+  padding:13px 28px;
+  border-right:1px solid var(--border2);
+  text-align:center;
+}
+.hm-cell:last-child{border-right:none}
+.hm-label{
+  display:block;font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:3px;
+}
+.hm-val{
+  font-size:14px;font-weight:600;color:var(--text);
+}
+
+@keyframes fadeDown{
+  from{opacity:0;transform:translateY(-14px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════════════════════════
+   STICKY NAV
+═══════════════════════════════════════ */
+.day-nav{
+  position:sticky;top:0;z-index:500;
+  background:rgba(5,12,26,.94);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:stretch;
+  overflow-x:auto;scrollbar-width:none;
+  transition:box-shadow .3s;
+}
+.day-nav.shadow{box-shadow:0 6px 32px rgba(0,0,0,.5)}
+.day-nav::-webkit-scrollbar{display:none}
+
+.nav-brand{
+  flex-shrink:0;
+  display:flex;align-items:center;
+  padding:0 22px;
+  border-right:1px solid var(--border2);
+  font-family:var(--ff-head);
+  font-size:13px;font-weight:700;
+  color:var(--blue2);
+  white-space:nowrap;
+  letter-spacing:.02em;
+}
+
+.nav-tabs{display:flex;flex:1}
+
+.day-tab{
+  flex-shrink:0;
+  height:50px;padding:0 20px;
+  font-family:var(--ff-head);
+  font-size:12px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);
+  position:relative;
+  border-bottom:2px solid transparent;
+  transition:color .2s,background .2s;
+  white-space:nowrap;
+}
+.day-tab:hover{color:var(--text2);background:rgba(59,130,246,.05)}
+.day-tab.active{color:var(--blue2);border-bottom-color:var(--blue)}
+
+/* completed dot */
+.day-tab.done::after{
+  content:'';
+  position:absolute;top:12px;right:10px;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 6px var(--green);
+}
+
+.nav-counter{
+  flex-shrink:0;
+  display:flex;align-items:center;
+  padding:0 20px;margin-left:auto;
+  border-left:1px solid var(--border2);
+  font-family:var(--ff-mono);
+  font-size:11px;color:var(--muted);
+  white-space:nowrap;
+}
+
+/* ═══════════════════════════════════════
+   PAGE WRAPPER
+═══════════════════════════════════════ */
+.main{
+  max-width:860px;
+  margin:0 auto;
+  padding:72px 28px 120px;
+}
+
+/* ═══════════════════════════════════════
+   DAY PAGES
+═══════════════════════════════════════ */
+.day-page{display:none}
+.day-page.active{
+  display:block;
+  animation:pageIn .5s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════════════════════════
+   DAY HEADER
+═══════════════════════════════════════ */
+.day-header{
+  display:flex;align-items:flex-start;gap:24px;
+  padding:36px 40px;
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border2);
+  background:linear-gradient(135deg,var(--surface2),var(--surface));
+  margin-bottom:64px;
+  position:relative;
+  overflow:hidden;
+}
+.day-header::before{
+  content:'';
+  position:absolute;top:-60px;right:-60px;
+  width:220px;height:220px;
+  border-radius:50%;
+  background:radial-gradient(circle,var(--glow),transparent 70%);
+  pointer-events:none;
+}
+
+.dh-badge{
+  flex-shrink:0;
+  width:68px;height:68px;
+  border-radius:var(--radius);
+  background:var(--blue);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:1px;
+}
+.dh-badge .db-word{
+  font-size:8.5px;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+}
+.dh-badge .db-num{
+  font-family:var(--ff-head);
+  font-size:1.9rem;font-weight:800;
+  color:#fff;line-height:1;
+}
+
+.dh-text{}
+.dh-eyebrow{
+  font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;
+}
+.dh-title{
+  font-family:var(--ff-head);
+  font-size:clamp(1.4rem,3vw,2rem);
+  font-weight:800;color:#fff;
+  line-height:1.15;letter-spacing:-.02em;
+  margin-bottom:14px;
+}
+.dh-tags{display:flex;flex-wrap:wrap;gap:8px}
+.dh-tag{
+  font-size:11.5px;font-weight:500;
+  padding:4px 12px;
+  border:1px solid var(--border2);
+  border-radius:100px;
+  color:var(--text2);
+  background:rgba(59,130,246,.07);
+}
+
+/* ═══════════════════════════════════════
+   TOPIC HEADER (e.g. "Topic 1 — VS Code")
+═══════════════════════════════════════ */
+.topic-header{
+  display:flex;align-items:center;gap:0;
+  margin-bottom:40px;
+}
+.topic-num{
+  font-family:var(--ff-mono);
+  font-size:12px;font-weight:500;
+  color:var(--blue);
+  background:rgba(59,130,246,.1);
+  border:1px solid rgba(59,130,246,.2);
+  border-radius:6px;
+  padding:4px 10px;
+  flex-shrink:0;
+  margin-right:16px;
+}
+.topic-title{
+  font-family:var(--ff-head);
+  font-size:1.25rem;font-weight:700;
+  color:#fff;letter-spacing:-.01em;
+}
+.topic-line{
+  flex:1;height:1px;
+  background:linear-gradient(90deg,var(--border2),transparent);
+  margin-left:20px;
+}
+
+/* ═══════════════════════════════════════
+   STEP — the core repeating unit
+   Structure: step-label → para → img-block
+   Repeat for each of 7-8 steps per topic
+═══════════════════════════════════════ */
+.step{
+  margin-bottom:56px;
+  padding-left:28px;
+  border-left:1px solid var(--border2);
+  position:relative;
+}
+/* Step number bubble on the left */
+.step::before{
+  content:attr(data-step);
+  position:absolute;left:-14px;top:0;
+  width:27px;height:27px;
+  border-radius:50%;
+  background:var(--surface3);
+  border:1px solid var(--border3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-mono);
+  font-size:10.5px;font-weight:500;
+  color:var(--blue2);
+  line-height:1;
+  text-align:center;
+  /* inline-flex via JS not needed — we use pseudo content trick */
+}
+
+.step-label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--ff-head);
+  font-size:14px;font-weight:700;
+  color:var(--blue2);
+  letter-spacing:.02em;
+  margin-bottom:14px;
+}
+.step-label .sl-icon{font-size:15px}
+
+.step p{
+  font-size:15.5px;
+  color:var(--text2);
+  line-height:1.85;
+  margin-bottom:24px;
+  font-weight:400;
+}
+.step p strong{color:var(--text);font-weight:600}
+.step p em{color:var(--cyan);font-style:normal}
+.step p code{
+  font-family:var(--ff-mono);font-size:.82em;
+  color:var(--gold);
+  background:rgba(251,191,36,.07);
+  border:1px solid rgba(251,191,36,.15);
+  border-radius:4px;padding:1px 6px;
+}
+
+/* ═══════════════════════════════════════
+   IMAGE BLOCK
+═══════════════════════════════════════ */
+.img-block{margin-bottom:10px}
+
+.img-frame{
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  border:1px solid var(--border2);
+  background:var(--surface2);
+  box-shadow:0 4px 24px rgba(0,0,0,.35);
+  transition:transform .35s cubic-bezier(.16,1,.3,1),
+             box-shadow .35s cubic-bezier(.16,1,.3,1);
+}
+.img-frame:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 48px rgba(0,0,0,.5),0 0 0 1px rgba(59,130,246,.2);
+}
+
+/* browser chrome bar */
+.img-chrome{
+  display:flex;align-items:center;gap:7px;
+  padding:10px 14px;
+  background:var(--surface3);
+  border-bottom:1px solid var(--border);
+}
+.cd{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.cd-r{background:#ff5f57}.cd-y{background:#febc2e}.cd-g{background:#28c840}
+.chrome-addr{
+  flex:1;margin:0 8px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:5px;padding:3px 10px;
+  font-family:var(--ff-mono);font-size:10.5px;
+  color:var(--muted);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+
+.img-frame img{
+  width:100%;display:block;
+  min-height:160px;object-fit:cover;
+  background:var(--surface2);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.img-frame:hover img{transform:scale(1.012)}
+
+.img-caption{
+  display:flex;align-items:center;gap:10px;
+  margin-top:10px;margin-bottom:4px;
+  font-family:var(--ff-mono);
+  font-size:11.5px;color:var(--muted);
+}
+.cap-fig{
+  color:var(--gold);font-weight:500;flex-shrink:0;
+}
+
+/* ═══════════════════════════════════════
+   TOPIC SEPARATOR
+═══════════════════════════════════════ */
+.topic-sep{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border2),transparent);
+  margin:64px 0;
+}
+
+/* ═══════════════════════════════════════
+   CALLOUT
+═══════════════════════════════════════ */
+.callout{
+  display:flex;gap:14px;
+  border-radius:var(--radius);
+  padding:16px 20px;
+  margin:32px 0 56px;
+}
+.callout.info{
+  background:rgba(59,130,246,.07);
+  border:1px solid rgba(59,130,246,.2);
+}
+.callout.success{
+  background:rgba(52,211,153,.06);
+  border:1px solid rgba(52,211,153,.18);
+}
+.callout.warn{
+  background:rgba(251,191,36,.05);
+  border:1px solid rgba(251,191,36,.15);
+}
+.callout-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+.callout-body strong{
+  display:block;font-size:11.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text);margin-bottom:4px;
+}
+.callout-body p{font-size:13.5px;color:var(--text2);line-height:1.7}
+.callout-body p code{
+  font-family:var(--ff-mono);font-size:.85em;color:var(--gold);
+  background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.15);
+  border-radius:3px;padding:0 5px;
+}
+
+/* ═══════════════════════════════════════
+   COMING SOON
+═══════════════════════════════════════ */
+.coming-soon{
+  text-align:center;
+  padding:100px 32px;
+  border:1px dashed var(--border2);
+  border-radius:var(--radius-lg);
+  background:var(--surface);
+}
+.cs-icon{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--surface3);
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;margin:0 auto 20px;
+}
+.coming-soon h3{
+  font-family:var(--ff-head);
+  font-size:1.3rem;font-weight:700;
+  color:var(--muted);margin-bottom:8px;
+}
+.coming-soon p{font-size:13.5px;color:var(--muted2)}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+.site-footer{
+  border-top:1px solid var(--border);
+  padding:36px 32px;text-align:center;
+  font-size:13px;color:var(--muted);
+  line-height:2;
+}
+.site-footer strong{color:var(--text2)}
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
+.reveal{
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),
+             transform .6s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in{opacity:1;transform:none}
+.rv1{transition-delay:.07s}
+.rv2{transition-delay:.14s}
+.rv3{transition-delay:.21s}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:600px){
+  .hero{padding:64px 18px 56px}
+  .hero-meta{flex-direction:column;width:100%}
+  .hm-cell{border-right:none;border-bottom:1px solid var(--border2)}
+  .hm-cell:last-child{border-bottom:none}
+  .main{padding:48px 16px 80px}
+  .day-header{flex-direction:column;gap:16px;padding:24px 22px}
+  .nav-counter,.nav-brand{display:none}
+  .step{padding-left:20px}
+  .topic-title{font-size:1.05rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+
+    <div class="hero-badge">
+      <span class="live-dot"></span>
+      Sanjivani College of Engineering &nbsp;·&nbsp; Summer Internship 2026
+    </div>
+
+    <h1>Week 1 <span>Field Documentation</span></h1>
+
+    <p class="hero-sub">
+      A structured daily record of tools, steps &amp; learnings across seven internship sessions
+    </p>
+
+    <div class="hero-meta">
+      <div class="hm-cell">
+        <span class="hm-label">Intern</span>
+        <span class="hm-val">TL_Intern_Sai</span>
+      </div>
+      <div class="hm-cell">
+        <span class="hm-label">Duration</span>
+        <span class="hm-val">4 Weeks</span>
+      </div>
+      <div class="hm-cell">
+        <span class="hm-label">Focus</span>
+        <span class="hm-val">Web Dev &amp; DevOps</span>
+      </div>
+      <div class="hm-cell">
+        <span class="hm-label">Status</span>
+        <span class="hm-val" style="color:var(--green)">● Active</span>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════
+     STICKY NAV
+═══════════════════════════════════════ -->
+<nav class="day-nav" id="dayNav">
+  <div class="nav-brand">Week 1</div>
+  <div class="nav-tabs">
+    <button class="day-tab done active" onclick="showDay('day1',this)">Day 1</button>
+    <button class="day-tab"            onclick="showDay('day2',this)">Day 2</button>
+    <button class="day-tab"            onclick="showDay('day3',this)">Day 3</button>
+    <button class="day-tab"            onclick="showDay('day4',this)">Day 4</button>
+    <button class="day-tab"            onclick="showDay('day5',this)">Day 5</button>
+    <button class="day-tab"            onclick="showDay('day6',this)">Day 6</button>
+    <button class="day-tab"            onclick="showDay('day7',this)">Day 7</button>
+  </div>
+  <div class="nav-counter" id="navCounter">01 / 07</div>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     MAIN
+═══════════════════════════════════════ -->
+<main class="main">
+
+<!--
+╔══════════════════════════════════════════════════════════╗
+║  HOW TO ADD A NEW DAY (e.g. Day 2)                       ║
+║                                                          ║
+║  1. Find the Day 2 block below (id="day2")               ║
+║  2. Delete the <div class="coming-soon">…</div> block    ║
+║  3. Copy the ENTIRE Day 1 topic sections as a template   ║
+║  4. Change: dh-badge number, dh-title, dh-eyebrow, tags ║
+║  5. Each TOPIC: update topic-num, topic-title            ║
+║  6. Each STEP: update data-step, step-label, <p>, img src║
+║  7. Add class="done" to that day's nav button            ║
+╚══════════════════════════════════════════════════════════╝
+-->
+
+<!-- ════════════════════════════════════════
+     DAY 1 ✅ COMPLETE
+════════════════════════════════════════ -->
+<div class="day-page active" id="day1">
+
+  <!-- Day Header -->
+  <div class="day-header reveal">
+    <div class="dh-badge">
+      <span class="db-word">Day</span>
+      <span class="db-num">01</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Monday &nbsp;·&nbsp; Day 1 of 7</div>
+      <div class="dh-title">Environment Setup —<br/>VS Code &amp; GitHub</div>
+      <div class="dh-tags">
+        <span class="dh-tag">Tools Installation</span>
+        <span class="dh-tag">VS Code</span>
+        <span class="dh-tag">GitHub</span>
+        <span class="dh-tag">Version Control</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       TOPIC 1 — VS CODE INSTALLATION
+  ───────────────────────────────────── -->
+  <div class="topic-header reveal">
+    <span class="topic-num">Topic 01</span>
+    <span class="topic-title">Visual Studio Code — Installation &amp; Setup</span>
+    <div class="topic-line"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step reveal" data-step="1">
+    <div class="step-label"><span class="sl-icon">🌐</span> Visit the Official Website</div>
+    <p>
+      Open your browser and navigate to <code>code.visualstudio.com</code>. This is the
+      official Microsoft website for VS Code. Avoid downloading from third-party sources
+      to ensure you get a <strong>clean, verified installer</strong> without any bundled software.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">code.visualstudio.com/download</span>
+        </div>
+        <img src="step1_vscode_setup.webp" alt="VS Code official download page"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.1</span> VS Code official download page on Microsoft's website
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step reveal" data-step="2">
+    <div class="step-label"><span class="sl-icon">📋</span> Accept the Licence Agreement</div>
+    <p>
+       Run the downloaded installer. The first screen shows the <strong>End User Licence Agreement</strong>.
+      Read through it, select <em>I accept the agreement</em>, and click <strong>Next</strong>
+      to proceed to the installation path selection screen.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">code.visualstudio.com — Download button</span>
+        </div>
+        <img src="step2_vscode_setup.webp" alt="Clicking the download button"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.2</span> Accepting the VS Code licence agreement
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step reveal" data-step="3">
+    <div class="step-label"><span class="sl-icon">📁</span> Review Additional Tasks And click install</div>
+    <p>
+  On the <strong>Select Additional Tasks</strong> screen, you will see several optional checkboxes.
+  Make sure to tick <strong>"Add to PATH"</strong> and <strong>"Open with Code"</strong> context-menu
+  options, as these are essential for a smooth workflow. Once reviewed, click <strong>Install</strong>
+  to begin the installation process.
+</p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code Setup — Licence Agreement</span>
+        </div>
+        <img src="step3_vscode_setup.webp" alt="Licence agreement screen"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.3</span> Accepting the VS Code licence agreement
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step reveal" data-step="4">
+    <div class="step-label"><span class="sl-icon">📁</span> Wait for Installation to Complete</div>
+   <p>
+  After clicking <strong>Install</strong>, the setup wizard will begin copying files and
+  configuring VS Code on your system. A <strong>progress bar</strong> will appear on screen —
+  this process typically takes <em>30 to 60 seconds</em> depending on your system speed.
+  Do not close the installer window; wait patiently until the progress bar completes and
+  the <strong>Finish</strong> screen appears.
+</p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code Setup — Select Destination</span>
+        </div>
+        <img src="step4_vscode_setup.webp" alt="Installation path selection"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.4</span>wait for the installation progress bar to complete
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step reveal" data-step="5">
+    <div class="step-label"><span class="sl-icon">✅</span> Verify Installation</div>
+    <p>
+  Once the installation finishes, VS Code launches automatically and opens the
+  <strong>Welcome</strong> screen for the first time. This screen gives quick access to
+  recent files, helpful shortcuts, and beginner walkthroughs — take a moment to
+  <em>explore the interface</em>, including the <strong>Activity Bar</strong> on the left,
+  the <strong>Editor Area</strong> in the centre, and the <strong>Status Bar</strong> at
+  the bottom. VS Code is now fully installed and <strong>ready to use</strong>.
+</p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code — Integrated Terminal</span>
+        </div>
+        <img src="step5_vscode_setup.webp" alt="Verifying VS Code installation in terminal"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.5</span> vs code is ready to explore and use after installation completes
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info reveal">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <strong>Quick Tip</strong>
+      <p>Press <code>Ctrl + `</code> to open the integrated terminal at any time. It automatically opens in the folder of your currently open project — no need to navigate separately.</p>
+    </div>
+  </div>
+
+  
+  <!-- TOPIC SEPARATOR -->
+  <div class="topic-sep"></div>
+
+  <!-- ─────────────────────────────────────
+       TOPIC 2 — GITHUB SETUP
+  ───────────────────────────────────── -->
+  <div class="topic-header reveal">
+    <span class="topic-num">Topic 02</span>
+    <span class="topic-title">GitHub — Account &amp; Repository Setup</span>
+    <div class="topic-line"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step reveal" data-step="1">
+    <div class="step-label"><span class="sl-icon">🌐</span> Open GitHub Website</div>
+    <p>
+      Open your browser and go to <code>github.com</code>. GitHub is a cloud-based
+      version control platform built on Git — the world's most widely used distributed
+      version control system. Click <strong>Download for windows</strong> 
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com</span>
+        </div>
+        <img src="github_setup1.jpeg" alt="GitHub homepage"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.1</span> GitHub homepage — clicking downloads button tor for Windows
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step reveal" data-step="2">
+    <div class="step-label"><span class="sl-icon">📝</span> Sign in to GitHub</div>
+    <p>
+  Open <strong>GitHub Desktop</strong> and you will be greeted with the welcome screen.
+  Click the <strong>"Sign in to GitHub.com"</strong> button to begin the authentication
+  process. This will open your default browser and redirect you to the official
+  <em>GitHub login page</em>, where you can enter your credentials and authorise
+  GitHub Desktop to access your account securely.
+</p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com/signup</span>
+        </div>
+        <img src="github_step2.jpeg" alt="GitHub signup form"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.2</span> sign in screen for GitHub account creation
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step reveal" data-step="3">
+    <div class="step-label"><span class="sl-icon">📧</span> Verify Email Address</div>
+    <p>
+      Enter your Email id and <strong>enter the password</strong> of your registered email.
+      Email verification is mandatory before you can create repositories.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com — Email Verification</span>
+        </div>
+        <img src="github_step3.jpeg" alt="GitHub email verification"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.3</span> Enter email id and password for GitHub account verification
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step reveal" data-step="4">
+    <div class="step-label"><span class="sl-icon">👤</span> Complete Profile Setup</div>
+    <p>
+  After signing in, GitHub Desktop will ask you to <strong>configure Git</strong> with
+  your identity. Enter your <strong>full name</strong> and the <strong>email address</strong>
+  associated with your GitHub account in the provided fields. This information is attached
+  to every commit you make, so it is important to enter it correctly. Once filled in,
+  click <strong>Finish</strong> to complete the setup and open the GitHub Desktop dashboard.
+</p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com/settings/profile</span>
+        </div>
+        <img src="github_step4.jpeg" alt="GitHub profile settings"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.4</span> git configuration screen in GitHub Desktop 
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step reveal" data-step="5">
+    <div class="step-label"><span class="sl-icon">➕</span> GitHub Desktop Dashboard</div>
+    <p>
+  You are now fully signed in and the <strong>GitHub Desktop dashboard</strong> is displayed
+  on your screen. This is your central hub for managing repositories — from here you can
+  <em>clone existing repositories</em>, <strong>create new ones</strong>, and track all
+  your local changes. The setup is complete and GitHub Desktop is <strong>ready to use</strong>
+  for the rest of the internship workflow.
+</p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com/new</span>
+        </div>
+        <img src="github_step5.jpeg" alt="New repository creation form"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.5</span> GitHub Desktop dashboard after successful login and setup
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step reveal" data-step="6">
+    <div class="step-label"><span class="sl-icon">📄</span> Create New Repository</div>
+    <p>
+  To create a new repository, click on <strong>"Create a New Repository on your hard drive"</strong>
+  from the GitHub Desktop dashboard. A dialog box will appear asking you to fill in the
+  <strong>repository name</strong>, an optional <em>description</em>, and the
+  <strong>local path</strong> where the repository folder will be saved on your computer.
+  Once all details are filled in, click <strong>"Create Repository"</strong> to initialise
+  it locally.
+</p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com/new — new repository</span>
+        </div>
+        <img src="github_step6.jpeg" alt="Selecting licence and gitignore"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.6</span> Creating a new repository in GitHub Desktop
+    </div></div></div>
+
+  <!-- STEP 7 -->
+  <div class="step reveal" data-step="7">
+    <div class="step-label"><span class="sl-icon">🔗</span> Clone Repository Locally</div>
+    <p>
+      Click the green <strong>Code</strong> button on your new repository page and copy the HTTPS URL.
+      Open VS Code's integrated terminal and run <code>git clone &lt;URL&gt;</code> to download
+      the repository to your local machine. This links your local folder to GitHub.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com/username/sanjivani-internship-2026</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T2_S7.jpg" alt="Cloning repository via HTTPS"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.7</span> Copying HTTPS URL to clone the repository locally
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 8 -->
+  <div class="step reveal" data-step="8">
+    <div class="step-label"><span class="sl-icon">✅</span> Make First Commit</div>
+    <p>
+      Open the cloned folder in VS Code. Edit <code>README.md</code> to add your name and internship details.
+      In the terminal run <code>git add .</code> then <code>git commit -m "Initial commit"</code>
+      then <code>git push</code>. Refresh GitHub — your changes are now live on the remote repository.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code — Terminal (git push)</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T2_S8.jpg" alt="First git commit and push"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.8</span> First commit pushed successfully — repository live on GitHub
+      </div>
+    </div>
+  </div>
+
+  <div class="callout success reveal">
+    <span class="callout-icon">✅</span>
+    <div class="callout-body">
+      <strong>Day 1 Complete</strong>
+      <p>VS Code is installed and configured. GitHub account is set up, repository created, and first commit pushed. The development environment is fully operational for the rest of the internship.</p>
+    </div>
+  </div>
+
+</div><!-- /day1 -->
+
+
+<!-- ════════════════════════════════════════
+     DAY 2 — Paste content here when ready
+════════════════════════════════════════ -->
+<div class="day-page" id="day2">
+
+  <!-- Day Header -->
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#1d4ed8">
+      <span class="db-word">Day</span>
+      <span class="db-num">02</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Tuesday &nbsp;·&nbsp; Day 2 of 7</div>
+      <div class="dh-title">Software Installation —<br/>OBS, GIMP, SOLIDWORKS &amp; Inkscape</div>
+      <div class="dh-tags">
+        <span class="dh-tag">OBS Studio</span>
+        <span class="dh-tag">GIMP</span>
+        <span class="dh-tag">SOLIDWORKS</span>
+        <span class="dh-tag">Inkscape</span>
+        <span class="dh-tag">Software Setup</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       TOPIC 1 — OBS STUDIO
+  ───────────────────────────────────── -->
+  <div class="topic-header reveal">
+    <span class="topic-num">Topic 01</span>
+    <span class="topic-title">OBS Studio — Installation</span>
+    <div class="topic-line"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step reveal" data-step="1">
+    <div class="step-label"><span class="sl-icon">🌐</span> Visit the Official OBS Website</div>
+    <p>
+      Open your browser and navigate to <code>obsproject.com</code>. OBS Studio (Open Broadcaster Software)
+      is a <strong>free and open-source</strong> application for video recording and live streaming.
+      It is widely used by professionals for screen recording, tutorials, and broadcasting.
+      Click <strong>Download</strong> on the homepage.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">obsproject.com</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_OBS1.png" alt="OBS Studio official website"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.1.1</span> OBS Studio official website — clicking Download</div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step reveal" data-step="2">
+    <div class="step-label"><span class="sl-icon">⬇️</span> Download the Installer</div>
+    <p>
+      The website auto-detects your operating system. Click the <strong>Windows</strong> installer button
+      to download the <code>.exe</code> setup file. The file is approximately 100 MB.
+      Save it to your Downloads folder and wait for the download to complete before proceeding.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">obsproject.com/download</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_OBS2.png" alt="Downloading OBS Studio installer"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.1.2</span> Downloading the OBS Studio Windows installer</div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step reveal" data-step="3">
+    <div class="step-label"><span class="sl-icon">⚙️</span> Run the Installer &amp; Accept Defaults</div>
+    <p>
+      Run the downloaded <code>.exe</code> file. The setup wizard opens — click <strong>Next</strong>
+      through each screen keeping all default settings. OBS installs to
+      <code>C:\Program Files\obs-studio\</code> by default. The installer also sets up required
+      Visual C++ runtime components automatically.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">OBS Studio — Setup Wizard</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_OBS3.png" alt="OBS Studio setup wizard"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.1.3</span> OBS Studio setup wizard — accepting default options</div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step reveal" data-step="4">
+    <div class="step-label"><span class="sl-icon">✅</span> Launch &amp; Verify OBS Studio</div>
+    <p>
+      After installation, launch OBS Studio from the desktop shortcut or Start Menu.
+      The <strong>Auto-Configuration Wizard</strong> appears on first launch — complete it by
+      selecting <em>Optimise for recording</em>. The main OBS interface loads confirming
+      a successful installation with all panels visible.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">OBS Studio — Main Interface</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_OBS4.png" alt="OBS Studio main interface after installation"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.1.4</span> OBS Studio main interface after successful installation</div>
+    </div>
+  </div>
+
+  <div class="callout info reveal">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <strong>What is OBS Used For?</strong>
+      <p>OBS Studio is used for screen recording project demos, capturing terminal sessions, and recording tutorial walkthroughs — all of which are useful for internship documentation and presentations.</p>
+    </div>
+  </div>
+
+  <div class="topic-sep"></div>
+
+  <!-- ─────────────────────────────────────
+       TOPIC 2 — GIMP
+  ───────────────────────────────────── -->
+  <div class="topic-header reveal">
+    <span class="topic-num">Topic 02</span>
+    <span class="topic-title">GIMP — Installation</span>
+    <div class="topic-line"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step reveal" data-step="1">
+    <div class="step-label"><span class="sl-icon">🌐</span> Visit the Official GIMP Website</div>
+    <p>
+      Navigate to <code>gimp.org</code> in your browser. GIMP (GNU Image Manipulation Program)
+      is a <strong>free, open-source image editor</strong> comparable to Adobe Photoshop.
+      It supports photo retouching, image composition, and graphic design tasks.
+      Click <strong>Download GIMP</strong> on the homepage.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">gimp.org</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_GIMP1.png" alt="GIMP official website"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.2.1</span> GIMP official website at gimp.org</div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step reveal" data-step="2">
+    <div class="step-label"><span class="sl-icon">⬇️</span> Download the Windows Installer</div>
+    <p>
+      On the download page, click the <strong>Download GIMP x.x.x</strong> button for Windows.
+      The installer is an <code>.exe</code> file around 250 MB. The download page also offers
+      a portable version — for this internship we used the standard installer for full
+      system integration.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">gimp.org/downloads</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_GIMP2.png" alt="GIMP download page"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.2.2</span> GIMP download page — selecting the Windows installer</div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step reveal" data-step="3">
+    <div class="step-label"><span class="sl-icon">🔤</span> Select Language</div>
+    <p>
+      Run the installer. The first prompt asks you to select an <strong>installation language</strong>.
+      Select <em>English</em> and click <strong>OK</strong>. The language choice affects only
+      the installer UI — GIMP itself can be switched to any language from within the application
+      after installation.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">GIMP Setup — Language Selection</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_GIMP3.png" alt="GIMP language selection"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.2.3</span> Selecting English as the installer language</div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step reveal" data-step="4">
+    <div class="step-label"><span class="sl-icon">⚙️</span> Choose Installation Type</div>
+    <p>
+      The installer offers <strong>Express Install</strong> (recommended) or Custom Install.
+      Select <em>Express Install</em> to use all defaults — GIMP installs to
+      <code>C:\Program Files\GIMP 2\</code> with all standard components included.
+      Click <strong>Install</strong> to begin.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">GIMP Setup — Installation Type</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_GIMP4.png" alt="GIMP installation type selection"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.2.4</span> Selecting Express Install for default GIMP setup</div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step reveal" data-step="5">
+    <div class="step-label"><span class="sl-icon">⏳</span> Installation Progress</div>
+    <p>
+      The installer copies all files and configures GIMP on the system. The progress bar
+      typically takes <strong>2–5 minutes</strong> depending on disk speed.
+      Do not close the installer during this phase — interrupting mid-install can corrupt
+      the installation and require a full reinstall.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">GIMP Setup — Installing Files</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_GIMP5.png" alt="GIMP installation progress bar"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.2.5</span> GIMP installation progress — copying files to system</div>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step reveal" data-step="6">
+    <div class="step-label"><span class="sl-icon">✅</span> Launch &amp; Verify GIMP</div>
+    <p>
+      Click <strong>Finish</strong> when the installer completes. Launch GIMP from the desktop shortcut.
+      On first launch GIMP initialises its plugins and brushes — this takes about 30 seconds.
+      The full GIMP workspace confirms a successful installation with toolbox, canvas, and panels loaded.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">GIMP — Main Workspace</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_GIMP6.png" alt="GIMP main workspace after installation"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.2.6</span> GIMP workspace loaded successfully after installation</div>
+    </div>
+  </div>
+
+  <div class="callout info reveal">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <strong>What is GIMP Used For?</strong>
+      <p>GIMP is used for editing screenshots, creating banners, designing UI mockups, and processing images for documentation and presentations throughout the internship.</p>
+    </div>
+  </div>
+
+  <div class="topic-sep"></div>
+
+  <!-- ─────────────────────────────────────
+       TOPIC 3 — SOLIDWORKS
+  ───────────────────────────────────── -->
+  <div class="topic-header reveal">
+    <span class="topic-num">Topic 03</span>
+    <span class="topic-title">SOLIDWORKS Student Edition — Installation</span>
+    <div class="topic-line"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step reveal" data-step="1">
+    <div class="step-label"><span class="sl-icon">🌐</span> Access Student Portal</div>
+    <p>
+      SOLIDWORKS Student Edition is available through the <strong>official SOLIDWORKS Education portal</strong>
+      at <code>solidworks.com/sw/education/student-software-3d-mcad.htm</code>.
+      Log in or register using your <em>college email ID</em> to access the student licence.
+      Student licences are provided free of cost through verified institutions.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">solidworks.com — Student Portal</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS1.png" alt="SOLIDWORKS student portal"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.1</span> SOLIDWORKS Education portal — accessing student software</div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step reveal" data-step="2">
+    <div class="step-label"><span class="sl-icon">📧</span> Verify with College Email</div>
+    <p>
+      Enter your <strong>college email address</strong> to verify student status. SOLIDWORKS sends a
+      verification link to confirm institutional affiliation. Click the link in the email to
+      activate your student account and gain access to the download portal.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Email Verification</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS2.png" alt="SOLIDWORKS email verification"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.2</span> Verifying college email for student licence access</div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step reveal" data-step="3">
+    <div class="step-label"><span class="sl-icon">🔑</span> Obtain Serial Number</div>
+    <p>
+      After verification, the portal displays your <strong>SOLIDWORKS serial number</strong>.
+      Copy and save this number carefully — it is required during the installation process
+      to activate the software. The serial number is tied to your student account and
+      cannot be transferred.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Serial Number Page</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS3.png" alt="SOLIDWORKS serial number"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.3</span> Student serial number displayed after email verification</div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step reveal" data-step="4">
+    <div class="step-label"><span class="sl-icon">⬇️</span> Download the Installation Manager</div>
+    <p>
+      Download the <strong>SOLIDWORKS Installation Manager</strong> (<code>SolidWorksSetup.exe</code>).
+      This is a small bootstrapper file that manages the full download and installation process.
+      The total SOLIDWORKS download is several GB — ensure you have a stable internet connection
+      and sufficient disk space (minimum 20 GB free).
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Download Installation Manager</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS4.png" alt="Downloading SOLIDWORKS Installation Manager"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.4</span> Downloading the SOLIDWORKS Installation Manager</div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step reveal" data-step="5">
+    <div class="step-label"><span class="sl-icon">▶️</span> Run Installation Manager</div>
+    <p>
+      Run <code>SolidWorksSetup.exe</code>. The Installation Manager launches and prompts you
+      to select an installation type. Choose <strong>Install on this computer</strong> for a
+      standard local installation. Click <strong>Next</strong> to proceed to the serial number entry.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS Installation Manager</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS5.png" alt="SOLIDWORKS Installation Manager screen"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.5</span> SOLIDWORKS Installation Manager — selecting install type</div>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step reveal" data-step="6">
+    <div class="step-label"><span class="sl-icon">🔢</span> Enter Serial Number</div>
+    <p>
+      Paste the <strong>serial number</strong> obtained from the student portal into the
+      Serial Number field. The Installation Manager validates the serial online.
+      A green checkmark confirms the serial is valid and the student edition is unlocked.
+      Click <strong>Next</strong>.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Serial Number Entry</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS6.png" alt="Entering SOLIDWORKS serial number"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.6</span> Entering and validating the student serial number</div>
+    </div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="step reveal" data-step="7">
+    <div class="step-label"><span class="sl-icon">📦</span> Select Components to Install</div>
+    <p>
+      The manager lists all available SOLIDWORKS components. For student use, select
+      <strong>SOLIDWORKS</strong> (core CAD), <strong>SOLIDWORKS Simulation</strong>,
+      and <strong>SOLIDWORKS Visualize</strong>. Uncheck components not required to
+      save disk space. Click <strong>Download and Install</strong>.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Component Selection</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS7.png" alt="SOLIDWORKS component selection"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.7</span> Selecting SOLIDWORKS components to install</div>
+    </div>
+  </div>
+
+  <!-- STEP 8 -->
+  <div class="step reveal" data-step="8">
+    <div class="step-label"><span class="sl-icon">⏳</span> Download &amp; Installation Progress</div>
+    <p>
+      SOLIDWORKS downloads and installs all selected components. This process takes
+      <strong>30–90 minutes</strong> depending on internet speed and system performance.
+      The Installation Manager shows individual progress for each component being downloaded
+      and installed. Do not interrupt this process.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Download Progress</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS8.png" alt="SOLIDWORKS download and install progress"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.8</span> SOLIDWORKS downloading and installing selected components</div>
+    </div>
+  </div>
+
+  <!-- STEP 9 -->
+  <div class="step reveal" data-step="9">
+    <div class="step-label"><span class="sl-icon">🔄</span> System Restart</div>
+    <p>
+      Once installation completes, the manager prompts a <strong>system restart</strong>
+      to finalise driver and registry configurations. Save all open work and click
+      <strong>Restart Now</strong>. The restart takes 1–2 minutes and is required before
+      SOLIDWORKS can launch correctly.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Restart Required</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS9.png" alt="SOLIDWORKS restart prompt"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.9</span> System restart prompt after SOLIDWORKS installation</div>
+    </div>
+  </div>
+
+  <!-- STEP 10 -->
+  <div class="step reveal" data-step="10">
+    <div class="step-label"><span class="sl-icon">🪪</span> Activate the Licence</div>
+    <p>
+      After restart, open SOLIDWORKS. The <strong>Product Activation Wizard</strong> launches.
+      Select <em>Automatically over the Internet</em> and click <strong>Next</strong>.
+      SOLIDWORKS connects to Dassault Systèmes servers and activates the student licence
+      using the serial number entered during installation.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Product Activation</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS10.png" alt="SOLIDWORKS licence activation"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.10</span> Activating SOLIDWORKS student licence over the internet</div>
+    </div>
+  </div>
+
+  <!-- STEP 11 -->
+  <div class="step reveal" data-step="11">
+    <div class="step-label"><span class="sl-icon">✅</span> Activation Confirmed</div>
+    <p>
+      A confirmation screen shows <strong>"Activation Successful"</strong> along with the
+      licence type (Student Edition) and expiry date. Click <strong>Finish</strong>.
+      SOLIDWORKS is now fully activated and ready for 3D CAD modelling work.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Activation Successful</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS11.png" alt="SOLIDWORKS activation success screen"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.11</span> SOLIDWORKS student licence activated successfully</div>
+    </div>
+  </div>
+
+  <!-- STEP 12 -->
+  <div class="step reveal" data-step="12">
+    <div class="step-label"><span class="sl-icon">🖥️</span> Explore the Interface</div>
+    <p>
+      SOLIDWORKS opens to its main interface showing the <strong>Welcome dialog</strong> with
+      options to create a New Part, Assembly, or Drawing. We explored the Command Manager,
+      FeatureManager Design Tree, and graphics viewport to understand the workspace layout
+      before beginning any modelling work.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Welcome Screen</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS12.png" alt="SOLIDWORKS welcome screen and interface"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.12</span> SOLIDWORKS main interface after successful activation</div>
+    </div>
+  </div>
+
+  <!-- STEP 13 -->
+  <div class="step reveal" data-step="13">
+    <div class="step-label"><span class="sl-icon">📐</span> Create a Test Part</div>
+    <p>
+      To verify the full installation, we created a simple <strong>test part</strong> — a basic
+      rectangular block using the Sketch and Extrude Boss/Base feature. This confirms that
+      the 3D modelling engine, graphics renderer, and all core tools are functioning
+      correctly on the system.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Part Modelling</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS13.png" alt="Test part created in SOLIDWORKS"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.13</span> Test part created in SOLIDWORKS to verify installation</div>
+    </div>
+  </div>
+
+  <!-- STEP 14 -->
+  <div class="step reveal" data-step="14">
+    <div class="step-label"><span class="sl-icon">💾</span> Save &amp; Close</div>
+    <p>
+      Save the test part as <code>test_block.SLDPRT</code> using <strong>File → Save As</strong>.
+      SOLIDWORKS saves the file in its native format. Close the file and exit SOLIDWORKS.
+      The software is fully installed, activated, and verified — ready for engineering
+      design work during the internship.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">SOLIDWORKS — Save As Dialog</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_SOLIDWORKS14.png" alt="Saving test part in SOLIDWORKS"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.3.14</span> Saving the test part to verify file operations work correctly</div>
+    </div>
+  </div>
+
+  <div class="callout info reveal">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <strong>What is SOLIDWORKS Used For?</strong>
+      <p>SOLIDWORKS is professional 3D CAD software used for mechanical design, product prototyping, engineering simulation, and technical drawing generation — core skills in hardware-related engineering projects.</p>
+    </div>
+  </div>
+
+  <div class="topic-sep"></div>
+
+  <!-- ─────────────────────────────────────
+       TOPIC 4 — INKSCAPE
+  ───────────────────────────────────── -->
+  <div class="topic-header reveal">
+    <span class="topic-num">Topic 04</span>
+    <span class="topic-title">Inkscape — Installation</span>
+    <div class="topic-line"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step reveal" data-step="1">
+    <div class="step-label"><span class="sl-icon">🌐</span> Visit the Official Inkscape Website</div>
+    <p>
+      Open your browser and go to <code>inkscape.org</code>. Inkscape is a
+      <strong>free, open-source vector graphics editor</strong> — the open-source alternative
+      to Adobe Illustrator. It works with SVG (Scalable Vector Graphics) files and is used
+      for logo design, diagrams, illustrations, and UI assets.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">inkscape.org</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_INKSCAPE1.png" alt="Inkscape official website"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.4.1</span> Inkscape official website at inkscape.org</div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step reveal" data-step="2">
+    <div class="step-label"><span class="sl-icon">⬇️</span> Download the Windows Installer</div>
+    <p>
+      Click <strong>Download</strong> in the top navigation. On the downloads page, select the
+      <strong>Windows 64-bit installer</strong> (<code>.exe</code>). The file is approximately
+      100 MB. Choose the stable release version rather than the development build for a
+      reliable working environment.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">inkscape.org/release</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_INKSCAPE2.png" alt="Inkscape download page"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.4.2</span> Inkscape download page — selecting Windows 64-bit installer</div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step reveal" data-step="3">
+    <div class="step-label"><span class="sl-icon">⚙️</span> Run Installer &amp; Accept Licence</div>
+    <p>
+      Run the downloaded <code>.exe</code> installer. A <strong>User Account Control</strong> prompt
+      may appear — click <em>Yes</em> to allow the installation. The setup wizard opens.
+      Accept the <strong>GNU General Public Licence</strong> agreement and click
+      <strong>Next</strong> to proceed.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Inkscape Setup — Licence Agreement</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_INKSCAPE3.png" alt="Inkscape licence agreement"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.4.3</span> Accepting the GNU General Public Licence during Inkscape setup</div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step reveal" data-step="4">
+    <div class="step-label"><span class="sl-icon">📁</span> Choose Components &amp; Install Path</div>
+    <p>
+      Keep the default <strong>installation path</strong> and ensure all components are selected,
+      including <em>Inkscape</em> (core), <em>Desktop shortcut</em>, and
+      <em>SVG file association</em> (so <code>.svg</code> files open in Inkscape by default
+      on double-click). Click <strong>Install</strong>.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Inkscape Setup — Components</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_INKSCAPE4.png" alt="Inkscape component selection"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.4.4</span> Selecting components including SVG file association</div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step reveal" data-step="5">
+    <div class="step-label"><span class="sl-icon">⏳</span> Installation Progress</div>
+    <p>
+      The installer copies all Inkscape files to the system. This takes approximately
+      <strong>1–3 minutes</strong>. Inkscape installs cleanly with no additional runtimes required
+      on modern Windows systems. The progress bar advances through file extraction and
+      shortcut creation stages.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Inkscape Setup — Installing</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_INKSCAPE5.png" alt="Inkscape installation progress"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.4.5</span> Inkscape installation progress — files being copied to system</div>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step reveal" data-step="6">
+    <div class="step-label"><span class="sl-icon">✅</span> Launch &amp; Verify Inkscape</div>
+    <p>
+      Click <strong>Finish</strong> to complete the installation. Launch Inkscape from the
+      desktop shortcut. The Inkscape workspace opens with a blank SVG canvas, toolbox on the left,
+      and XML editor accessible from the menu. The successful launch confirms Inkscape is
+      fully installed and operational.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Inkscape — Main Interface</span>
+        </div>
+        <img src="DAY2 IMAGES/DAY2_INKSCAPE6.png" alt="Inkscape main interface after installation"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 2.4.6</span> Inkscape workspace loaded successfully after installation</div>
+    </div>
+  </div>
+
+  <div class="callout success reveal">
+    <span class="callout-icon">✅</span>
+    <div class="callout-body">
+      <strong>Day 2 Complete</strong>
+      <p>All four applications — OBS Studio, GIMP, SOLIDWORKS Student Edition, and Inkscape — are installed and verified. The workstation is now equipped with professional-grade tools for recording, image editing, 3D CAD, and vector graphics work throughout the internship.</p>
+    </div>
+  </div>
+
+</div><!-- /day2 -->
+<!-- DAY 3 -->
+<div class="day-page" id="day3">
+ 
+  <!-- Day Header -->
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#1e40af">
+      <span class="db-word">Day</span>
+      <span class="db-num">03</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Wednesday &nbsp;·&nbsp; Day 3 of 7</div>
+      <div class="dh-title">Autodesk Fusion —<br/>Installation &amp; Toy Block Modelling</div>
+      <div class="dh-tags">
+        <span class="dh-tag">Autodesk Fusion</span>
+        <span class="dh-tag">3D Modelling</span>
+        <span class="dh-tag">CAD</span>
+        <span class="dh-tag">Toy Block Design</span>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ─────────────────────────────────────
+       TOPIC 1 — AUTODESK FUSION INSTALLATION
+  ───────────────────────────────────── -->
+  <div class="topic-header reveal">
+    <span class="topic-num">Topic 01</span>
+    <span class="topic-title">Autodesk Fusion — Installation &amp; Account Setup</span>
+    <div class="topic-line"></div>
+  </div>
+ 
+  <!-- STEP 1 -->
+  <div class="step reveal" data-step="1">
+    <div class="step-label"><span class="sl-icon">🌐</span> Visit the Autodesk Website</div>
+    <p>
+      Open your browser and navigate to <code>autodesk.com/products/fusion-360</code>.
+      Autodesk Fusion is a <strong>cloud-based 3D CAD, CAM, and CAE platform</strong>
+      used by engineers, product designers, and makers worldwide. It is available
+      free for students and educators through the Autodesk Education Plan.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">autodesk.com/products/fusion-360</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step01.jpg" alt="Autodesk Fusion official page"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.1.1</span> Autodesk Fusion official product page</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 2 -->
+  <div class="step reveal" data-step="2">
+    <div class="step-label"><span class="sl-icon">🎓</span> Sign Up with Education Plan</div>
+    <p>
+      Click <strong>Free Trial</strong> or <strong>Get Started</strong> and select the
+      <em>Education Plan</em> option. Sign in or create an Autodesk account using your
+      <strong>college email ID</strong>. Autodesk verifies institutional affiliation
+      automatically and grants access to the full professional version at no cost.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">autodesk.com — Education Plan Sign Up</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step02.jpg" alt="Autodesk Education Plan signup"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.1.2</span> Signing up for Autodesk Education Plan with college email</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 3 -->
+  <div class="step reveal" data-step="3">
+    <div class="step-label"><span class="sl-icon">📧</span> Verify Email &amp; Activate Account</div>
+    <p>
+      Autodesk sends a <strong>verification email</strong> to your college inbox.
+      Open the email and click the activation link. This confirms your student status
+      and activates the Education licence on your Autodesk account.
+      Return to the browser — your account dashboard should now show Fusion as available.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk — Email Verification</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step03.jpg" alt="Autodesk email verification"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.1.3</span> Verifying college email to activate the Autodesk Education account</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 4 -->
+  <div class="step reveal" data-step="4">
+    <div class="step-label"><span class="sl-icon">⬇️</span> Download the Fusion Installer</div>
+    <p>
+      From the Autodesk account dashboard, click <strong>Download</strong> next to Fusion.
+      The installer (<code>Fusion Client Downloader.exe</code>) is a small bootstrapper
+      — roughly 5 MB — that handles the full download and installation automatically.
+      Save it and run it once downloaded.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">manage.autodesk.com — Download Fusion</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step04.jpg" alt="Downloading Autodesk Fusion installer"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.1.4</span> Downloading the Fusion installer from the Autodesk account dashboard</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 5 -->
+  <div class="step reveal" data-step="5">
+    <div class="step-label"><span class="sl-icon">▶️</span> Run the Installer</div>
+    <p>
+      Run <code>Fusion Client Downloader.exe</code>. The installer connects to Autodesk servers
+      and begins downloading the full application — approximately <strong>3–4 GB</strong>.
+      A progress window shows download and installation status. Ensure a stable internet
+      connection is available throughout this process.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Installer Progress</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step05.jpg" alt="Autodesk Fusion installation progress"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.1.5</span> Autodesk Fusion installer downloading and setting up components</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 6 -->
+  <div class="step reveal" data-step="6">
+    <div class="step-label"><span class="sl-icon">✅</span> Launch &amp; Sign In to Fusion</div>
+    <p>
+      Once installation completes, Fusion launches automatically and displays a
+      <strong>Sign In</strong> screen. Sign in using the same Autodesk account used for registration.
+      Fusion connects to the cloud and loads the workspace. The Education watermark on exports
+      confirms the student licence is active.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Sign In</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step06.jpg" alt="Signing in to Autodesk Fusion"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.1.6</span> Signing in to Autodesk Fusion with the Education account</div>
+    </div>
+  </div>
+ 
+  <div class="callout info reveal">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <strong>What is Autodesk Fusion?</strong>
+      <p>Autodesk Fusion is a unified 3D CAD, CAM, CAE, and PCB design tool. It combines industrial and mechanical design, simulation, collaboration, and machining in a single cloud-connected platform.</p>
+    </div>
+  </div>
+ 
+  <div class="topic-sep"></div>
+ 
+  <!-- ─────────────────────────────────────
+       TOPIC 2 — TOY BLOCK MODELLING
+  ───────────────────────────────────── -->
+  <div class="topic-header reveal">
+    <span class="topic-num">Topic 02</span>
+    <span class="topic-title">Modelling a Toy Block in Autodesk Fusion</span>
+    <div class="topic-line"></div>
+  </div>
+ 
+  <!-- STEP 7 -->
+  <div class="step reveal" data-step="7">
+    <div class="step-label"><span class="sl-icon">📄</span> Create a New Design File</div>
+    <p>
+      In the Fusion home screen, click <strong>New Design</strong> to open a blank 3D workspace.
+      The design file is saved to the cloud automatically under your Autodesk account.
+      Name the file <code>Toy_Block_v1</code> using <strong>File → Save</strong> before
+      starting any modelling work.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — New Design</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step07.jpg" alt="Creating a new Fusion design"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.1</span> Creating a new design file in Autodesk Fusion</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 8 -->
+  <div class="step reveal" data-step="8">
+    <div class="step-label"><span class="sl-icon">✏️</span> Create a New Sketch on the XY Plane</div>
+    <p>
+      In the <strong>Solid</strong> tab, click <em>Create Sketch</em> and select the
+      <strong>XY Plane</strong> (the bottom face of the 3D space). The canvas enters
+      sketch mode with a 2D grid. All 2D shapes drawn here will later be extruded
+      into 3D geometry to form the base of the toy block.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Create Sketch</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step08.jpg" alt="Creating sketch on XY plane"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.2</span> Selecting the XY plane to begin a new sketch</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 9 -->
+  <div class="step reveal" data-step="9">
+    <div class="step-label"><span class="sl-icon">⬜</span> Draw the Base Rectangle</div>
+    <p>
+      Use the <strong>Rectangle → Center Rectangle</strong> tool from the sketch toolbar.
+      Click the origin point as the centre, then drag and set dimensions of
+      <strong>32 mm × 32 mm</strong> using the dimension input boxes. This forms the
+      base footprint of a standard toy block. Press <code>Escape</code> to exit the tool.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Rectangle Sketch</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step09.jpg" alt="Drawing base rectangle in sketch"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.3</span> Drawing a 32×32 mm centre rectangle as the block base</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 10 -->
+  <div class="step reveal" data-step="10">
+    <div class="step-label"><span class="sl-icon">📐</span> Add Sketch Dimensions</div>
+    <p>
+      Press <code>D</code> to activate the <strong>Sketch Dimension</strong> tool.
+      Click each side of the rectangle and enter exact values — <strong>32 mm</strong> for both
+      width and depth. Fully constrained sketches turn <em>black</em> in Fusion, confirming
+      all geometry is locked and defined before extrusion.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Sketch Dimensions</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step10.jpg" alt="Adding sketch dimensions"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.4</span> Applying 32 mm sketch dimensions — sketch fully constrained</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 11 -->
+  <div class="step reveal" data-step="11">
+    <div class="step-label"><span class="sl-icon">⬆️</span> Extrude the Base Body</div>
+    <p>
+      Click <strong>Finish Sketch</strong> to exit 2D mode. From the <em>Solid</em> toolbar,
+      select <strong>Create → Extrude</strong> (shortcut <code>E</code>). Click the rectangle
+      profile and set the extrusion distance to <strong>11.4 mm</strong> — the standard height
+      of a toy block. Click <strong>OK</strong> to create the solid base body.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Extrude</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step11.jpg" alt="Extruding the base rectangle"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.5</span> Extruding the base rectangle 11.4 mm to create the block body</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 12 -->
+  <div class="step reveal" data-step="12">
+    <div class="step-label"><span class="sl-icon">🔘</span> Sketch the Stud (Top Circle)</div>
+    <p>
+      Click the <strong>top face</strong> of the block body and create a new sketch.
+      Use the <strong>Circle → Center Diameter Circle</strong> tool to draw a circle
+      at the centre of the top face with a diameter of <strong>10.8 mm</strong> —
+      the standard stud diameter. This will be extruded upward to form the classic
+      toy block knob.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Circle Sketch on Top Face</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step12.jpg" alt="Drawing stud circle on top face"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.6</span> Drawing a 10.8 mm diameter circle for the toy block stud</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 13 -->
+  <div class="step reveal" data-step="13">
+    <div class="step-label"><span class="sl-icon">⬆️</span> Extrude the Stud</div>
+    <p>
+      Finish the sketch and use <strong>Extrude</strong> on the circle profile.
+      Set the height to <strong>1.8 mm</strong> with the operation set to <em>Join</em>
+      so the stud merges with the base body as a single solid. Click <strong>OK</strong>.
+      The toy block now has its characteristic top knob.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Extrude Stud</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step13.jpg" alt="Extruding the stud"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.7</span> Extruding the stud 1.8 mm with Join operation</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 14 -->
+  <div class="step reveal" data-step="14">
+    <div class="step-label"><span class="sl-icon">🔁</span> Rectangular Pattern the Studs</div>
+    <p>
+      Use <strong>Create → Pattern → Rectangular Pattern</strong> to duplicate the stud.
+      Select the stud body, set <strong>2 instances in X</strong> (spacing 16 mm) and
+      <strong>2 instances in Y</strong> (spacing 16 mm). This creates a 2×2 grid of studs —
+      the classic single-unit toy block configuration.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Rectangular Pattern</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step14.jpg" alt="Rectangular pattern of studs"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.8</span> Rectangular pattern creating a 2×2 grid of studs on top</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 15 -->
+  <div class="step reveal" data-step="15">
+    <div class="step-label"><span class="sl-icon">🕳️</span> Shell the Block Body</div>
+    <p>
+      Use <strong>Modify → Shell</strong> to hollow out the block from the bottom face.
+      Select the <strong>bottom face</strong> as the face to remove, and set the
+      <strong>inside thickness to 1.6 mm</strong>. This creates the hollow underside
+      characteristic of real toy blocks, reducing material while maintaining structural strength.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Shell Operation</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step15.jpg" alt="Shell operation on block body"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.9</span> Shell operation hollowing out the block with 1.6 mm wall thickness</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 16 -->
+  <div class="step reveal" data-step="16">
+    <div class="step-label"><span class="sl-icon">🔵</span> Add Fillet to Edges</div>
+    <p>
+      Use <strong>Modify → Fillet</strong> to round the <strong>top outer edges</strong>
+      of the block with a radius of <strong>0.5 mm</strong>. Fillets make the model
+      more realistic and manufacturable — sharp edges on injection-moulded plastic parts
+      are avoided in real product design to reduce stress concentration points.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Fillet Edges</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step16.jpg" alt="Fillet applied to block edges"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.10</span> Applying 0.5 mm fillet to the top outer edges of the block</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 17 -->
+  <div class="step reveal" data-step="17">
+    <div class="step-label"><span class="sl-icon">🎨</span> Apply a Material &amp; Appearance</div>
+    <p>
+      Open the <strong>Appearance</strong> dialog (<code>A</code> key). Drag a
+      <em>Plastic — Glossy</em> material from the library onto the block body.
+      Choose a colour (we used <strong>red</strong> to match classic toy block styling).
+      The 3D viewport updates in real time to preview the final appearance.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Appearance Panel</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step17.jpg" alt="Applying material and appearance"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.11</span> Applying glossy red plastic material to the toy block</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 18 -->
+  <div class="step reveal" data-step="18">
+    <div class="step-label"><span class="sl-icon">🔍</span> Inspect the Model</div>
+    <p>
+      Use <strong>Inspect → Measure</strong> to verify key dimensions of the finished model —
+      overall height, stud diameter, and wall thickness. All values should match the design
+      intent. Use <em>Orbit</em> (<code>Middle Mouse Button</code>) and <em>Pan</em>
+      to inspect the model from all angles.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Measure Tool</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step18.jpg" alt="Inspecting model dimensions"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.12</span> Using the Measure tool to verify model dimensions</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 19 -->
+  <div class="step reveal" data-step="19">
+    <div class="step-label"><span class="sl-icon">🖼️</span> Render the Final Model</div>
+    <p>
+      Switch to the <strong>Render</strong> workspace from the top-left dropdown.
+      Click <strong>Render</strong> to generate a photorealistic preview of the toy block.
+      Fusion's cloud renderer produces a high-quality image showing the red glossy material,
+      lighting, and shadows — demonstrating the professional output quality achievable.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Render Workspace</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step19.jpg" alt="Rendered toy block model"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.13</span> Photorealistic render of the completed toy block model</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 20 -->
+  <div class="step reveal" data-step="20">
+    <div class="step-label"><span class="sl-icon">💾</span> Save the Design to Cloud</div>
+    <p>
+      Press <code>Ctrl + S</code> to save the design. Fusion saves the file to the
+      <strong>Autodesk cloud</strong> under your account — accessible from any device.
+      The file is versioned automatically, so every saved state is preserved and can be
+      rolled back at any point in time.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Cloud Save</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step20.jpg" alt="Saving design to Autodesk cloud"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.14</span> Saving the toy block design to Autodesk cloud storage</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 21 -->
+  <div class="step reveal" data-step="21">
+    <div class="step-label"><span class="sl-icon">📤</span> Export as STL</div>
+    <p>
+      Right-click the top-level component in the browser panel and select
+      <strong>Save As Mesh → STL</strong>. Set refinement to <em>High</em> and click
+      <strong>OK</strong>. The <code>.stl</code> file is the universal format for 3D printing —
+      exporting confirms the model is clean, watertight, and ready for physical fabrication.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Export STL</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step21.jpg" alt="Exporting model as STL"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.15</span> Exporting the toy block as an STL file for 3D printing</div>
+    </div>
+  </div>
+ 
+  <!-- STEP 22 -->
+  <div class="step reveal" data-step="22">
+    <div class="step-label"><span class="sl-icon">✅</span> Final Model Review</div>
+    <p>
+      The completed toy block model is reviewed from all angles in the Fusion viewport.
+      The design features a <strong>32×32 mm base</strong>, <strong>11.4 mm height</strong>,
+      <strong>2×2 stud array</strong>, <strong>1.6 mm hollow walls</strong>, and
+      <strong>0.5 mm edge fillets</strong> — dimensionally accurate to a real toy block.
+      Day 3 objective fully achieved.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">Autodesk Fusion — Final Model</span>
+        </div>
+        <img src="DAY3 IMAGES/FUS_Step22.jpg" alt="Final completed toy block model"/>
+      </div>
+      <div class="img-caption"><span class="cap-fig">Fig 3.2.16</span> Completed toy block model — all features verified and dimensionally accurate</div>
+    </div>
+  </div>
+ 
+  <div class="callout success reveal">
+    <span class="callout-icon">✅</span>
+    <div class="callout-body">
+      <strong>Day 3 Complete</strong>
+      <p>Autodesk Fusion was installed and configured using the Education Plan. A complete toy block model was designed from scratch using Sketch, Extrude, Shell, Fillet, Pattern, and Appearance tools — covering the full basic modelling workflow in Fusion.</p>
+    </div>
+  </div>
+ 
+</div><!-- /day3 -->
+
+<!-- DAY 4 -->
+<div class="day-page" id="day4">
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#1e3a8a">
+      <span class="db-word">Day</span>
+      <span class="db-num">04</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Thursday &nbsp;·&nbsp; Day 4 of 7</div>
+      <div class="dh-title">Day 4 Title Here</div>
+      <div class="dh-tags"><span class="dh-tag">Topic Tag</span></div>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="cs-icon">🗓️</div>
+    <h3>Day 4 — Coming Soon</h3>
+    <p>Content will be added after Day 4 of the internship is complete.</p>
+  </div>
+</div>
+
+<!-- DAY 5 -->
+<div class="day-page" id="day5">
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#172554">
+      <span class="db-word">Day</span>
+      <span class="db-num">05</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Friday &nbsp;·&nbsp; Day 5 of 7</div>
+      <div class="dh-title">Day 5 Title Here</div>
+      <div class="dh-tags"><span class="dh-tag">Topic Tag</span></div>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="cs-icon">🗓️</div>
+    <h3>Day 5 — Coming Soon</h3>
+    <p>Content will be added after Day 5 of the internship is complete.</p>
+  </div>
+</div>
+
+<!-- DAY 6 -->
+<div class="day-page" id="day6">
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#1e3a8a">
+      <span class="db-word">Day</span>
+      <span class="db-num">06</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Saturday &nbsp;·&nbsp; Day 6 of 7</div>
+      <div class="dh-title">Day 6 Title Here</div>
+      <div class="dh-tags"><span class="dh-tag">Topic Tag</span></div>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="cs-icon">🗓️</div>
+    <h3>Day 6 — Coming Soon</h3>
+    <p>Content will be added after Day 6 of the internship is complete.</p>
+  </div>
+</div>
+
+<!-- DAY 7 -->
+<div class="day-page" id="day7">
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#1d4ed8">
+      <span class="db-word">Day</span>
+      <span class="db-num">07</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Sunday &nbsp;·&nbsp; Day 7 of 7</div>
+      <div class="dh-title">Day 7 Title Here</div>
+      <div class="dh-tags"><span class="dh-tag">Topic Tag</span></div>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="cs-icon">🗓️</div>
+    <h3>Day 7 — Coming Soon</h3>
+    <p>Content will be added after Day 7 of the internship is complete.</p>
+  </div>
+</div>
+
+</main>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer class="site-footer">
+  <strong>Sanjivani College of Engineering</strong><br/>
+  Summer Internship 2026 &nbsp;·&nbsp; Intern: TL_Intern_Sai<br/>
+  Week 1 Field Documentation &nbsp;·&nbsp; Web Development &amp; DevOps
+</footer>
+
+<script>
+/* ── Day switcher ── */
+function showDay(id, btn) {
+  document.querySelectorAll('.day-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  var n = id.replace('day','');
+  document.getElementById('navCounter').textContent = ('0'+n).slice(-2) + ' / 07';
+  window.scrollTo({ top: document.getElementById('dayNav').offsetTop, behavior:'smooth' });
+  setTimeout(function(){ triggerReveals(document.getElementById(id)); }, 80);
+}
+
+/* ── Scroll reveal ── */
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){ e.target.classList.add('in'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+
+function triggerReveals(root){
+  (root || document).querySelectorAll('.reveal:not(.in)').forEach(function(el){
+    observer.observe(el);
+  });
+}
+triggerReveals();
+
+/* ── Nav shadow ── */
+window.addEventListener('scroll', function(){
+  document.getElementById('dayNav').classList.toggle('shadow', window.scrollY > 10);
+});
+
+/* ── Step bubble centering (CSS pseudo can't flex, so JS fixes it) ── */
+document.querySelectorAll('.step').forEach(function(s){
+  var pseudo = s.getAttribute('data-step');
+  /* already handled via CSS content:attr(data-step) */
+});
+</script>
+</body>
+</html>

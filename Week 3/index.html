@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Week 1 – Sanjivani Summer Internship 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#070b16;
+    --bg2:#0b1220;
+    --surface:#0f172a;
+    --surface2:#111c33;
+    --surface3:#15213d;
+    --border:rgba(148,163,184,.18);
+    --border2:rgba(59,130,246,.22);
+    --accent:#60a5fa;
+    --accent2:#22d3ee;
+    --text:#e5eefc;
+    --muted:#95a3bc;
+    --white:#ffffff;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+    --radius:20px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(circle at top left, rgba(96,165,250,.12), transparent 28%),
+      radial-gradient(circle at bottom right, rgba(34,211,238,.10), transparent 24%),
+      linear-gradient(180deg, #050814 0%, #07101e 50%, #050814 100%);
+    color:var(--text);
+    font-family:"DM Sans",sans-serif;
+    line-height:1.75;
+    overflow-x:hidden;
+  }
+
+  .hero{
+    position:relative;
+    min-height:360px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:90px 20px 60px;
+    overflow:hidden;
+    border-bottom:1px solid var(--border);
+    background:
+      radial-gradient(circle at center top, rgba(96,165,250,.20), transparent 34%),
+      linear-gradient(180deg, rgba(15,23,42,.96), rgba(7,11,22,.98));
+  }
+
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(96,165,250,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(96,165,250,.05) 1px, transparent 1px);
+    background-size:44px 44px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    pointer-events:none;
+  }
+
+  .hero-content{
+    position:relative;
+    z-index:1;
+    max-width:980px;
+    width:100%;
+  }
+
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 18px;
+    margin-bottom:22px;
+    border-radius:999px;
+    background:rgba(96,165,250,.10);
+    border:1px solid rgba(96,165,250,.25);
+    color:var(--accent2);
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    box-shadow:0 10px 35px rgba(34,211,238,.08);
+  }
+
+  .hero h1{
+    font-family:"Syne",sans-serif;
+    font-size:clamp(2.2rem, 5vw, 4.2rem);
+    line-height:1.06;
+    color:var(--white);
+    font-weight:800;
+    margin-bottom:16px;
+  }
+
+  .hero h1 span{
+    color:var(--accent);
+  }
+
+  .hero p{
+    max-width:840px;
+    margin:0 auto;
+    color:var(--muted);
+    font-size:1.03rem;
+  }
+
+  .stats{
+    margin-top:28px;
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+
+  .stat{
+    padding:12px 18px;
+    background:rgba(15,23,42,.72);
+    border:1px solid var(--border);
+    border-radius:14px;
+    color:var(--text);
+    font-size:14px;
+    box-shadow:var(--shadow);
+  }
+
+  .day-nav{
+    position:sticky;
+    top:0;
+    z-index:999;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:14px 18px;
+    background:rgba(7,11,22,.82);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--border);
+    scrollbar-width:none;
+  }
+
+  .day-nav::-webkit-scrollbar{display:none}
+
+  .day-nav a{
+    flex-shrink:0;
+    text-decoration:none;
+    color:var(--muted);
+    padding:12px 18px;
+    border-radius:999px;
+    border:1px solid transparent;
+    font-family:"Syne",sans-serif;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.03em;
+    transition:.25s ease;
+  }
+
+  .day-nav a:hover,
+  .day-nav a.active{
+    color:var(--white);
+    border-color:rgba(96,165,250,.35);
+    background:linear-gradient(135deg, rgba(96,165,250,.15), rgba(34,211,238,.10));
+    box-shadow:0 10px 25px rgba(96,165,250,.08);
+  }
+
+  .main{
+    width:min(1180px, calc(100% - 36px));
+    margin:0 auto;
+    padding:54px 0 90px;
+  }
+
+  .day-section{
+    position:relative;
+    margin:0 0 90px;
+    padding:30px 26px 18px;
+    border:1px solid var(--border);
+    border-radius:28px;
+    background:
+      linear-gradient(180deg, rgba(15,23,42,.88), rgba(12,18,33,.90)),
+      linear-gradient(135deg, rgba(96,165,250,.06), rgba(34,211,238,.03));
+    box-shadow:var(--shadow);
+    scroll-margin-top:110px;
+    overflow:hidden;
+  }
+
+  .day-section::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:
+      radial-gradient(circle at top right, rgba(96,165,250,.12), transparent 24%),
+      radial-gradient(circle at bottom left, rgba(34,211,238,.10), transparent 20%);
+  }
+
+  .day-header{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding-bottom:20px;
+    margin-bottom:28px;
+    border-bottom:1px solid var(--border);
+  }
+
+  .day-number{
+    width:58px;
+    height:58px;
+    flex-shrink:0;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Syne",sans-serif;
+    font-size:19px;
+    font-weight:800;
+    color:var(--white);
+    background:linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    box-shadow:0 18px 40px rgba(59,130,246,.28);
+    border:1px solid rgba(255,255,255,.06);
+  }
+
+  .day-title h2{
+    font-family:"Syne",sans-serif;
+    font-size:1.75rem;
+    line-height:1.2;
+    color:var(--white);
+    margin-bottom:6px;
+    font-weight:800;
+  }
+
+  .day-title p{
+    color:var(--muted);
+    font-size:14px;
+  }
+
+  .content{
+    position:relative;
+    display:grid;
+    gap:18px;
+  }
+
+  .para{
+    background:linear-gradient(180deg, rgba(17,28,51,.86), rgba(13,20,38,.92));
+    border:1px solid var(--border);
+    border-left:4px solid rgba(96,165,250,.85);
+    border-radius:20px;
+    padding:22px 22px;
+    font-size:15.5px;
+    color:var(--text);
+    line-height:1.85;
+  }
+
+  .para strong{
+    color:var(--white);
+  }
+
+  .img-wrap{
+    position:relative;
+    overflow:hidden;
+    border-radius:20px;
+    border:1px solid var(--border2);
+    background:rgba(7,11,22,.85);
+    box-shadow:0 16px 40px rgba(0,0,0,.30);
+  }
+
+  .img-wrap img{
+    display:block;
+    width:100%;
+    max-height:560px;
+    object-fit:cover;
+    transform:scale(1);
+    transition:transform .35s ease;
+  }
+
+  .img-wrap:hover img{
+    transform:scale(1.015);
+  }
+
+  .img-caption{
+    padding:14px 18px;
+    color:var(--muted);
+    border-top:1px solid var(--border);
+    background:rgba(15,23,42,.88);
+    font-size:13px;
+  }
+
+  .day-footer{
+    position:relative;
+    display:flex;
+    justify-content:space-between;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  .day-footer span{
+    color:var(--text);
+    font-weight:600;
+  }
+
+  .footer{
+    text-align:center;
+    padding:26px 18px 42px;
+    color:var(--muted);
+    border-top:1px solid var(--border);
+    background:rgba(5,8,20,.55);
+  }
+
+  .to-top{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    width:52px;
+    height:52px;
+    border-radius:16px;
+    border:1px solid rgba(96,165,250,.28);
+    background:linear-gradient(135deg, rgba(59,130,246,.88), rgba(34,211,238,.78));
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    font-size:22px;
+    box-shadow:0 16px 32px rgba(34,211,238,.16);
+    z-index:999;
+  }
+
+  .to-top:hover{filter:brightness(1.08)}
+
+  @media (max-width: 720px){
+    .main{width:min(100% - 24px, 1180px)}
+    .day-section{padding:22px 16px 16px;border-radius:22px}
+    .day-header{gap:14px;align-items:flex-start}
+    .day-number{width:52px;height:52px;border-radius:16px;font-size:17px}
+    .day-title h2{font-size:1.35rem}
+    .para{padding:18px 16px;font-size:15px}
+    .hero{min-height:320px;padding:80px 16px 50px}
+  }
+</style>
+</head>
+<body id="top">
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="badge">Sanjivani College of Engineering</div>
+    <h1>Week <span>1</span> Documentation<br/>Summer Internship 2025</h1>
+    <p>Beautiful day-wise documentation layout with separate sections for Day 1 to Day 7. Each day opens as its own section on the same webpage, and inside each day the order stays paragraph, image, paragraph, image.</p>
+    <div class="stats">
+      <div class="stat">Intern: <strong>TLInternSai</strong></div>
+      <div class="stat">Duration: <strong>7 Days</strong></div>
+      <div class="stat">Focus: <strong>Web Development + DevOps Tools</strong></div>
+    </div>
+  </div>
+</section>
+
+<nav class="day-nav">
+  <a href="#day1" class="nav-link active">Day 1</a>
+  <a href="#day2" class="nav-link">Day 2</a>
+  <a href="#day3" class="nav-link">Day 3</a>
+  <a href="#day4" class="nav-link">Day 4</a>
+  <a href="#day5" class="nav-link">Day 5</a>
+  <a href="#day6" class="nav-link">Day 6</a>
+  <a href="#day7" class="nav-link">Day 7</a>
+</nav>
+
+<main class="main">
+
+  <section class="day-section" id="day1">
+    <div class="day-header">
+      <div class="day-number">1</div>
+      <div class="day-title">
+        <h2>Environment Setup</h2>
+        <p>Day 1 — Tools Installation & Configuration</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="para">
+        <p>
+          On Day 1, I started with setting up the development environment. Visual Studio Code was installed as the main code editor because it is lightweight, fast, and highly suitable for web development.
+        </p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day1-1.jpg" alt="Day 1 Image 1">
+        <div class="img-caption">Visual Studio Code installation and first setup.</div>
+      </div>
+
+      <div class="para">
+        <p>
+          After that, I configured GitHub and connected the project repository. This helped me understand the basic workflow of version control, code uploading, and project maintenance.
+        </p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day1-2.jpg" alt="Day 1 Image 2">
+        <div class="img-caption">GitHub repository setup and code push workflow.</div>
+      </div>
+    </div>
+
+    <div class="day-footer">
+      <div><span>Day:</span> 1</div>
+      <div><span>Status:</span> Completed</div>
+      <div><span>Next:</span> Day 2</div>
+    </div>
+  </section>
+
+  <section class="day-section" id="day2">
+    <div class="day-header">
+      <div class="day-number">2</div>
+      <div class="day-title">
+        <h2>Day 2 Title</h2>
+        <p>Replace this with your Day 2 topic</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="para">
+        <p>Write your Day 2 first paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day2-1.jpg" alt="Day 2 Image 1">
+        <div class="img-caption">Day 2 image caption 1.</div>
+      </div>
+
+      <div class="para">
+        <p>Write your Day 2 second paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day2-2.jpg" alt="Day 2 Image 2">
+        <div class="img-caption">Day 2 image caption 2.</div>
+      </div>
+    </div>
+
+    <div class="day-footer">
+      <div><span>Day:</span> 2</div>
+      <div><span>Status:</span> Completed</div>
+      <div><span>Next:</span> Day 3</div>
+    </div>
+  </section>
+
+  <section class="day-section" id="day3">
+    <div class="day-header">
+      <div class="day-number">3</div>
+      <div class="day-title">
+        <h2>Day 3 Title</h2>
+        <p>Replace this with your Day 3 topic</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="para">
+        <p>Write your Day 3 first paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day3-1.jpg" alt="Day 3 Image 1">
+        <div class="img-caption">Day 3 image caption 1.</div>
+      </div>
+
+      <div class="para">
+        <p>Write your Day 3 second paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day3-2.jpg" alt="Day 3 Image 2">
+        <div class="img-caption">Day 3 image caption 2.</div>
+      </div>
+    </div>
+
+    <div class="day-footer">
+      <div><span>Day:</span> 3</div>
+      <div><span>Status:</span> Completed</div>
+      <div><span>Next:</span> Day 4</div>
+    </div>
+  </section>
+
+  <section class="day-section" id="day4">
+    <div class="day-header">
+      <div class="day-number">4</div>
+      <div class="day-title">
+        <h2>Day 4 Title</h2>
+        <p>Replace this with your Day 4 topic</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="para">
+        <p>Write your Day 4 first paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day4-1.jpg" alt="Day 4 Image 1">
+        <div class="img-caption">Day 4 image caption 1.</div>
+      </div>
+
+      <div class="para">
+        <p>Write your Day 4 second paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day4-2.jpg" alt="Day 4 Image 2">
+        <div class="img-caption">Day 4 image caption 2.</div>
+      </div>
+    </div>
+
+    <div class="day-footer">
+      <div><span>Day:</span> 4</div>
+      <div><span>Status:</span> Completed</div>
+      <div><span>Next:</span> Day 5</div>
+    </div>
+  </section>
+
+  <section class="day-section" id="day5">
+    <div class="day-header">
+      <div class="day-number">5</div>
+      <div class="day-title">
+        <h2>Day 5 Title</h2>
+        <p>Replace this with your Day 5 topic</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="para">
+        <p>Write your Day 5 first paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day5-1.jpg" alt="Day 5 Image 1">
+        <div class="img-caption">Day 5 image caption 1.</div>
+      </div>
+
+      <div class="para">
+        <p>Write your Day 5 second paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day5-2.jpg" alt="Day 5 Image 2">
+        <div class="img-caption">Day 5 image caption 2.</div>
+      </div>
+    </div>
+
+    <div class="day-footer">
+      <div><span>Day:</span> 5</div>
+      <div><span>Status:</span> Completed</div>
+      <div><span>Next:</span> Day 6</div>
+    </div>
+  </section>
+
+  <section class="day-section" id="day6">
+    <div class="day-header">
+      <div class="day-number">6</div>
+      <div class="day-title">
+        <h2>Day 6 Title</h2>
+        <p>Replace this with your Day 6 topic</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="para">
+        <p>Write your Day 6 first paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day6-1.jpg" alt="Day 6 Image 1">
+        <div class="img-caption">Day 6 image caption 1.</div>
+      </div>
+
+      <div class="para">
+        <p>Write your Day 6 second paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day6-2.jpg" alt="Day 6 Image 2">
+        <div class="img-caption">Day 6 image caption 2.</div>
+      </div>
+    </div>
+
+    <div class="day-footer">
+      <div><span>Day:</span> 6</div>
+      <div><span>Status:</span> Completed</div>
+      <div><span>Next:</span> Day 7</div>
+    </div>
+  </section>
+
+  <section class="day-section" id="day7">
+    <div class="day-header">
+      <div class="day-number">7</div>
+      <div class="day-title">
+        <h2>Day 7 Title</h2>
+        <p>Replace this with your Day 7 topic</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="para">
+        <p>Write your Day 7 first paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day7-1.jpg" alt="Day 7 Image 1">
+        <div class="img-caption">Day 7 image caption 1.</div>
+      </div>
+
+      <div class="para">
+        <p>Write your Day 7 second paragraph here.</p>
+      </div>
+
+      <div class="img-wrap">
+        <img src="images/day7-2.jpg" alt="Day 7 Image 2">
+        <div class="img-caption">Day 7 image caption 2.</div>
+      </div>
+    </div>
+
+    <div class="day-footer">
+      <div><span>Day:</span> 7</div>
+      <div><span>Status:</span> Completed</div>
+      <div><span>End:</span> Week 1</div>
+    </div>
+  </section>
+
+</main>
+
+<div class="footer">
+  Week 1 Internship Documentation • Designed for day-wise navigation and clean presentation
+</div>
+
+<a class="to-top" href="#top" aria-label="Back to top">↑</a>
+
+<script>
+  const links = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('.day-section');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(link => link.classList.remove('active'));
+        const active = document.querySelector('.nav-link[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.35, rootMargin: '-90px 0px -45% 0px' });
+
+  sections.forEach(section => observer.observe(section));
+</script>
+
+</body>
+</html>

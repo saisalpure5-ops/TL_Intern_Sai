@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sai Salpure | Internship Portfolio</title>
+
+    <link rel="icon" href="SAI PHOTO.jpg">
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            scroll-behavior:smooth;
+        }
+
+        :root{
+            --bg:#020817;
+            --card:rgba(15,23,42,0.72);
+            --border:rgba(255,255,255,0.08);
+            --primary:#4da3ff;
+            --primary-light:#7bc1ff;
+            --text:#ffffff;
+            --soft:#cbd5e1;
+        }
+
+        body{
+            font-family:'Poppins',sans-serif;
+            background:
+            radial-gradient(circle at top left, rgba(77,163,255,0.18), transparent 25%),
+            radial-gradient(circle at bottom right, rgba(77,163,255,0.15), transparent 25%),
+            var(--bg);
+            color:var(--text);
+            overflow-x:hidden;
+        }
+
+        body::before{
+            content:'';
+            position:fixed;
+            width:100%;
+            height:100%;
+            background-image:
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size:60px 60px;
+            z-index:-1;
+        }
+
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
+
+        section{
+            padding:110px 9%;
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+            width:100%;
+            position:fixed;
+            top:0;
+            z-index:1000;
+            padding:22px 9%;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            background:rgba(2,8,23,0.78);
+            backdrop-filter:blur(18px);
+            border-bottom:1px solid rgba(255,255,255,0.06);
+        }
+
+        .logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-size:1.8rem;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.logo img{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid rgba(255,255,255,0.12);
+    box-shadow:0 4px 15px rgba(77,163,255,0.25);
+}
+
+        .logo span{
+            color:var(--primary);
+        }
+
+        .nav-links{
+            display:flex;
+            gap:35px;
+        }
+
+        .nav-links a{
+            color:#dbeafe;
+            position:relative;
+            transition:0.3s;
+            font-size:0.96rem;
+        }
+
+        .nav-links a:hover{
+            color:var(--primary);
+        }
+
+        .nav-links a::after{
+            content:'';
+            position:absolute;
+            width:0%;
+            height:2px;
+            left:0;
+            bottom:-8px;
+            background:var(--primary);
+            transition:0.4s;
+        }
+
+        .nav-links a:hover::after{
+            width:100%;
+        }
+
+        /* HERO */
+
+        .hero{
+            min-height:100vh;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:90px;
+            padding-top:160px;
+            flex-wrap:wrap;
+        }
+
+        .hero-content{
+            flex:1;
+            animation:fadeUp 1s ease;
+        }
+
+        .tag{
+            display:inline-block;
+            padding:12px 22px;
+            border-radius:50px;
+            background:rgba(77,163,255,0.12);
+            border:1px solid rgba(77,163,255,0.25);
+            color:var(--primary-light);
+            margin-bottom:30px;
+            font-size:0.92rem;
+        }
+
+        .hero-content h1{
+            font-size:5rem;
+            line-height:1.05;
+            margin-bottom:28px;
+            font-weight:800;
+        }
+
+        .hero-content h1 span{
+            background:linear-gradient(to right,#ffffff,#55b2ff);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+
+        .hero-content p{
+            color:var(--soft);
+            line-height:2;
+            max-width:760px;
+            margin-bottom:42px;
+            font-size:1.05rem;
+        }
+
+        .hero-buttons{
+            display:flex;
+            gap:20px;
+            flex-wrap:wrap;
+        }
+
+        .btn{
+            padding:15px 34px;
+            border-radius:14px;
+            font-weight:600;
+            transition:0.4s;
+            display:inline-block;
+        }
+
+        .btn-primary{
+            background:linear-gradient(135deg,#1976ff,#59b3ff);
+            box-shadow:0 12px 30px rgba(77,163,255,0.32);
+        }
+
+        .btn-primary:hover{
+            transform:translateY(-5px);
+        }
+
+        .btn-secondary{
+            border:1px solid rgba(255,255,255,0.08);
+            background:rgba(255,255,255,0.05);
+        }
+
+        .btn-secondary:hover{
+            transform:translateY(-5px);
+            background:rgba(255,255,255,0.08);
+        }
+
+        /* PROFILE SECTION */
+
+        .hero-image{
+            position:relative;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .glow{
+            position:absolute;
+            width:520px;
+            height:520px;
+            background:rgba(77,163,255,0.18);
+            border-radius:50%;
+            filter:blur(120px);
+            z-index:-1;
+        }
+
+        .profile-card{
+            width:430px;
+            height:560px;
+            background:rgba(15,23,42,0.72);
+            border:1px solid rgba(255,255,255,0.08);
+            backdrop-filter:blur(25px);
+            border-radius:42px;
+            padding:40px 30px;
+            text-align:center;
+            position:relative;
+            overflow:hidden;
+            box-shadow:
+            0 25px 60px rgba(0,0,0,0.45),
+            inset 0 1px 1px rgba(255,255,255,0.08);
+            animation:floating 5s ease-in-out infinite;
+        }
+
+        .profile-card::before{
+            content:'';
+            position:absolute;
+            inset:0;
+            background:linear-gradient(
+            135deg,
+            rgba(255,255,255,0.08),
+            transparent 40%
+            );
+        }
+
+        /* PERFECT CIRCLE IMAGE */
+
+        .profile-image{
+            width:280px;
+            height:280px;
+            margin:auto;
+            border-radius:50%;
+            padding:8px;
+            background:linear-gradient(
+            135deg,
+            #4da3ff,
+            #7bc1ff,
+            #1e3a8a
+            );
+            box-shadow:
+            0 0 40px rgba(77,163,255,0.45),
+            0 0 90px rgba(77,163,255,0.25);
+            animation:glowRotate 6s linear infinite;
+        }
+
+        .profile-image img{
+            width:100%;
+            height:100%;
+            border-radius:50%;
+            object-fit:cover;
+            object-position:center top;
+            border:5px solid #081120;
+        }
+
+        .profile-info{
+            margin-top:32px;
+        }
+
+        .profile-info h3{
+            font-size:2.2rem;
+            margin-bottom:12px;
+            font-weight:700;
+        }
+
+        .profile-info p{
+            color:var(--soft);
+            line-height:1.9;
+            font-size:0.96rem;
+        }
+
+        .profile-tags{
+            display:flex;
+            justify-content:center;
+            gap:12px;
+            margin-top:25px;
+            flex-wrap:wrap;
+        }
+
+        .profile-tags span{
+            padding:10px 16px;
+            border-radius:50px;
+            background:rgba(255,255,255,0.05);
+            border:1px solid rgba(255,255,255,0.08);
+            font-size:0.85rem;
+            color:#dbeafe;
+        }
+
+        /* SECTION TITLES */
+
+        .section-title{
+            font-size:3rem;
+            margin-bottom:18px;
+            position:relative;
+            display:inline-block;
+        }
+
+        .section-title::after{
+            content:'';
+            width:70%;
+            height:5px;
+            background:linear-gradient(to right,#4da3ff,transparent);
+            position:absolute;
+            left:0;
+            bottom:-10px;
+            border-radius:20px;
+        }
+
+        .section-desc{
+            color:var(--soft);
+            line-height:2;
+            max-width:900px;
+            margin-bottom:55px;
+        }
+
+        /* CARDS */
+
+        .grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+            gap:28px;
+        }
+
+        .card{
+            background:var(--card);
+            border-radius:30px;
+            padding:34px;
+            border:1px solid var(--border);
+            transition:0.45s;
+            backdrop-filter:blur(15px);
+        }
+
+        .card:hover{
+            transform:translateY(-12px);
+            border-color:rgba(77,163,255,0.35);
+            box-shadow:0 25px 50px rgba(0,0,0,0.35);
+        }
+
+        .card h3{
+            color:var(--primary-light);
+            margin-bottom:18px;
+            font-size:1.3rem;
+        }
+
+        .card p{
+            color:var(--soft);
+            line-height:2;
+        }
+
+        /* SKILLS */
+
+        .skills-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:22px;
+        }
+
+        .skill{
+            padding:20px;
+            text-align:center;
+            border-radius:18px;
+            background:rgba(255,255,255,0.04);
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.4s;
+            font-weight:600;
+        }
+
+        .skill:hover{
+            transform:translateY(-7px);
+            background:rgba(77,163,255,0.15);
+            border-color:rgba(77,163,255,0.25);
+        }
+
+        /* PROJECT */
+
+        .project-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+            gap:28px;
+        }
+
+        .project-card{
+            background:rgba(15,23,42,0.75);
+            padding:35px;
+            border-radius:30px;
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.4s;
+        }
+
+        .project-card:hover{
+            transform:translateY(-10px);
+            border-color:rgba(77,163,255,0.3);
+        }
+
+        .project-card h3{
+            color:var(--primary-light);
+            margin-bottom:18px;
+        }
+
+        .project-card p,
+        .project-card li{
+            color:var(--soft);
+            line-height:2;
+        }
+
+        .project-card ul{
+            padding-left:20px;
+        }
+
+        /* WEEK CARDS */
+
+        .week-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:28px;
+        }
+
+        .week-card{
+            background:linear-gradient(
+            145deg,
+            rgba(13,23,42,0.95),
+            rgba(8,17,30,0.95)
+            );
+            padding:38px 30px;
+            border-radius:30px;
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.45s;
+        }
+
+        .week-card:hover{
+            transform:translateY(-12px);
+            border-color:rgba(77,163,255,0.3);
+            box-shadow:0 25px 45px rgba(0,0,0,0.35);
+        }
+
+        .week-card h3{
+            color:var(--primary-light);
+            margin-bottom:16px;
+            font-size:1.8rem;
+        }
+
+        .week-card p{
+            color:var(--soft);
+            line-height:1.9;
+            margin-bottom:26px;
+        }
+
+        .week-btn{
+            display:inline-block;
+            padding:13px 24px;
+            border-radius:14px;
+            background:linear-gradient(135deg,#1976ff,#59b3ff);
+            font-weight:600;
+            transition:0.35s;
+        }
+
+        .week-btn:hover{
+            transform:translateY(-4px);
+        }
+
+        /* CONTACT */
+
+        .contact-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:28px;
+        }
+
+        .contact-card{
+            background:rgba(15,23,42,0.75);
+            padding:35px;
+            border-radius:28px;
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.4s;
+        }
+
+        .contact-card:hover{
+            transform:translateY(-10px);
+            border-color:rgba(77,163,255,0.25);
+        }
+
+        .contact-card h3{
+            color:var(--primary-light);
+            margin-bottom:18px;
+        }
+
+        .contact-card p{
+            color:var(--soft);
+            line-height:2;
+        }
+
+        /* CLICKABLE LINKS */
+
+        .contact-card a{
+            color:#dbeafe;
+            transition:0.3s;
+            word-break:break-word;
+        }
+
+        .contact-card a:hover{
+            color:#4da3ff;
+            text-shadow:0 0 12px rgba(77,163,255,0.6);
+        }
+
+        /* FOOTER */
+
+        footer{
+            padding:35px 9%;
+            text-align:center;
+            color:var(--soft);
+            border-top:1px solid rgba(255,255,255,0.06);
+            background:rgba(2,8,23,0.9);
+        }
+
+        /* ANIMATION */
+
+        @keyframes glowRotate{
+
+            0%{
+                box-shadow:
+                0 0 35px rgba(77,163,255,0.35),
+                0 0 70px rgba(77,163,255,0.15);
+            }
+
+            50%{
+                box-shadow:
+                0 0 55px rgba(77,163,255,0.55),
+                0 0 100px rgba(77,163,255,0.25);
+            }
+
+            100%{
+                box-shadow:
+                0 0 35px rgba(77,163,255,0.35),
+                0 0 70px rgba(77,163,255,0.15);
+            }
+        }
+
+        @keyframes floating{
+            0%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(-18px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+        }
+
+        @keyframes fadeUp{
+            from{
+                opacity:0;
+                transform:translateY(40px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:1100px){
+
+            .hero{
+                flex-direction:column-reverse;
+                text-align:center;
+            }
+
+            .hero-buttons{
+                justify-content:center;
+            }
+
+            .hero-content h1{
+                font-size:3.8rem;
+            }
+        }
+
+        @media(max-width:850px){
+
+            .nav-links{
+                display:none;
+            }
+
+            .hero-content h1{
+                font-size:3rem;
+            }
+
+            .profile-card{
+                width:340px;
+                height:auto;
+            }
+
+            .profile-image{
+                width:230px;
+                height:230px;
+            }
+
+            .section-title{
+                font-size:2.4rem;
+            }
+        }
+
+        @media(max-width:550px){
+
+            section{
+                padding:90px 7%;
+            }
+
+            .navbar{
+                padding:20px 7%;
+            }
+
+            .hero-content h1{
+                font-size:2.3rem;
+            }
+
+            .profile-card{
+                width:100%;
+            }
+
+            .profile-image{
+                width:200px;
+                height:200px;
+            }
+
+            .section-title{
+                font-size:2rem;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+<div class="logo">
+    <img src="logo.png.jpeg" alt="Tinkerers Lab Logo">
+    Sai<span>Salpure</span>
+</div>
+
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#internship">Internship</a>
+            <a href="#project">Project</a>
+            <a href="#documentation">Documentation</a>
+            <a href="#contact">Contact</a>
+        </div>
+
+    </nav>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="tag">
+                Tinkerers’ Lab Summer Internship 2026
+            </div>
+
+            <h1>
+                Building
+                <span>Intelligent Engineering</span>
+                Systems
+            </h1>
+
+            <p>
+                Welcome to my official internship portfolio and technical
+                documentation website. This platform showcases my engineering
+                journey, robotics development, embedded systems learning,
+                fabrication workflows, IoT experiments, and project development
+                completed during the Tinkerers’ Lab Summer Internship 2026.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#documentation" class="btn btn-primary">
+                    Explore Documentation
+                </a>
+
+                <a href="#project" class="btn btn-secondary">
+                    View Final Project
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- PROFILE -->
+
+        <div class="hero-image">
+
+            <div class="glow"></div>
+
+            <div class="profile-card">
+
+                <div class="profile-image">
+
+                    <img src="SAI PHOTO.jpg" alt="Sai Salpure">
+
+                </div>
+
+                <div class="profile-info">
+
+                    <h3>Sai Salpure</h3>
+
+                    <p>
+                        B.Tech Artificial Intelligence and Data Science student
+                        passionate about Robotics, IoT, Embedded Systems,
+                        AI/ML, intelligent automation, and engineering
+                        product development.
+                    </p>
+
+                    <div class="profile-tags">
+
+                        <span>AI/ML</span>
+                        <span>Robotics</span>
+                        <span>IoT</span>
+                        <span>ESP32</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ABOUT -->
+
+    <section id="about">
+
+        <h2 class="section-title">About Me</h2>
+
+        <p class="section-desc">
+            I am a passionate engineering student focused on building
+            intelligent systems through embedded hardware, robotics,
+            AI integration, and modern fabrication technologies.
+            My internship experience strengthened my practical skills
+            in electronics integration, IoT systems, rapid prototyping,
+            robotics workflows, and engineering documentation.
+        </p>
+
+        <div class="grid">
+
+            <div class="card">
+                <h3>Engineering Innovation</h3>
+
+                <p>
+                    Dedicated to creating smart autonomous systems and
+                    innovative engineering products using intelligent
+                    automation and modern technologies.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Research & Development</h3>
+
+                <p>
+                    Passionate about solving real-world engineering
+                    problems through interdisciplinary development,
+                    embedded intelligence, and robotics systems.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Professional Documentation</h3>
+
+                <p>
+                    Focused on maintaining detailed technical
+                    documentation, fabrication records, project
+                    workflows, and development processes.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SKILLS -->
+
+    <section id="skills">
+
+        <h2 class="section-title">Technical Skills</h2>
+
+        <p class="section-desc">
+            Technologies and engineering domains explored during my
+            internship and academic journey.
+        </p>
+
+        <div class="skills-grid">
+
+            <div class="skill">IoT</div>
+            <div class="skill">ESP32</div>
+            <div class="skill">Embedded Systems</div>
+            <div class="skill">Robotics</div>
+            <div class="skill">Python</div>
+            <div class="skill">AI/ML</div>
+            <div class="skill">Electronics</div>
+            <div class="skill">3D Printing</div>
+            <div class="skill">Laser Cutting</div>
+            <div class="skill">GitHub</div>
+
+        </div>
+
+    </section>
+
+    <!-- INTERNSHIP -->
+
+    <section id="internship">
+
+        <h2 class="section-title">Internship Overview</h2>
+
+        <p class="section-desc">
+            The Tinkerers’ Lab Summer Internship 2026 provided practical
+            exposure to robotics, embedded systems, fabrication
+            technologies, intelligent automation, and product
+            development workflows.
+        </p>
+
+        <div class="grid">
+
+            <div class="card">
+                <h3>Core Domains</h3>
+
+                <p>
+                    IoT, Robotics, Embedded Systems, ESP32,
+                    AI/ML, Product Development, Electronics,
+                    3D Printing, and Laser Cutting.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Hands-on Learning</h3>
+
+                <p>
+                    Worked on real-world engineering activities involving
+                    sensors, robotics systems, electronics integration,
+                    fabrication workflows, and embedded programming.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Professional Growth</h3>
+
+                <p>
+                    Improved technical communication, engineering
+                    documentation, teamwork, innovation thinking,
+                    and practical problem-solving skills.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FINAL PROJECT -->
+
+    <section id="project">
+
+        <h2 class="section-title">Final Project</h2>
+
+        <p class="section-desc">
+            Internship final project focused on intelligent robotics,
+            autonomous navigation, and smart embedded systems.
+        </p>
+
+        <div class="project-grid">
+
+            <div class="project-card">
+                <h3>Smart Autonomous Delivery Robot</h3>
+
+                <p>
+                    An intelligent robotic platform designed for smart
+                    delivery operations using IoT connectivity,
+                    embedded systems, sensors, and autonomous navigation.
+                </p>
+            </div>
+
+            <div class="project-card">
+                <h3>Features</h3>
+
+                <ul>
+                    <li>Autonomous Navigation</li>
+                    <li>Obstacle Detection</li>
+                    <li>Smart Delivery Workflow</li>
+                    <li>ESP32-based Control</li>
+                    <li>IoT Monitoring</li>
+                    <li>Real-time Communication</li>
+                </ul>
+            </div>
+
+            <div class="project-card">
+                <h3>Technologies Used</h3>
+
+                <ul>
+                    <li>ESP32</li>
+                    <li>Robotics</li>
+                    <li>Embedded Systems</li>
+                    <li>Python</li>
+                    <li>AI/ML Concepts</li>
+                    <li>Electronics Integration</li>
+                    <li>3D Printing</li>
+                </ul>
+            </div>
+
+            <div class="project-card">
+                <h3>Future Scope</h3>
+
+                <ul>
+                    <li>Computer Vision Integration</li>
+                    <li>AI Route Optimization</li>
+                    <li>Cloud Dashboard System</li>
+                    <li>Industrial Automation Usage</li>
+                    <li>Advanced Sensor Fusion</li>
+                </ul>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- WEEKLY DOCUMENTATION -->
+
+    <section id="documentation">
+
+        <h2 class="section-title">Weekly Documentation</h2>
+
+        <p class="section-desc">
+            Explore detailed internship progress reports, engineering
+            experiments, fabrication processes, robotics development,
+            and technical learning documentation.
+        </p>
+
+        <div class="week-grid">
+
+            <div class="week-card">
+                <h3>Week 1</h3>
+
+                <p>
+                    Internship orientation, lab setup, engineering
+                    fundamentals, and workflow introduction.
+                </p>
+
+                <a href="Week 1/index.html" class="week-btn">
+                    Open Documentation
+                </a>
+            </div>
+
+            <div class="week-card">
+                <h3>Week 2</h3>
+
+                <p>
+                    ESP32 programming, embedded systems development,
+                    sensors, and electronics integration.
+                </p>
+
+                <a href="Week 2/index.html" class="week-btn">
+                    Open Documentation
+                </a>
+            </div>
+
+            <div class="week-card">
+                <h3>Week 3</h3>
+
+                <p>
+                    Robotics systems, fabrication technologies,
+                    laser cutting, and 3D printing workflows.
+                </p>
+
+                <a href="Week 3/index.html" class="week-btn">
+                    Open Documentation
+                </a>
+            </div>
+
+            <div class="week-card">
+                <h3>Week 4</h3>
+
+                <p>
+                    Final project development, autonomous robot
+                    testing, optimization, and deployment.
+                </p>
+
+                <a href="Week 4/index.html" class="week-btn">
+                    Open Documentation
+                </a>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CONTACT -->
+
+    <section id="contact">
+
+        <h2 class="section-title">GitHub & Contact</h2>
+
+        <p class="section-desc">
+            Connect professionally and explore my engineering projects,
+            internship documentation, and technical development work.
+        </p>
+
+        <div class="contact-grid">
+
+            <!-- GITHUB -->
+
+            <div class="contact-card">
+
+                <h3>GitHub</h3>
+
+                <p>
+                    <a href="https://github.com/saisalpure5-ops" target="_blank">
+
+                        github.com/saisalpure5-ops
+
+                    </a>
+                </p>
+
+            </div>
+
+            <!-- LINKEDIN -->
+
+            <div class="contact-card">
+
+                <h3>LinkedIn</h3>
+
+                <p>
+                    <a href="https://www.linkedin.com/in/sai-salpure-a56015363"
+                        target="_blank">
+
+                        linkedin.com/in/sai-salpure-a56015363
+
+                    </a>
+                </p>
+
+            </div>
+
+            <!-- EMAIL -->
+
+            <div class="contact-card">
+
+                <h3>Email</h3>
+
+                <p>
+                    <a href="mailto:sai.salpure_25uds@sanjivani.edu.in">
+
+                        sai.salpure_25uds@sanjivani.edu.in
+
+                    </a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Sai Salpure | Tinkerers’ Lab Summer Internship Portfolio
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

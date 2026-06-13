@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Week 1 — Sanjivani Summer Internship 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════ */
+:root{
+  /* Blues */
+  --bg:        #050c1a;
+  --bg2:       #071020;
+  --surface:   #0a1628;
+  --surface2:  #0d1c32;
+  --surface3:  #10213a;
+  --border:    rgba(100,160,255,.1);
+  --border2:   rgba(100,160,255,.18);
+  --border3:   rgba(100,160,255,.28);
+
+  /* Accents */
+  --blue:      #3b82f6;
+  --blue2:     #60a5fa;
+  --blue3:     #93c5fd;
+  --cyan:      #22d3ee;
+  --glow:      rgba(59,130,246,.15);
+  --glow2:     rgba(59,130,246,.06);
+
+  /* Text */
+  --text:      #e2ecff;
+  --text2:     #a8c0e8;
+  --muted:     #5a7aaa;
+  --muted2:    #3d5880;
+
+  /* Status */
+  --green:     #34d399;
+  --gold:      #fbbf24;
+  --rose:      #f87171;
+
+  /* Fonts */
+  --ff-head:   'Syne', sans-serif;
+  --ff-body:   'Inter', sans-serif;
+  --ff-mono:   'JetBrains Mono', monospace;
+
+  /* Misc */
+  --radius:    10px;
+  --radius-lg: 16px;
+}
+
+/* ═══════════════════════════════════════
+   RESET
+═══════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--ff-body);
+  font-size:16px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+/* ═══════════════════════════════════════
+   HERO / HEADER
+═══════════════════════════════════════ */
+.hero{
+  position:relative;
+  padding:90px 32px 80px;
+  text-align:center;
+  overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+
+/* Grid */
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+
+/* Top glow */
+.hero::before{
+  content:'';
+  position:absolute;top:-120px;left:50%;transform:translateX(-50%);
+  width:700px;height:500px;
+  background:radial-gradient(ellipse,rgba(59,130,246,.18) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.hero-inner{position:relative;z-index:1;max-width:740px;margin:0 auto}
+
+/* Badge */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(59,130,246,.1);
+  border:1px solid rgba(59,130,246,.25);
+  border-radius:100px;
+  padding:7px 20px;
+  font-size:11.5px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;
+  color:var(--blue3);
+  margin-bottom:32px;
+  animation:fadeDown .7s cubic-bezier(.16,1,.3,1) both;
+}
+.live-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 8px var(--green);
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* Headline */
+.hero h1{
+  font-family:var(--ff-head);
+  font-size:clamp(2.2rem,5.5vw,3.8rem);
+  font-weight:800;
+  color:#fff;
+  line-height:1.1;
+  letter-spacing:-.025em;
+  margin-bottom:16px;
+  animation:fadeDown .7s .1s cubic-bezier(.16,1,.3,1) both;
+}
+.hero h1 span{
+  background:linear-gradient(90deg,var(--blue2),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.hero-sub{
+  font-size:16px;color:var(--text2);
+  font-weight:400;margin-bottom:48px;
+  animation:fadeDown .7s .18s cubic-bezier(.16,1,.3,1) both;
+}
+
+/* Meta strip */
+.hero-meta{
+  display:inline-flex;flex-wrap:wrap;justify-content:center;gap:0;
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  overflow:hidden;
+  animation:fadeDown .7s .28s cubic-bezier(.16,1,.3,1) both;
+}
+.hm-cell{
+  padding:13px 28px;
+  border-right:1px solid var(--border2);
+  text-align:center;
+}
+.hm-cell:last-child{border-right:none}
+.hm-label{
+  display:block;font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:3px;
+}
+.hm-val{
+  font-size:14px;font-weight:600;color:var(--text);
+}
+
+@keyframes fadeDown{
+  from{opacity:0;transform:translateY(-14px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════════════════════════
+   STICKY NAV
+═══════════════════════════════════════ */
+.day-nav{
+  position:sticky;top:0;z-index:500;
+  background:rgba(5,12,26,.94);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:stretch;
+  overflow-x:auto;scrollbar-width:none;
+  transition:box-shadow .3s;
+}
+.day-nav.shadow{box-shadow:0 6px 32px rgba(0,0,0,.5)}
+.day-nav::-webkit-scrollbar{display:none}
+
+.nav-brand{
+  flex-shrink:0;
+  display:flex;align-items:center;
+  padding:0 22px;
+  border-right:1px solid var(--border2);
+  font-family:var(--ff-head);
+  font-size:13px;font-weight:700;
+  color:var(--blue2);
+  white-space:nowrap;
+  letter-spacing:.02em;
+}
+
+.nav-tabs{display:flex;flex:1}
+
+.day-tab{
+  flex-shrink:0;
+  height:50px;padding:0 20px;
+  font-family:var(--ff-head);
+  font-size:12px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);
+  position:relative;
+  border-bottom:2px solid transparent;
+  transition:color .2s,background .2s;
+  white-space:nowrap;
+}
+.day-tab:hover{color:var(--text2);background:rgba(59,130,246,.05)}
+.day-tab.active{color:var(--blue2);border-bottom-color:var(--blue)}
+
+/* completed dot */
+.day-tab.done::after{
+  content:'';
+  position:absolute;top:12px;right:10px;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 6px var(--green);
+}
+
+.nav-counter{
+  flex-shrink:0;
+  display:flex;align-items:center;
+  padding:0 20px;margin-left:auto;
+  border-left:1px solid var(--border2);
+  font-family:var(--ff-mono);
+  font-size:11px;color:var(--muted);
+  white-space:nowrap;
+}
+
+/* ═══════════════════════════════════════
+   PAGE WRAPPER
+═══════════════════════════════════════ */
+.main{
+  max-width:860px;
+  margin:0 auto;
+  padding:72px 28px 120px;
+}
+
+/* ═══════════════════════════════════════
+   DAY PAGES
+═══════════════════════════════════════ */
+.day-page{display:none}
+.day-page.active{
+  display:block;
+  animation:pageIn .5s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════════════════════════
+   DAY HEADER
+═══════════════════════════════════════ */
+.day-header{
+  display:flex;align-items:flex-start;gap:24px;
+  padding:36px 40px;
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border2);
+  background:linear-gradient(135deg,var(--surface2),var(--surface));
+  margin-bottom:64px;
+  position:relative;
+  overflow:hidden;
+}
+.day-header::before{
+  content:'';
+  position:absolute;top:-60px;right:-60px;
+  width:220px;height:220px;
+  border-radius:50%;
+  background:radial-gradient(circle,var(--glow),transparent 70%);
+  pointer-events:none;
+}
+
+.dh-badge{
+  flex-shrink:0;
+  width:68px;height:68px;
+  border-radius:var(--radius);
+  background:var(--blue);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:1px;
+}
+.dh-badge .db-word{
+  font-size:8.5px;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+}
+.dh-badge .db-num{
+  font-family:var(--ff-head);
+  font-size:1.9rem;font-weight:800;
+  color:#fff;line-height:1;
+}
+
+.dh-text{}
+.dh-eyebrow{
+  font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;
+}
+.dh-title{
+  font-family:var(--ff-head);
+  font-size:clamp(1.4rem,3vw,2rem);
+  font-weight:800;color:#fff;
+  line-height:1.15;letter-spacing:-.02em;
+  margin-bottom:14px;
+}
+.dh-tags{display:flex;flex-wrap:wrap;gap:8px}
+.dh-tag{
+  font-size:11.5px;font-weight:500;
+  padding:4px 12px;
+  border:1px solid var(--border2);
+  border-radius:100px;
+  color:var(--text2);
+  background:rgba(59,130,246,.07);
+}
+
+/* ═══════════════════════════════════════
+   TOPIC HEADER (e.g. "Topic 1 — VS Code")
+═══════════════════════════════════════ */
+.topic-header{
+  display:flex;align-items:center;gap:0;
+  margin-bottom:40px;
+}
+.topic-num{
+  font-family:var(--ff-mono);
+  font-size:12px;font-weight:500;
+  color:var(--blue);
+  background:rgba(59,130,246,.1);
+  border:1px solid rgba(59,130,246,.2);
+  border-radius:6px;
+  padding:4px 10px;
+  flex-shrink:0;
+  margin-right:16px;
+}
+.topic-title{
+  font-family:var(--ff-head);
+  font-size:1.25rem;font-weight:700;
+  color:#fff;letter-spacing:-.01em;
+}
+.topic-line{
+  flex:1;height:1px;
+  background:linear-gradient(90deg,var(--border2),transparent);
+  margin-left:20px;
+}
+
+/* ═══════════════════════════════════════
+   STEP — the core repeating unit
+   Structure: step-label → para → img-block
+   Repeat for each of 7-8 steps per topic
+═══════════════════════════════════════ */
+.step{
+  margin-bottom:56px;
+  padding-left:28px;
+  border-left:1px solid var(--border2);
+  position:relative;
+}
+/* Step number bubble on the left */
+.step::before{
+  content:attr(data-step);
+  position:absolute;left:-14px;top:0;
+  width:27px;height:27px;
+  border-radius:50%;
+  background:var(--surface3);
+  border:1px solid var(--border3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-mono);
+  font-size:10.5px;font-weight:500;
+  color:var(--blue2);
+  line-height:1;
+  text-align:center;
+  /* inline-flex via JS not needed — we use pseudo content trick */
+}
+
+.step-label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--ff-head);
+  font-size:14px;font-weight:700;
+  color:var(--blue2);
+  letter-spacing:.02em;
+  margin-bottom:14px;
+}
+.step-label .sl-icon{font-size:15px}
+
+.step p{
+  font-size:15.5px;
+  color:var(--text2);
+  line-height:1.85;
+  margin-bottom:24px;
+  font-weight:400;
+}
+.step p strong{color:var(--text);font-weight:600}
+.step p em{color:var(--cyan);font-style:normal}
+.step p code{
+  font-family:var(--ff-mono);font-size:.82em;
+  color:var(--gold);
+  background:rgba(251,191,36,.07);
+  border:1px solid rgba(251,191,36,.15);
+  border-radius:4px;padding:1px 6px;
+}
+
+/* ═══════════════════════════════════════
+   IMAGE BLOCK
+═══════════════════════════════════════ */
+.img-block{margin-bottom:10px}
+
+.img-frame{
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  border:1px solid var(--border2);
+  background:var(--surface2);
+  box-shadow:0 4px 24px rgba(0,0,0,.35);
+  transition:transform .35s cubic-bezier(.16,1,.3,1),
+             box-shadow .35s cubic-bezier(.16,1,.3,1);
+}
+.img-frame:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 48px rgba(0,0,0,.5),0 0 0 1px rgba(59,130,246,.2);
+}
+
+/* browser chrome bar */
+.img-chrome{
+  display:flex;align-items:center;gap:7px;
+  padding:10px 14px;
+  background:var(--surface3);
+  border-bottom:1px solid var(--border);
+}
+.cd{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.cd-r{background:#ff5f57}.cd-y{background:#febc2e}.cd-g{background:#28c840}
+.chrome-addr{
+  flex:1;margin:0 8px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:5px;padding:3px 10px;
+  font-family:var(--ff-mono);font-size:10.5px;
+  color:var(--muted);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+
+.img-frame img{
+  width:100%;display:block;
+  min-height:160px;object-fit:cover;
+  background:var(--surface2);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.img-frame:hover img{transform:scale(1.012)}
+
+.img-caption{
+  display:flex;align-items:center;gap:10px;
+  margin-top:10px;margin-bottom:4px;
+  font-family:var(--ff-mono);
+  font-size:11.5px;color:var(--muted);
+}
+.cap-fig{
+  color:var(--gold);font-weight:500;flex-shrink:0;
+}
+
+/* ═══════════════════════════════════════
+   TOPIC SEPARATOR
+═══════════════════════════════════════ */
+.topic-sep{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border2),transparent);
+  margin:64px 0;
+}
+
+/* ═══════════════════════════════════════
+   CALLOUT
+═══════════════════════════════════════ */
+.callout{
+  display:flex;gap:14px;
+  border-radius:var(--radius);
+  padding:16px 20px;
+  margin:32px 0 56px;
+}
+.callout.info{
+  background:rgba(59,130,246,.07);
+  border:1px solid rgba(59,130,246,.2);
+}
+.callout.success{
+  background:rgba(52,211,153,.06);
+  border:1px solid rgba(52,211,153,.18);
+}
+.callout.warn{
+  background:rgba(251,191,36,.05);
+  border:1px solid rgba(251,191,36,.15);
+}
+.callout-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+.callout-body strong{
+  display:block;font-size:11.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text);margin-bottom:4px;
+}
+.callout-body p{font-size:13.5px;color:var(--text2);line-height:1.7}
+.callout-body p code{
+  font-family:var(--ff-mono);font-size:.85em;color:var(--gold);
+  background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.15);
+  border-radius:3px;padding:0 5px;
+}
+
+/* ═══════════════════════════════════════
+   COMING SOON
+═══════════════════════════════════════ */
+.coming-soon{
+  text-align:center;
+  padding:100px 32px;
+  border:1px dashed var(--border2);
+  border-radius:var(--radius-lg);
+  background:var(--surface);
+}
+.cs-icon{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--surface3);
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;margin:0 auto 20px;
+}
+.coming-soon h3{
+  font-family:var(--ff-head);
+  font-size:1.3rem;font-weight:700;
+  color:var(--muted);margin-bottom:8px;
+}
+.coming-soon p{font-size:13.5px;color:var(--muted2)}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+.site-footer{
+  border-top:1px solid var(--border);
+  padding:36px 32px;text-align:center;
+  font-size:13px;color:var(--muted);
+  line-height:2;
+}
+.site-footer strong{color:var(--text2)}
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
+.reveal{
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),
+             transform .6s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in{opacity:1;transform:none}
+.rv1{transition-delay:.07s}
+.rv2{transition-delay:.14s}
+.rv3{transition-delay:.21s}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:600px){
+  .hero{padding:64px 18px 56px}
+  .hero-meta{flex-direction:column;width:100%}
+  .hm-cell{border-right:none;border-bottom:1px solid var(--border2)}
+  .hm-cell:last-child{border-bottom:none}
+  .main{padding:48px 16px 80px}
+  .day-header{flex-direction:column;gap:16px;padding:24px 22px}
+  .nav-counter,.nav-brand{display:none}
+  .step{padding-left:20px}
+  .topic-title{font-size:1.05rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+
+    <div class="hero-badge">
+      <span class="live-dot"></span>
+      Sanjivani College of Engineering &nbsp;·&nbsp; Summer Internship 2026
+    </div>
+
+    <h1>Week 1 <span>Field Documentation</span></h1>
+
+    <p class="hero-sub">
+      A structured daily record of tools, steps &amp; learnings across seven internship sessions
+    </p>
+
+    <div class="hero-meta">
+      <div class="hm-cell">
+        <span class="hm-label">Intern</span>
+        <span class="hm-val">TL_Intern_Sai</span>
+      </div>
+      <div class="hm-cell">
+        <span class="hm-label">Duration</span>
+        <span class="hm-val">4 Weeks</span>
+      </div>
+      <div class="hm-cell">
+        <span class="hm-label">Focus</span>
+        <span class="hm-val">Web Dev &amp; DevOps</span>
+      </div>
+      <div class="hm-cell">
+        <span class="hm-label">Status</span>
+        <span class="hm-val" style="color:var(--green)">● Active</span>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════
+     STICKY NAV
+═══════════════════════════════════════ -->
+<nav class="day-nav" id="dayNav">
+  <div class="nav-brand">Week 1</div>
+  <div class="nav-tabs">
+    <button class="day-tab done active" onclick="showDay('day1',this)">Day 1</button>
+    <button class="day-tab"            onclick="showDay('day2',this)">Day 2</button>
+    <button class="day-tab"            onclick="showDay('day3',this)">Day 3</button>
+    <button class="day-tab"            onclick="showDay('day4',this)">Day 4</button>
+    <button class="day-tab"            onclick="showDay('day5',this)">Day 5</button>
+    <button class="day-tab"            onclick="showDay('day6',this)">Day 6</button>
+    <button class="day-tab"            onclick="showDay('day7',this)">Day 7</button>
+  </div>
+  <div class="nav-counter" id="navCounter">01 / 07</div>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     MAIN
+═══════════════════════════════════════ -->
+<main class="main">
+
+<!--
+╔══════════════════════════════════════════════════════════╗
+║  HOW TO ADD A NEW DAY (e.g. Day 2)                       ║
+║                                                          ║
+║  1. Find the Day 2 block below (id="day2")               ║
+║  2. Delete the <div class="coming-soon">…</div> block    ║
+║  3. Copy the ENTIRE Day 1 topic sections as a template   ║
+║  4. Change: dh-badge number, dh-title, dh-eyebrow, tags ║
+║  5. Each TOPIC: update topic-num, topic-title            ║
+║  6. Each STEP: update data-step, step-label, <p>, img src║
+║  7. Add class="done" to that day's nav button            ║
+╚══════════════════════════════════════════════════════════╝
+-->
+
+<!-- ════════════════════════════════════════
+     DAY 1 ✅ COMPLETE
+════════════════════════════════════════ -->
+<div class="day-page active" id="day1">
+
+  <!-- Day Header -->
+  <div class="day-header reveal">
+    <div class="dh-badge">
+      <span class="db-word">Day</span>
+      <span class="db-num">01</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Monday &nbsp;·&nbsp; Day 1 of 7</div>
+      <div class="dh-title">Environment Setup —<br/>VS Code &amp; GitHub</div>
+      <div class="dh-tags">
+        <span class="dh-tag">Tools Installation</span>
+        <span class="dh-tag">VS Code</span>
+        <span class="dh-tag">GitHub</span>
+        <span class="dh-tag">Version Control</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────
+       TOPIC 1 — VS CODE INSTALLATION
+  ───────────────────────────────────── -->
+  <div class="topic-header reveal">
+    <span class="topic-num">Topic 01</span>
+    <span class="topic-title">Visual Studio Code — Installation &amp; Setup</span>
+    <div class="topic-line"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step reveal" data-step="1">
+    <div class="step-label"><span class="sl-icon">🌐</span> Visit the Official Website</div>
+    <p>
+      Open your browser and navigate to <code>code.visualstudio.com</code>. This is the
+      official Microsoft website for VS Code. Avoid downloading from third-party sources
+      to ensure you get a <strong>clean, verified installer</strong> without any bundled software.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">code.visualstudio.com/download</span>
+        </div>
+        <img src="step1_vscode_setup.webp" alt="VS Code official download page"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.1</span> VS Code official download page on Microsoft's website
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step reveal" data-step="2">
+    <div class="step-label"><span class="sl-icon">⬇️</span> Download the Installer</div>
+    <p>
+      Click the large <strong>Download for Windows</strong> button (or your OS). The site
+      auto-detects your operating system. The file downloaded is a standard
+      <code>.exe</code> setup file roughly 90 MB in size.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">code.visualstudio.com — Download button</span>
+        </div>
+        <img src="step2_vscode_setup.webp" alt="Clicking the download button"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.2</span> Clicking "Download for Windows" on the VS Code page
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step reveal" data-step="3">
+    <div class="step-label"><span class="sl-icon">📋</span> Accept the Licence Agreement</div>
+    <p>
+      Run the downloaded installer. The first screen shows the <strong>End User Licence Agreement</strong>.
+      Read through it, select <em>I accept the agreement</em>, and click <strong>Next</strong>
+      to proceed to the installation path selection screen.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code Setup — Licence Agreement</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T1_S3.jpg" alt="Licence agreement screen"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.3</span> Accepting the VS Code licence agreement
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step reveal" data-step="4">
+    <div class="step-label"><span class="sl-icon">📁</span> Choose Installation Path</div>
+    <p>
+      On the <strong>Select Destination Location</strong> screen, keep the default path
+      (<code>C:\Users\{name}\AppData\Local\Programs\Microsoft VS Code</code>) unless
+      you have a specific reason to change it. Click <strong>Next</strong>.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code Setup — Select Destination</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T1_S4.jpg" alt="Installation path selection"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.4</span> Default installation directory — kept as-is
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step reveal" data-step="5">
+    <div class="step-label"><span class="sl-icon">⚙️</span> Enable Critical Options</div>
+    <p>
+      On the <strong>Select Additional Tasks</strong> screen, tick these two critical boxes:
+      <strong>"Add to PATH"</strong> — allows launching VS Code from any terminal with <code>code .</code> —
+      and <strong>"Open with Code"</strong> — adds VS Code to the Windows right-click context menu.
+      Both options are extremely useful day-to-day.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code Setup — Additional Tasks</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T1_S5.jpg" alt="Add to PATH and Open with Code options"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.5</span> Enabling "Add to PATH" and "Open with Code" options
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step reveal" data-step="6">
+    <div class="step-label"><span class="sl-icon">🚀</span> Complete Installation</div>
+    <p>
+      Click <strong>Install</strong>. The progress bar runs for about 30–60 seconds.
+      Once done, keep <em>Launch Visual Studio Code</em> ticked and click <strong>Finish</strong>.
+      VS Code opens automatically for the first time.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code Setup — Installation Complete</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T1_S6.jpg" alt="Installation complete screen"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.6</span> Installation complete — "Launch VS Code" ticked
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="step reveal" data-step="7">
+    <div class="step-label"><span class="sl-icon">🧩</span> Install Essential Extensions</div>
+    <p>
+      VS Code opens on the <strong>Welcome</strong> tab. Click the Extensions icon in the Activity Bar
+      (or press <code>Ctrl+Shift+X</code>) and install: <em>Prettier – Code formatter</em>,
+      <em>ESLint</em>, and <em>GitLens</em>. These three extensions are standard in every
+      professional web development workflow.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code — Extensions Marketplace</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T1_S7.jpg" alt="VS Code extensions marketplace"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.7</span> Installing Prettier, ESLint and GitLens from the marketplace
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 8 -->
+  <div class="step reveal" data-step="8">
+    <div class="step-label"><span class="sl-icon">✅</span> Verify Installation</div>
+    <p>
+      Open a terminal (<code>Ctrl + `</code>) inside VS Code and type <code>code --version</code>.
+      The installed version number should print. This confirms VS Code is correctly added to the
+      system PATH and is ready for use throughout the internship.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code — Integrated Terminal</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T1_S8.jpg" alt="Verifying VS Code installation in terminal"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.1.8</span> Running <code>code --version</code> to verify correct installation
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info reveal">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <strong>Quick Tip</strong>
+      <p>Press <code>Ctrl + `</code> to open the integrated terminal at any time. It automatically opens in the folder of your currently open project — no need to navigate separately.</p>
+    </div>
+  </div>
+
+  <!-- TOPIC SEPARATOR -->
+  <div class="topic-sep"></div>
+
+  <!-- ─────────────────────────────────────
+       TOPIC 2 — GITHUB SETUP
+  ───────────────────────────────────── -->
+  <div class="topic-header reveal">
+    <span class="topic-num">Topic 02</span>
+    <span class="topic-title">GitHub — Account &amp; Repository Setup</span>
+    <div class="topic-line"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step reveal" data-step="1">
+    <div class="step-label"><span class="sl-icon">🌐</span> Open GitHub Website</div>
+    <p>
+      Open your browser and go to <code>github.com</code>. GitHub is a cloud-based
+      version control platform built on Git — the world's most widely used distributed
+      version control system. Click <strong>Sign Up</strong> in the top-right corner.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T2_S1.jpg" alt="GitHub homepage"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.1</span> GitHub homepage — clicking Sign Up to create an account
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step reveal" data-step="2">
+    <div class="step-label"><span class="sl-icon">📝</span> Fill Registration Form</div>
+    <p>
+      Enter your <strong>email address</strong>, choose a <strong>username</strong> (this becomes your
+      public GitHub handle — choose professionally), and set a strong <strong>password</strong>.
+      GitHub will send a verification code to your email to confirm it.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com/signup</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T2_S2.jpg" alt="GitHub signup form"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.2</span> Filling in the GitHub registration form with email and username
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step reveal" data-step="3">
+    <div class="step-label"><span class="sl-icon">📧</span> Verify Email Address</div>
+    <p>
+      GitHub sends a <strong>6-digit verification code</strong> to your registered email.
+      Open your inbox, copy the code, and paste it on the GitHub verification screen.
+      Email verification is mandatory before you can create repositories.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com — Email Verification</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T2_S3.jpg" alt="GitHub email verification"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.3</span> Entering the 6-digit code from the verification email
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step reveal" data-step="4">
+    <div class="step-label"><span class="sl-icon">👤</span> Complete Profile Setup</div>
+    <p>
+      Go to <strong>Settings → Profile</strong> and add a profile photo, bio, and institution name
+      (Sanjivani College of Engineering). A complete profile makes it easy for mentors and teammates
+      to identify you in pull requests, issues, and code reviews.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com/settings/profile</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T2_S4.jpg" alt="GitHub profile settings"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.4</span> Completing the GitHub profile with photo and bio
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step reveal" data-step="5">
+    <div class="step-label"><span class="sl-icon">➕</span> Create New Repository</div>
+    <p>
+      Click the <strong>+</strong> icon in the top-right → <em>New repository</em>.
+      Name it <code>sanjivani-internship-2026</code>. Choose <strong>Public</strong> visibility
+      so the mentor can review it. Tick <strong>Add a README file</strong> — this creates the
+      default <code>main</code> branch automatically.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com/new</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T2_S5.jpg" alt="New repository creation form"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.5</span> Creating the internship repository on GitHub
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step reveal" data-step="6">
+    <div class="step-label"><span class="sl-icon">📄</span> Add Licence &amp; .gitignore</div>
+    <p>
+      Still on the new-repository screen, select <strong>MIT</strong> from the licence dropdown
+      and choose <strong>Node</strong> from the <em>.gitignore template</em> dropdown.
+      The .gitignore prevents <code>node_modules/</code> and environment files from
+      being accidentally pushed to GitHub.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com/new — Licence &amp; .gitignore</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T2_S6.jpg" alt="Selecting licence and gitignore"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.6</span> Selecting MIT licence and Node .gitignore template
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="step reveal" data-step="7">
+    <div class="step-label"><span class="sl-icon">🔗</span> Clone Repository Locally</div>
+    <p>
+      Click the green <strong>Code</strong> button on your new repository page and copy the HTTPS URL.
+      Open VS Code's integrated terminal and run <code>git clone &lt;URL&gt;</code> to download
+      the repository to your local machine. This links your local folder to GitHub.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">github.com/username/sanjivani-internship-2026</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T2_S7.jpg" alt="Cloning repository via HTTPS"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.7</span> Copying HTTPS URL to clone the repository locally
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 8 -->
+  <div class="step reveal" data-step="8">
+    <div class="step-label"><span class="sl-icon">✅</span> Make First Commit</div>
+    <p>
+      Open the cloned folder in VS Code. Edit <code>README.md</code> to add your name and internship details.
+      In the terminal run <code>git add .</code> then <code>git commit -m "Initial commit"</code>
+      then <code>git push</code>. Refresh GitHub — your changes are now live on the remote repository.
+    </p>
+    <div class="img-block">
+      <div class="img-frame">
+        <div class="img-chrome">
+          <span class="cd cd-r"></span><span class="cd cd-y"></span><span class="cd cd-g"></span>
+          <span class="chrome-addr">VS Code — Terminal (git push)</span>
+        </div>
+        <img src="YOUR_IMAGE_D1_T2_S8.jpg" alt="First git commit and push"/>
+      </div>
+      <div class="img-caption">
+        <span class="cap-fig">Fig 1.2.8</span> First commit pushed successfully — repository live on GitHub
+      </div>
+    </div>
+  </div>
+
+  <div class="callout success reveal">
+    <span class="callout-icon">✅</span>
+    <div class="callout-body">
+      <strong>Day 1 Complete</strong>
+      <p>VS Code is installed and configured. GitHub account is set up, repository created, and first commit pushed. The development environment is fully operational for the rest of the internship.</p>
+    </div>
+  </div>
+
+</div><!-- /day1 -->
+
+
+<!-- ════════════════════════════════════════
+     DAY 2 — Paste content here when ready
+════════════════════════════════════════ -->
+<div class="day-page" id="day2">
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#1d4ed8">
+      <span class="db-word">Day</span>
+      <span class="db-num">02</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Tuesday &nbsp;·&nbsp; Day 2 of 7</div>
+      <div class="dh-title">Day 2 Title Here</div>
+      <div class="dh-tags"><span class="dh-tag">Topic Tag</span></div>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="cs-icon">🗓️</div>
+    <h3>Day 2 — Coming Soon</h3>
+    <p>Content will be added after Day 2 of the internship is complete.</p>
+  </div>
+</div>
+
+<!-- DAY 3 -->
+<div class="day-page" id="day3">
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#1e40af">
+      <span class="db-word">Day</span>
+      <span class="db-num">03</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Wednesday &nbsp;·&nbsp; Day 3 of 7</div>
+      <div class="dh-title">Day 3 Title Here</div>
+      <div class="dh-tags"><span class="dh-tag">Topic Tag</span></div>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="cs-icon">🗓️</div>
+    <h3>Day 3 — Coming Soon</h3>
+    <p>Content will be added after Day 3 of the internship is complete.</p>
+  </div>
+</div>
+
+<!-- DAY 4 -->
+<div class="day-page" id="day4">
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#1e3a8a">
+      <span class="db-word">Day</span>
+      <span class="db-num">04</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Thursday &nbsp;·&nbsp; Day 4 of 7</div>
+      <div class="dh-title">Day 4 Title Here</div>
+      <div class="dh-tags"><span class="dh-tag">Topic Tag</span></div>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="cs-icon">🗓️</div>
+    <h3>Day 4 — Coming Soon</h3>
+    <p>Content will be added after Day 4 of the internship is complete.</p>
+  </div>
+</div>
+
+<!-- DAY 5 -->
+<div class="day-page" id="day5">
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#172554">
+      <span class="db-word">Day</span>
+      <span class="db-num">05</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Friday &nbsp;·&nbsp; Day 5 of 7</div>
+      <div class="dh-title">Day 5 Title Here</div>
+      <div class="dh-tags"><span class="dh-tag">Topic Tag</span></div>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="cs-icon">🗓️</div>
+    <h3>Day 5 — Coming Soon</h3>
+    <p>Content will be added after Day 5 of the internship is complete.</p>
+  </div>
+</div>
+
+<!-- DAY 6 -->
+<div class="day-page" id="day6">
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#1e3a8a">
+      <span class="db-word">Day</span>
+      <span class="db-num">06</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Saturday &nbsp;·&nbsp; Day 6 of 7</div>
+      <div class="dh-title">Day 6 Title Here</div>
+      <div class="dh-tags"><span class="dh-tag">Topic Tag</span></div>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="cs-icon">🗓️</div>
+    <h3>Day 6 — Coming Soon</h3>
+    <p>Content will be added after Day 6 of the internship is complete.</p>
+  </div>
+</div>
+
+<!-- DAY 7 -->
+<div class="day-page" id="day7">
+  <div class="day-header reveal">
+    <div class="dh-badge" style="background:#1d4ed8">
+      <span class="db-word">Day</span>
+      <span class="db-num">07</span>
+    </div>
+    <div class="dh-text">
+      <div class="dh-eyebrow">Week 1 &nbsp;/&nbsp; Sunday &nbsp;·&nbsp; Day 7 of 7</div>
+      <div class="dh-title">Day 7 Title Here</div>
+      <div class="dh-tags"><span class="dh-tag">Topic Tag</span></div>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="cs-icon">🗓️</div>
+    <h3>Day 7 — Coming Soon</h3>
+    <p>Content will be added after Day 7 of the internship is complete.</p>
+  </div>
+</div>
+
+</main>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer class="site-footer">
+  <strong>Sanjivani College of Engineering</strong><br/>
+  Summer Internship 2026 &nbsp;·&nbsp; Intern: TL_Intern_Sai<br/>
+  Week 1 Field Documentation &nbsp;·&nbsp; Web Development &amp; DevOps
+</footer>
+
+<script>
+/* ── Day switcher ── */
+function showDay(id, btn) {
+  document.querySelectorAll('.day-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  var n = id.replace('day','');
+  document.getElementById('navCounter').textContent = ('0'+n).slice(-2) + ' / 07';
+  window.scrollTo({ top: document.getElementById('dayNav').offsetTop, behavior:'smooth' });
+  setTimeout(function(){ triggerReveals(document.getElementById(id)); }, 80);
+}
+
+/* ── Scroll reveal ── */
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){ e.target.classList.add('in'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+
+function triggerReveals(root){
+  (root || document).querySelectorAll('.reveal:not(.in)').forEach(function(el){
+    observer.observe(el);
+  });
+}
+triggerReveals();
+
+/* ── Nav shadow ── */
+window.addEventListener('scroll', function(){
+  document.getElementById('dayNav').classList.toggle('shadow', window.scrollY > 10);
+});
+
+/* ── Step bubble centering (CSS pseudo can't flex, so JS fixes it) ── */
+document.querySelectorAll('.step').forEach(function(s){
+  var pseudo = s.getAttribute('data-step');
+  /* already handled via CSS content:attr(data-step) */
+});
+</script>
+</body>
+</html>
