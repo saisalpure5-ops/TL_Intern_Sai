@@ -409,6 +409,34 @@
 
         /* PROJECT */
 
+        .project-card ul {
+    padding-left: 20px;
+    margin-bottom: 28px;
+}
+
+.doc-btn {
+    display: inline-block;
+    padding: 13px 28px;
+    border-radius: 14px;
+    border: 1px solid rgba(77, 163, 255, 0.45);
+    background: rgba(77, 163, 255, 0.08);
+    color: var(--primary-light);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    transition: 0.35s;
+    text-decoration: none;
+}
+
+.doc-btn:hover {
+    background: linear-gradient(135deg, #1976ff, #59b3ff);
+    border-color: transparent;
+    color: #ffffff;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(77, 163, 255, 0.3);
+}
+
         .project-grid{
             display:grid;
             grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
@@ -667,7 +695,6 @@
                 font-size:2rem;
             }
         }
-
     </style>
 
 </head>
@@ -904,69 +931,59 @@
 
     <!-- FINAL PROJECT -->
 
-    <section id="project">
+<section id="project">
 
-        <h2 class="section-title">Final Project</h2>
+    <h2 class="section-title">Final Project</h2>
 
-        <p class="section-desc">
-            Internship final project focused on intelligent robotics,
-            autonomous navigation, and smart embedded systems.
-        </p>
+    <p class="section-desc">
+        Internship final projects focused on AI-based healthcare
+        diagnostics and intelligent home automation systems.
+    </p>
 
-        <div class="project-grid">
+    <div class="project-grid">
 
-            <div class="project-card">
-                <h3>Smart Autonomous Delivery Robot</h3>
+        <div class="project-card">
+            <h3>AI Based Skin Cancer Detection System</h3>
 
-                <p>
-                    An intelligent robotic platform designed for smart
-                    delivery operations using IoT connectivity,
-                    embedded systems, sensors, and autonomous navigation.
-                </p>
-            </div>
+            <p>
+                An AI-powered diagnostic tool that analyzes skin lesion
+                images using machine learning to detect and classify
+                potential skin cancer with high accuracy, assisting
+                early medical diagnosis.
+            </p>
 
-            <div class="project-card">
-                <h3>Features</h3>
+            <ul>
+                <li>Image-based lesion classification</li>
+                <li>ML model integration</li>
+                <li>Real-time prediction output</li>
+                <li>User-friendly interface</li>
+            </ul>
 
-                <ul>
-                    <li>Autonomous Navigation</li>
-                    <li>Obstacle Detection</li>
-                    <li>Smart Delivery Workflow</li>
-                    <li>ESP32-based Control</li>
-                    <li>IoT Monitoring</li>
-                    <li>Real-time Communication</li>
-                </ul>
-            </div>
-
-            <div class="project-card">
-                <h3>Technologies Used</h3>
-
-                <ul>
-                    <li>ESP32</li>
-                    <li>Robotics</li>
-                    <li>Embedded Systems</li>
-                    <li>Python</li>
-                    <li>AI/ML Concepts</li>
-                    <li>Electronics Integration</li>
-                    <li>3D Printing</li>
-                </ul>
-            </div>
-
-            <div class="project-card">
-                <h3>Future Scope</h3>
-
-                <ul>
-                    <li>Computer Vision Integration</li>
-                    <li>AI Route Optimization</li>
-                    <li>Cloud Dashboard System</li>
-                    <li>Industrial Automation Usage</li>
-                    <li>Advanced Sensor Fusion</li>
-                </ul>
-            </div>
-
+            <a href="Projects/smart-home-automation.html" class="doc-btn">Open Documentation</a>
         </div>
 
-    </section>
+        <div class="project-card">
+            <h3>Smart Home Automation</h3>
+
+            <p>
+                An IoT-based smart home system enabling remote monitoring
+                and control of home appliances using ESP32, sensors, and
+                a mobile interface for energy efficiency and convenience.
+            </p>
+
+            <ul>
+                <li>Remote appliance control</li>
+                <li>ESP32 &amp; IoT integration</li>
+                <li>Sensor-based automation</li>
+                <li>Mobile app interface</li>
+            </ul>
+
+            <a href="smart-home-automation.html" class="doc-btn">Open Documentation</a>
+        </div>
+
+    </div>
+
+</section>
 
     <!-- WEEKLY DOCUMENTATION -->
 

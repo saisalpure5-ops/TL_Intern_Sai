@@ -1,259 +1,217 @@
 """
-model/predictor.py
-Skin Cancer Classifier using ONNX Runtime.
-Works on ALL CPUs — no AVX required.
-All 5 models supported.
+utils/video_thread.py
+Handles live camera feed and AI inference in background thread.
 """
 
-import os
-import sys
+import cv2
 import numpy as np
+import time
+import datetime
+import os
 
-# ── ONNX Runtime ──────────────────────────────────────────────
-try:
-    import onnxruntime as ort
-    ONNX_AVAILABLE = True
-    print("ONNX Runtime loaded successfully")
-except ImportError:
-    ONNX_AVAILABLE = False
-    print("onnxruntime not installed. Run: pip install onnxruntime")
-
-# ── PIL for image loading ──────────────────────────────────────
-try:
-    from PIL import Image
-    PIL_AVAILABLE = True
-except ImportError:
-    PIL_AVAILABLE = False
+from PyQt5.QtCore import QThread, pyqtSignal
 
 
-def get_resource_path(relative_path):
-    try:
-        base = sys._MEIPASS
-    except Exception:
-        base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base, relative_path)
+class VideoThread(QThread):
+    change_pixmap_signal = pyqtSignal(object, object)
+    # snapshot now sends: (clean_frame, result_dict, timestamp)
+    snapshot_signal      = pyqtSignal(object, object, str)
+    status_signal        = pyqtSignal(str)
+    progress_signal      = pyqtSignal(int)
+    final_result_signal  = pyqtSignal(object)   # emits final frozen result dict
 
+    def __init__(self):
+        super().__init__()
+        self.video_source  = 0
+        self.is_camera     = True
+        self.is_running    = False
+        self.is_paused     = False
+        self.detector      = None
+        self.snap_interval = 3.0
+        self._last_snap    = 0
 
-# ══════════════════════════════════════════════════════════════
-# CLASS DEFINITIONS
-# ══════════════════════════════════════════════════════════════
-CLASS_NAMES = ["MEL", "NV", "BCC", "AKIEC", "BKL", "DF", "VASC"]
+        # Freeze / final-result logic
+        self._frame_buffer   = []
+        self._BUFFER_SIZE    = 20
+        self._frozen         = False
+        self._frozen_result  = None
 
-FULL_NAMES = {
-    "MEL"  : "Melanoma",
-    "NV"   : "Melanocytic Nevus",
-    "BCC"  : "Basal Cell Carcinoma",
-    "AKIEC": "Actinic Keratosis",
-    "BKL"  : "Benign Keratosis",
-    "DF"   : "Dermatofibroma",
-    "VASC" : "Vascular Lesion",
-}
+    def set_detector(self, detector):
+        self.detector = detector
 
-RISK_LEVEL = {
-    "MEL"  : ("HIGH RISK",     "#ef4444",
-               "Malignant — Immediate medical attention required"),
-    "BCC"  : ("HIGH RISK",     "#ef4444",
-               "Malignant — Consult a dermatologist immediately"),
-    "AKIEC": ("MODERATE RISK", "#f59e0b",
-               "Pre-malignant — Early consultation advised"),
-    "NV"   : ("LOW RISK",      "#10b981",
-               "Benign — Monitor for changes over time"),
-    "BKL"  : ("LOW RISK",      "#10b981",
-               "Benign — Usually harmless"),
-    "DF"   : ("LOW RISK",      "#10b981",
-               "Benign — Generally harmless skin growth"),
-    "VASC" : ("LOW RISK",      "#10b981",
-               "Benign — Vascular, usually harmless"),
-}
+    def run(self):
+        self.is_running = True
+        self.status_signal.emit("STARTING...")
 
-DESCRIPTIONS = {
-    "MEL"  : "Melanoma is the most dangerous skin cancer. "
-             "Develops from melanocytes. Early detection is critical.",
-    "NV"   : "Melanocytic Nevus (common mole) is a benign growth. "
-             "Most moles are harmless but monitor for changes.",
-    "BCC"  : "Basal Cell Carcinoma is the most common skin cancer. "
-             "Grows slowly, rarely spreads but requires treatment.",
-    "AKIEC": "Actinic Keratosis is a pre-cancerous condition "
-             "caused by UV damage. May develop into carcinoma.",
-    "BKL"  : "Benign Keratosis includes seborrheic keratoses. "
-             "Harmless, non-cancerous growths.",
-    "DF"   : "Dermatofibroma is a common benign skin growth. "
-             "Harmless and rarely requires treatment.",
-    "VASC" : "Vascular Lesions are benign blood vessel growths "
-             "in or near the skin surface.",
-}
-
-# ── Model file names (.onnx format) ──────────────────────────
-MODEL_FILES = {
-    "MobileNetV2"  : "MobileNetV2.onnx",
-    "EfficientNetB0": "EfficientNetB0.onnx",
-    "DenseNet121"  : "DenseNet121.onnx",
-    "Xception"     : "Xception.onnx",
-    "InceptionV3"  : "InceptionV3.onnx",
-}
-
-
-class SkinCancerPredictor:
-    """
-    ONNX-based skin cancer classifier.
-    Works on all CPUs — no AVX/GPU required.
-    Supports all 5 trained models.
-    """
-
-    def __init__(self, model_name="Xception"):
-        self.model_name = model_name
-        self.session    = None
-        self.is_loaded  = False
-        self.input_name = None
-        self.image_size = (224, 224)
-        self._load_model(model_name)
-
-    def _load_model(self, model_name):
-        """Load ONNX model from model/ folder."""
-        self.model_name = model_name
-        self.session    = None
-        self.is_loaded  = False
-        self.input_name = None
-
-        if not ONNX_AVAILABLE:
-            print("ONNX Runtime not available.")
+        cap = cv2.VideoCapture(self.video_source)
+        if not cap.isOpened():
+            self.status_signal.emit("CAMERA NOT FOUND")
+            self.is_running = False
             return
 
-        fname = MODEL_FILES.get(model_name,
-                                 model_name + ".onnx")
-        path  = get_resource_path(os.path.join("model", fname))
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH,  1280)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
-        if not os.path.exists(path):
-            print(f"ONNX model not found: {path}")
-            print("Run Colab conversion script first.")
-            return
+        self.status_signal.emit("SYSTEM ACTIVE")
+        frame_count  = 0
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
-        try:
-            # Use CPU provider only — works on all machines
-            providers     = ['CPUExecutionProvider']
-            self.session  = ort.InferenceSession(
-                path, providers=providers
+        while self.is_running:
+            if self.is_paused:
+                time.sleep(0.05)
+                continue
+
+            ret, frame = cap.read()
+            if not ret:
+                if not self.is_camera:
+                    cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                    frame_count = 0
+                    continue
+                else:
+                    break
+
+            frame_count += 1
+
+            if not self.is_camera and total_frames > 0:
+                pct = int((frame_count / total_frames) * 100)
+                self.progress_signal.emit(pct)
+
+            # Run AI detection — returns (overlay_frame, result_or_None)
+            ai_frame, current_result = self._run_detection(frame)
+
+            # Send frames to UI
+            self.change_pixmap_signal.emit(frame.copy(), ai_frame.copy())
+
+            # Auto snapshot — send CLEAN frame + result dict
+            now = time.time()
+            if now - self._last_snap >= self.snap_interval:
+                ts = datetime.datetime.now().strftime("%H:%M:%S")
+                self.snapshot_signal.emit(
+                    frame.copy(),          # clean frame, no overlay text
+                    current_result,        # result dict or None
+                    ts
+                )
+                self._last_snap = now
+
+            time.sleep(0.033)  # ~30 fps
+
+        cap.release()
+        self.status_signal.emit("SYSTEM READY")
+        self.progress_signal.emit(0)
+        self.is_running = False
+
+    def _run_detection(self, frame):
+        """Run AI on frame; freeze after _BUFFER_SIZE consistent frames.
+        Returns (overlay_frame, result_dict_or_None)."""
+
+        if self.detector is None or not self.detector.is_loaded:
+            out = frame.copy()
+            self._draw_overlay(out, "MODEL NOT LOADED", 0.0,
+                               (100, 100, 100), is_final=False)
+            return out, None
+
+        # Already frozen — keep showing the locked result
+        if self._frozen and self._frozen_result:
+            out    = frame.copy()
+            result = self._frozen_result
+            self._draw_overlay(
+                out,
+                result["predicted_class"] + " | " + result["full_name"],
+                result["confidence"] / 100.0,
+                self._risk_color(result),
+                is_final=True
             )
-            self.input_name = self.session.get_inputs()[0].name
-            self.is_loaded  = True
-            print(f"ONNX model loaded: {model_name}")
-            print(f"  Input name : {self.input_name}")
-            print(f"  Input shape: "
-                  f"{self.session.get_inputs()[0].shape}")
-        except Exception as e:
-            print(f"Error loading ONNX model: {e}")
+            return out, result
 
-    def switch_model(self, model_name):
-        """Switch to different model at runtime."""
-        print(f"Switching to: {model_name}")
-        self._load_model(model_name)
-
-    def _preprocess_frame(self, frame_bgr):
-        """
-        Preprocess OpenCV BGR frame for inference.
-        BGR → RGB → resize 224x224 → normalize → batch dim
-        """
-        import cv2
-        rgb     = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
-        resized = cv2.resize(
-            rgb, self.image_size,
-            interpolation=cv2.INTER_LANCZOS4
-        )
-        arr     = resized.astype(np.float32) / 255.0
-        return np.expand_dims(arr, axis=0)  # (1, 224, 224, 3)
-
-    def _preprocess_path(self, image_path):
-        """Preprocess image from file path."""
-        if not PIL_AVAILABLE:
-            return None
+        # Still collecting frames
         try:
-            img = Image.open(image_path).convert("RGB")
-            img = img.resize(self.image_size, Image.LANCZOS)
-            arr = np.array(img, dtype=np.float32) / 255.0
-            return np.expand_dims(arr, axis=0)
+            result = self.detector.predict_frame(frame)
+            if result and not result.get("error"):
+                self._frame_buffer.append(result)
+
+                out = frame.copy()
+                n   = len(self._frame_buffer)
+                self._draw_overlay(
+                    out,
+                    result["predicted_class"] + " | " + result["full_name"]
+                    + "  [" + str(n) + "/" + str(self._BUFFER_SIZE) + "]",
+                    result["confidence"] / 100.0,
+                    self._risk_color(result),
+                    is_final=False
+                )
+
+                # Enough frames — pick majority class
+                if n >= self._BUFFER_SIZE:
+                    from collections import Counter
+                    classes    = [r["predicted_class"] for r in self._frame_buffer]
+                    best_class = Counter(classes).most_common(1)[0][0]
+                    candidates = [r for r in self._frame_buffer
+                                  if r["predicted_class"] == best_class]
+                    best_result = max(candidates, key=lambda r: r["confidence"])
+                    self._frozen        = True
+                    self._frozen_result = best_result
+                    self._frame_buffer  = []
+                    self.final_result_signal.emit(best_result)
+
+                return out, result
         except Exception as e:
-            print("Preprocess error:", e)
-            return None
+            print(f"Detection error: {e}")
 
-    def _run_inference(self, batch):
-        """Run ONNX inference on a preprocessed batch."""
-        try:
-            outputs = self.session.run(
-                None,
-                {self.input_name: batch}
-            )
-            return outputs[0][0]  # shape: (7,)
-        except Exception as e:
-            print("Inference error:", e)
-            return None
+        return frame.copy(), None
 
-    def predict_frame(self, frame_bgr):
-        """
-        Predict from live camera frame.
-        Called by VideoThread every frame.
-        Returns result dict or None.
-        """
-        if not self.is_loaded:
-            return self._demo_result()
+    def _risk_color(self, result):
+        risk = result.get("risk_level", "")
+        if "HIGH"     in risk: return (0, 0, 220)
+        if "MODERATE" in risk: return (0, 165, 255)
+        return (0, 200, 100)
 
-        try:
-            batch = self._preprocess_frame(frame_bgr)
-            probs = self._run_inference(batch)
-            if probs is None:
-                return None
-            idx   = int(np.argmax(probs))
-            return self._build_result(CLASS_NAMES[idx], probs)
-        except Exception as e:
-            print("predict_frame error:", e)
-            return None
+    def _draw_overlay(self, frame, label, confidence, color, is_final=False):
+        """Draw label and confidence bar on frame using only ASCII-safe text."""
+        h, w = frame.shape[:2]
 
-    def predict_image(self, image_path):
-        """
-        Predict from image file path.
-        Returns result dict.
-        """
-        if not self.is_loaded:
-            return self._demo_result()
+        # Top bar background
+        overlay = frame.copy()
+        cv2.rectangle(overlay, (0, 0), (w, 60), (15, 23, 42), -1)
+        cv2.addWeighted(overlay, 0.8, frame, 0.2, 0, frame)
 
-        batch = self._preprocess_path(image_path)
-        if batch is None:
-            return {"error": "Cannot read image."}
+        # [FINAL] badge on left if frozen
+        if is_final:
+            cv2.rectangle(frame, (10, 8), (90, 32), color, -1)
+            cv2.putText(frame, "FINAL", (14, 27),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.6,
+                        (255, 255, 255), 2, cv2.LINE_AA)
+            text_x = 100
+        else:
+            text_x = 15
 
-        try:
-            probs = self._run_inference(batch)
-            if probs is None:
-                return {"error": "Inference failed."}
-            idx   = int(np.argmax(probs))
-            return self._build_result(CLASS_NAMES[idx], probs)
-        except Exception as e:
-            return {"error": str(e)}
+        # Main label — only use printable ASCII; replace any special chars
+        safe_label = label.encode("ascii", errors="replace").decode("ascii")
+        cv2.putText(frame, safe_label, (text_x, 42),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.75,
+                    (255, 255, 255), 2, cv2.LINE_AA)
 
-    def _demo_result(self):
-        """Random demo result when model not loaded."""
-        probs = np.random.dirichlet(np.ones(7))
-        idx   = int(np.argmax(probs))
-        return self._build_result(CLASS_NAMES[idx], probs)
+        # Bottom confidence bar
+        bar_w = int(w * confidence)
+        cv2.rectangle(frame, (0, h - 10), (w, h), (30, 41, 59), -1)
+        cv2.rectangle(frame, (0, h - 10), (bar_w, h), color, -1)
 
-    def _build_result(self, pred_class, probs):
-        """Build clean result dictionary."""
-        risk = RISK_LEVEL.get(
-            pred_class,
-            ("UNKNOWN", "#64748b", "Consult a doctor.")
-        )
-        all_probs = {
-            CLASS_NAMES[i]: round(float(probs[i]) * 100, 2)
-            for i in range(len(CLASS_NAMES))
-        }
-        return {
-            "predicted_class": pred_class,
-            "full_name"      : FULL_NAMES.get(pred_class,
-                                               pred_class),
-            "confidence"     : round(float(max(probs)) * 100, 2),
-            "risk_level"     : risk[0],
-            "risk_color"     : risk[1],
-            "risk_desc"      : risk[2],
-            "all_probs"      : all_probs,
-            "description"    : DESCRIPTIONS.get(pred_class, ""),
-            "model_used"     : self.model_name,
-            "error"          : None,
-        }
+        # Percentage text
+        cv2.putText(frame, f"{confidence*100:.1f}%",
+                    (w - 75, h - 14),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                    (255, 255, 255), 1, cv2.LINE_AA)
+
+    def toggle_pause(self):
+        self.is_paused = not self.is_paused
+        return self.is_paused
+
+    def reset_scan(self):
+        """Unfreeze so detection starts fresh."""
+        self._frozen        = False
+        self._frozen_result = None
+        self._frame_buffer  = []
+
+    def stop(self):
+        self.is_running = False
+        self.is_paused  = False
+        self.wait(3000)
